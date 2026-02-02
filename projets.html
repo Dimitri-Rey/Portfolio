@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio de projets de Dimitri Rey - Projets professionnels, scolaires et personnels en systèmes, réseaux et cybersécurité.">
+  <meta name="author" content="Dimitri Rey">
+
+  <title>Projets | Dimitri Rey - Portfolio BTS SIO SISR</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233b82f6' rx='20' width='100' height='100'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='system-ui'>DR</text></svg>">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .filter-btn {
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+    }
+
+    .filter-btn--active {
+      color: var(--accent);
+      background: var(--accent-subtle);
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-overlay"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="index.html" class="header__logo">
+          <span class="header__logo-icon">DR</span>
+          <span>Dimitri Rey</span>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html" class="nav__link">Accueil</a>
+          <a href="a-propos.html" class="nav__link">À propos</a>
+          <a href="cv.html" class="nav__link">CV</a>
+          <a href="oelis.html" class="nav__link">Oelis</a>
+          <a href="competences.html" class="nav__link">Compétences</a>
+          <a href="projets.html" class="nav__link nav__link--active">Projets</a>
+          <a href="veille.html" class="nav__link">Veille</a>
+          <div class="nav__cta">
+            <a href="contact.html" class="btn btn--primary">Contact</a>
+          </div>
+        </nav>
+
+        <button class="menu-toggle" aria-label="Menu">
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 72px;">
+    <!-- Hero -->
+    <section class="bg-secondary">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-header__label">Portfolio</span>
+          <h1 class="section-header__title">Mes projets</h1>
+          <p class="section-header__description">
+            Découvrez les projets réalisés en entreprise, en formation et à titre personnel
+          </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex justify-center gap-3 fade-in" style="margin-bottom: var(--space-8);">
+          <button class="filter-btn filter-btn--active" data-filter="all">Tous</button>
+          <button class="filter-btn" data-filter="professionnel">Professionnel</button>
+          <button class="filter-btn" data-filter="ecole">École</button>
+          <button class="filter-btn" data-filter="personnel">Personnel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section>
+      <div class="container">
+        <div class="projects-grid stagger">
+
+          <!-- SecureM365 -->
+          <article class="project-card fade-in" data-category="professionnel" id="securem365">
+            <div class="project-card__image" style="background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Professionnel - Oelis</span>
+              <h3 class="project-card__title">SecureM365</h3>
+              <p class="project-card__description">
+                Plateforme SaaS d'audit de sécurité Microsoft 365. Analyse automatisée des configurations, génération de rapports et recommandations de sécurité basées sur les bonnes pratiques Microsoft.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">PowerShell</span>
+                <span class="tag">Azure</span>
+                <span class="tag">Graph API</span>
+                <span class="tag">Microsoft 365</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Cybersécurité, Scripting, Cloud
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Cipher -->
+          <article class="project-card fade-in" data-category="personnel" id="cipher">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Personnel</span>
+              <h3 class="project-card__title">Cipher</h3>
+              <p class="project-card__description">
+                Plateforme d'orchestration de tests de pénétration. Automatisation des scans de vulnérabilités, centralisation des résultats et génération de rapports professionnels.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Python</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Nmap</span>
+                <span class="tag">Security</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Cybersécurité, Développement, Conteneurisation
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Homelab -->
+          <article class="project-card fade-in" data-category="personnel" id="homelab">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Personnel</span>
+              <h3 class="project-card__title">Homelab</h3>
+              <p class="project-card__description">
+                Infrastructure personnelle complète pour l'apprentissage et l'expérimentation. Virtualisation, conteneurs, monitoring, services auto-hébergés et lab de sécurité.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Proxmox</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Grafana</span>
+                <span class="tag">pfSense</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Virtualisation, Réseaux, Supervision
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Lab OSPF/IPv6 -->
+          <article class="project-card fade-in" data-category="ecole" id="lab-ospf">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">École - BTS SIO</span>
+              <h3 class="project-card__title">Lab Routage OSPF/IPv6</h3>
+              <p class="project-card__description">
+                Mise en place d'une infrastructure réseau multi-sites avec routage dynamique OSPF en dual-stack IPv4/IPv6. Configuration de VLANs et routage inter-VLAN.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Cisco</span>
+                <span class="tag">OSPF</span>
+                <span class="tag">IPv6</span>
+                <span class="tag">VLAN</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Conception réseau, Routage, Commutation
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Infrastructure AD -->
+          <article class="project-card fade-in" data-category="ecole" id="ad">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">École - BTS SIO</span>
+              <h3 class="project-card__title">Infrastructure Active Directory</h3>
+              <p class="project-card__description">
+                Déploiement complet d'une infrastructure Active Directory multi-sites. Gestion des GPO, DHCP, DNS, réplication et stratégies de sécurité.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Windows Server</span>
+                <span class="tag">Active Directory</span>
+                <span class="tag">GPO</span>
+                <span class="tag">DNS/DHCP</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Administration systèmes, Gestion des identités
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Supervision Zabbix -->
+          <article class="project-card fade-in" data-category="professionnel" id="supervision">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Professionnel - Oelis</span>
+              <h3 class="project-card__title">Supervision Infrastructure</h3>
+              <p class="project-card__description">
+                Mise en place d'une solution de supervision complète avec Zabbix et Grafana. Monitoring des serveurs, équipements réseau et services critiques.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Zabbix</span>
+                <span class="tag">Grafana</span>
+                <span class="tag">SNMP</span>
+                <span class="tag">Alerting</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Supervision, Exploitation, Reporting
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Scripts Automation -->
+          <article class="project-card fade-in" data-category="professionnel" id="scripts">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Professionnel - Oelis</span>
+              <h3 class="project-card__title">Scripts d'automatisation</h3>
+              <p class="project-card__description">
+                Développement de scripts PowerShell et Bash pour automatiser les tâches récurrentes : création d'utilisateurs AD, rapports, déploiements, maintenances.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">PowerShell</span>
+                <span class="tag">Bash</span>
+                <span class="tag">Automation</span>
+                <span class="tag">Scripting</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Scripting, Automatisation, DevOps
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Backup Veeam -->
+          <article class="project-card fade-in" data-category="professionnel" id="backup">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Professionnel - Oelis</span>
+              <h3 class="project-card__title">Solution de sauvegarde</h3>
+              <p class="project-card__description">
+                Déploiement et administration de solutions de sauvegarde Veeam Backup & Replication. Configuration des jobs, tests de restauration, PRA.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Veeam</span>
+                <span class="tag">Backup</span>
+                <span class="tag">PRA/PCA</span>
+                <span class="tag">Restoration</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Continuité d'activité, Sauvegarde, Virtualisation
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Portfolio -->
+          <article class="project-card fade-in" data-category="personnel" id="portfolio">
+            <div class="project-card__image" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/>
+              </svg>
+            </div>
+            <div class="project-card__content">
+              <span class="project-card__category">Personnel</span>
+              <h3 class="project-card__title">Portfolio BTS SIO</h3>
+              <p class="project-card__description">
+                Développement de ce portfolio responsive pour présenter mon parcours, mes compétences et mes projets dans le cadre du BTS SIO SISR.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">HTML5</span>
+                <span class="tag">CSS3</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">GitHub Pages</span>
+              </div>
+              <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+                <p style="font-size: var(--text-xs); color: var(--text-muted);">
+                  <strong>Compétences :</strong> Développement web, Présence en ligne
+                </p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-secondary">
+      <div class="container">
+        <div class="card card--glass text-center fade-in" style="padding: var(--space-12);">
+          <h2 class="section-header__title mb-4">Intéressé par mes compétences ?</h2>
+          <p class="section-header__description mb-8">
+            Consultez le tableau des compétences BTS SIO ou contactez-moi pour en savoir plus.
+          </p>
+          <div class="flex justify-center gap-4">
+            <a href="competences.html" class="btn btn--primary btn--lg">
+              <span>Voir les compétences</span>
+            </a>
+            <a href="contact.html" class="btn btn--secondary btn--lg">
+              <span>Me contacter</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <span class="header__logo-icon">DR</span>
+            <span>Dimitri Rey</span>
+          </a>
+          <p class="footer__description">
+            Technicien Systèmes et Réseaux en alternance. BTS SIO SISR chez Oelis, Saint-Étienne.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer__title">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="index.html" class="footer__link">Accueil</a></li>
+            <li><a href="a-propos.html" class="footer__link">À propos</a></li>
+            <li><a href="cv.html" class="footer__link">CV</a></li>
+            <li><a href="projets.html" class="footer__link">Projets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__title">BTS SIO</h4>
+          <ul class="footer__links">
+            <li><a href="oelis.html" class="footer__link">Entreprise</a></li>
+            <li><a href="competences.html" class="footer__link">Compétences</a></li>
+            <li><a href="veille.html" class="footer__link">Veille techno</a></li>
+            <li><a href="contact.html" class="footer__link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__title">Contact</h4>
+          <ul class="footer__links">
+            <li><a href="mailto:contact@dimitri-rey.fr" class="footer__link">contact@dimitri-rey.fr</a></li>
+            <li><a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__link">LinkedIn</a></li>
+            <li><span class="footer__link">Saint-Étienne, France</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; 2025 Dimitri Rey. Portfolio BTS SIO SISR.
+        </p>
+        <div class="footer__socials">
+          <a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/dimitri-rey" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

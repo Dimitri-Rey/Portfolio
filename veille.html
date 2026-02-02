@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Veille technologique de Dimitri Rey - Cyberattaques basées sur l'IA et Cryptographie post-quantique. BTS SIO SISR.">
+  <meta name="author" content="Dimitri Rey">
+
+  <title>Veille Technologique | Dimitri Rey - Portfolio BTS SIO SISR</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233b82f6' rx='20' width='100' height='100'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='system-ui'>DR</text></svg>">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .tab-container {
+      display: flex;
+      gap: var(--space-2);
+      margin-bottom: var(--space-8);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-4);
+    }
+
+    .tab-btn {
+      padding: var(--space-3) var(--space-6);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--surface);
+    }
+
+    .tab-btn--active {
+      color: var(--accent);
+      background: var(--surface);
+    }
+
+    .tab-btn--active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel--active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-overlay"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="index.html" class="header__logo">
+          <span class="header__logo-icon">DR</span>
+          <span>Dimitri Rey</span>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html" class="nav__link">Accueil</a>
+          <a href="a-propos.html" class="nav__link">À propos</a>
+          <a href="cv.html" class="nav__link">CV</a>
+          <a href="oelis.html" class="nav__link">Oelis</a>
+          <a href="competences.html" class="nav__link">Compétences</a>
+          <a href="projets.html" class="nav__link">Projets</a>
+          <a href="veille.html" class="nav__link nav__link--active">Veille</a>
+          <div class="nav__cta">
+            <a href="contact.html" class="btn btn--primary">Contact</a>
+          </div>
+        </nav>
+
+        <button class="menu-toggle" aria-label="Menu">
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 72px;">
+    <!-- Hero -->
+    <section class="bg-secondary">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-header__label">Veille technologique</span>
+          <h1 class="section-header__title">Mes sujets de veille</h1>
+          <p class="section-header__description">
+            Deux thèmes majeurs de la cybersécurité que je suis activement
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <div class="card fade-in" style="border-left: 4px solid var(--accent);">
+            <h3 class="card__title">
+              <svg width="24" height="24" fill="none" stroke="var(--accent)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              Cyberattaques basées sur l'IA
+            </h3>
+            <p class="card__description">
+              Comment l'intelligence artificielle est utilisée tant par les attaquants que par les défenseurs dans le domaine de la cybersécurité.
+            </p>
+          </div>
+
+          <div class="card fade-in" style="border-left: 4px solid var(--success);">
+            <h3 class="card__title">
+              <svg width="24" height="24" fill="none" stroke="var(--success)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              Cryptographie post-quantique
+            </h3>
+            <p class="card__description">
+              Les nouveaux algorithmes cryptographiques conçus pour résister aux attaques des futurs ordinateurs quantiques.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Outils de veille -->
+    <section>
+      <div class="container container--narrow">
+        <div class="card fade-in" style="margin-bottom: var(--space-8);">
+          <h3 style="font-size: var(--text-lg); color: var(--text-primary); margin-bottom: var(--space-4);">
+            <svg width="20" height="20" fill="none" stroke="var(--accent)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+            Mes outils de veille
+          </h3>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+            <span class="tag tag--accent">Feedly (RSS)</span>
+            <span class="tag tag--accent">Twitter/X</span>
+            <span class="tag tag--accent">CERT-FR</span>
+            <span class="tag tag--accent">ANSSI</span>
+            <span class="tag tag--accent">CVE / NVD</span>
+            <span class="tag tag--accent">The Hacker News</span>
+            <span class="tag tag--accent">Krebs on Security</span>
+            <span class="tag tag--accent">Reddit r/netsec</span>
+            <span class="tag tag--accent">Podcasts sécurité</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <section class="bg-secondary">
+      <div class="container">
+        <div class="tab-container fade-in">
+          <button class="tab-btn tab-btn--active" data-tab="ia">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Cyberattaques IA
+          </button>
+          <button class="tab-btn" data-tab="quantique">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            Cryptographie post-quantique
+          </button>
+        </div>
+
+        <!-- Tab IA -->
+        <div id="ia" class="tab-panel tab-panel--active">
+          <div class="veille-section fade-in">
+            <h2 class="veille-section__title">Cyberattaques basées sur l'IA et défenses par IA</h2>
+
+            <div class="veille-section__content">
+              <h3>1. Introduction et contexte</h3>
+              <p>
+                L'intelligence artificielle (IA) transforme profondément le paysage de la cybersécurité. D'un côté, les cybercriminels exploitent l'IA pour automatiser et sophistiquer leurs attaques. De l'autre, les défenseurs utilisent ces mêmes technologies pour détecter et contrer les menaces de manière plus efficace.
+              </p>
+              <p>
+                Cette dualité crée une véritable course aux armements technologiques où la maîtrise de l'IA devient un avantage stratégique majeur.
+              </p>
+
+              <h3>2. Problématique</h3>
+              <p>
+                <strong>Comment l'IA est-elle utilisée dans le domaine de la cybersécurité, tant par les attaquants que par les défenseurs, et quels sont les enjeux pour les organisations ?</strong>
+              </p>
+
+              <h3>3. L'IA au service des attaquants</h3>
+              <p>Les cybercriminels utilisent l'IA pour :</p>
+              <ul>
+                <li><strong>Phishing avancé</strong> : Génération de messages de phishing personnalisés et convaincants grâce aux LLM (Large Language Models) comme GPT</li>
+                <li><strong>Deepfakes</strong> : Création de faux contenus audio/vidéo pour usurper l'identité de dirigeants</li>
+                <li><strong>Malwares polymorphes</strong> : Génération automatique de variantes de malwares pour échapper aux antivirus</li>
+                <li><strong>Reconnaissance automatisée</strong> : Analyse automatique des réseaux et identification des vulnérabilités</li>
+                <li><strong>Attaques par force brute intelligente</strong> : Optimisation des tentatives de cracking de mots de passe</li>
+              </ul>
+
+              <h3>4. L'IA au service des défenseurs</h3>
+              <p>Les équipes de sécurité exploitent l'IA pour :</p>
+              <ul>
+                <li><strong>Détection d'anomalies</strong> : Identification de comportements suspects grâce au machine learning (UEBA - User and Entity Behavior Analytics)</li>
+                <li><strong>SIEM/SOAR</strong> : Automatisation de la corrélation d'événements et de la réponse aux incidents</li>
+                <li><strong>Analyse de malwares</strong> : Classification automatique des menaces</li>
+                <li><strong>Threat Intelligence</strong> : Agrégation et analyse des flux de renseignement sur les menaces</li>
+                <li><strong>Prédiction des attaques</strong> : Anticipation des vecteurs d'attaque probables</li>
+              </ul>
+
+              <h3>5. Impacts et enjeux</h3>
+              <ul>
+                <li><strong>Démocratisation des attaques</strong> : L'IA permet à des attaquants moins qualifiés de lancer des attaques sophistiquées</li>
+                <li><strong>Vitesse d'exécution</strong> : Les attaques automatisées se propagent plus rapidement que la capacité humaine de réaction</li>
+                <li><strong>Pénurie de compétences</strong> : L'IA peut compenser partiellement le manque d'experts en cybersécurité</li>
+                <li><strong>Coût des solutions</strong> : Les outils de défense basés sur l'IA représentent un investissement conséquent</li>
+                <li><strong>Faux positifs</strong> : Les systèmes IA peuvent générer de nombreuses alertes non pertinentes</li>
+              </ul>
+
+              <h3>6. Perspectives et solutions</h3>
+              <ul>
+                <li>Adoption croissante des solutions EDR/XDR intégrant l'IA</li>
+                <li>Développement de frameworks éthiques pour l'IA en cybersécurité</li>
+                <li>Formation des équipes aux nouvelles menaces liées à l'IA</li>
+                <li>Collaboration internationale pour réguler l'usage malveillant de l'IA</li>
+                <li>Mise en place de SOC augmentés par l'IA (AI-powered SOC)</li>
+              </ul>
+            </div>
+
+            <div class="sources-list">
+              <h4 class="sources-list__title">Sources</h4>
+              <div class="sources-list__item">
+                <span>1.</span>
+                <div>
+                  <a href="https://www.anssi.gouv.fr/" class="sources-list__link" target="_blank" rel="noopener noreferrer">ANSSI - Panorama de la cybermenace 2024</a>
+                  <p class="sources-list__meta">Agence nationale de la sécurité des systèmes d'information - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>2.</span>
+                <div>
+                  <a href="https://www.enisa.europa.eu/" class="sources-list__link" target="_blank" rel="noopener noreferrer">ENISA Threat Landscape 2024</a>
+                  <p class="sources-list__meta">European Union Agency for Cybersecurity - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>3.</span>
+                <div>
+                  <a href="https://www.weforum.org/" class="sources-list__link" target="_blank" rel="noopener noreferrer">World Economic Forum - Global Cybersecurity Outlook</a>
+                  <p class="sources-list__meta">Forum économique mondial - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>4.</span>
+                <div>
+                  <a href="https://www.ibm.com/security" class="sources-list__link" target="_blank" rel="noopener noreferrer">IBM X-Force Threat Intelligence Index</a>
+                  <p class="sources-list__meta">IBM Security - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>5.</span>
+                <div>
+                  <a href="https://www.crowdstrike.com/" class="sources-list__link" target="_blank" rel="noopener noreferrer">CrowdStrike Global Threat Report</a>
+                  <p class="sources-list__meta">CrowdStrike - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>6.</span>
+                <div>
+                  <a href="https://www.microsoft.com/security" class="sources-list__link" target="_blank" rel="noopener noreferrer">Microsoft Digital Defense Report</a>
+                  <p class="sources-list__meta">Microsoft - 2024</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top: var(--space-6); background: var(--surface);">
+              <h4 style="font-size: var(--text-base); color: var(--text-primary); margin-bottom: var(--space-3);">Glossaire</h4>
+              <dl style="font-size: var(--text-sm); color: var(--text-secondary);">
+                <dt style="color: var(--accent); font-weight: 500;">LLM (Large Language Model)</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Modèle de langage de grande taille capable de générer du texte (ex: GPT-4, Claude)</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">UEBA</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">User and Entity Behavior Analytics - Analyse comportementale des utilisateurs et entités</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">EDR/XDR</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Endpoint/Extended Detection and Response - Solutions de détection et réponse avancées</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">SOC</dt>
+                <dd style="padding-left: var(--space-4);">Security Operations Center - Centre opérationnel de sécurité</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Quantique -->
+        <div id="quantique" class="tab-panel">
+          <div class="veille-section fade-in">
+            <h2 class="veille-section__title">Cryptographie post-quantique</h2>
+
+            <div class="veille-section__content">
+              <h3>1. Introduction et contexte</h3>
+              <p>
+                La cryptographie post-quantique (PQC) désigne l'ensemble des algorithmes cryptographiques conçus pour résister aux attaques des ordinateurs quantiques. Ces machines, encore en développement, pourraient à terme casser les algorithmes de chiffrement actuels comme RSA et ECC.
+              </p>
+              <p>
+                Cette menace, bien que non immédiate, pousse les organisations à anticiper dès maintenant la transition vers des algorithmes résistants au quantique.
+              </p>
+
+              <h3>2. Problématique</h3>
+              <p>
+                <strong>Comment les organisations peuvent-elles se préparer à la menace quantique et quels sont les nouveaux standards cryptographiques à adopter ?</strong>
+              </p>
+
+              <h3>3. La menace quantique</h3>
+              <p>Les ordinateurs quantiques menacent la cryptographie actuelle :</p>
+              <ul>
+                <li><strong>Algorithme de Shor</strong> : Peut factoriser de grands nombres en temps polynomial, cassant RSA et les courbes elliptiques</li>
+                <li><strong>Algorithme de Grover</strong> : Réduit la complexité des attaques par force brute sur les algorithmes symétriques</li>
+                <li><strong>Harvest Now, Decrypt Later</strong> : Des acteurs malveillants collectent aujourd'hui des données chiffrées pour les déchiffrer demain</li>
+                <li><strong>Timeline</strong> : Les experts estiment qu'un ordinateur quantique cryptographiquement pertinent pourrait exister d'ici 10-15 ans</li>
+              </ul>
+
+              <h3>4. Les nouveaux standards NIST</h3>
+              <p>En 2024, le NIST (National Institute of Standards and Technology) a standardisé les premiers algorithmes post-quantiques :</p>
+              <ul>
+                <li><strong>CRYSTALS-Kyber (ML-KEM)</strong> : Algorithme d'encapsulation de clé basé sur les réseaux euclidiens</li>
+                <li><strong>CRYSTALS-Dilithium (ML-DSA)</strong> : Signature numérique basée sur les réseaux</li>
+                <li><strong>SPHINCS+ (SLH-DSA)</strong> : Signature basée sur les fonctions de hachage</li>
+                <li><strong>FALCON</strong> : Signature compacte basée sur les réseaux</li>
+              </ul>
+
+              <h3>5. Défis de la migration</h3>
+              <ul>
+                <li><strong>Inventaire cryptographique</strong> : Identifier tous les usages de cryptographie dans l'organisation</li>
+                <li><strong>Taille des clés</strong> : Les algorithmes PQC nécessitent des clés et signatures plus grandes</li>
+                <li><strong>Performances</strong> : Impact sur les temps de calcul et la bande passante</li>
+                <li><strong>Interopérabilité</strong> : Période de transition avec coexistence des anciens et nouveaux standards</li>
+                <li><strong>Crypto-agilité</strong> : Capacité à changer d'algorithme rapidement si nécessaire</li>
+              </ul>
+
+              <h3>6. Recommandations</h3>
+              <ul>
+                <li>Réaliser un inventaire complet des actifs cryptographiques</li>
+                <li>Suivre les recommandations de l'ANSSI sur la migration PQC</li>
+                <li>Tester les algorithmes NIST dans des environnements de pré-production</li>
+                <li>Adopter une approche hybride (classique + PQC) pendant la transition</li>
+                <li>Former les équipes aux enjeux de la cryptographie post-quantique</li>
+                <li>Intégrer la PQC dans la feuille de route sécurité à 5-10 ans</li>
+              </ul>
+            </div>
+
+            <div class="sources-list">
+              <h4 class="sources-list__title">Sources</h4>
+              <div class="sources-list__item">
+                <span>1.</span>
+                <div>
+                  <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" class="sources-list__link" target="_blank" rel="noopener noreferrer">NIST Post-Quantum Cryptography</a>
+                  <p class="sources-list__meta">National Institute of Standards and Technology - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>2.</span>
+                <div>
+                  <a href="https://www.ssi.gouv.fr/" class="sources-list__link" target="_blank" rel="noopener noreferrer">ANSSI - Avis sur la migration vers la cryptographie post-quantique</a>
+                  <p class="sources-list__meta">Agence nationale de la sécurité des systèmes d'information - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>3.</span>
+                <div>
+                  <a href="https://www.etsi.org/" class="sources-list__link" target="_blank" rel="noopener noreferrer">ETSI - Quantum-Safe Cryptography</a>
+                  <p class="sources-list__meta">European Telecommunications Standards Institute - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>4.</span>
+                <div>
+                  <a href="https://www.ibm.com/quantum" class="sources-list__link" target="_blank" rel="noopener noreferrer">IBM Quantum Network</a>
+                  <p class="sources-list__meta">IBM - État de l'art du calcul quantique - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>5.</span>
+                <div>
+                  <a href="https://cloud.google.com/security" class="sources-list__link" target="_blank" rel="noopener noreferrer">Google Security Blog - Post-Quantum Cryptography</a>
+                  <p class="sources-list__meta">Google - 2024</p>
+                </div>
+              </div>
+              <div class="sources-list__item">
+                <span>6.</span>
+                <div>
+                  <a href="https://www.cloudflare.com/learning/ssl/what-is-post-quantum-cryptography/" class="sources-list__link" target="_blank" rel="noopener noreferrer">Cloudflare - What is Post-Quantum Cryptography?</a>
+                  <p class="sources-list__meta">Cloudflare - 2024</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top: var(--space-6); background: var(--surface);">
+              <h4 style="font-size: var(--text-base); color: var(--text-primary); margin-bottom: var(--space-3);">Glossaire</h4>
+              <dl style="font-size: var(--text-sm); color: var(--text-secondary);">
+                <dt style="color: var(--accent); font-weight: 500;">PQC (Post-Quantum Cryptography)</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Cryptographie conçue pour résister aux attaques des ordinateurs quantiques</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">Qubit</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Unité d'information quantique, équivalent quantique du bit classique</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">Réseaux euclidiens (Lattice)</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Structure mathématique utilisée par la plupart des algorithmes PQC</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">KEM (Key Encapsulation Mechanism)</dt>
+                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Mécanisme d'encapsulation de clé pour l'échange sécurisé</dd>
+
+                <dt style="color: var(--accent); font-weight: 500;">Crypto-agilité</dt>
+                <dd style="padding-left: var(--space-4);">Capacité d'une infrastructure à changer rapidement d'algorithme cryptographique</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <div class="container">
+        <div class="card card--glass text-center fade-in" style="padding: var(--space-12);">
+          <h2 class="section-header__title mb-4">Ces sujets vous intéressent ?</h2>
+          <p class="section-header__description mb-8">
+            N'hésitez pas à me contacter pour échanger sur ces thématiques de cybersécurité.
+          </p>
+          <div class="flex justify-center gap-4">
+            <a href="contact.html" class="btn btn--primary btn--lg">
+              <span>Me contacter</span>
+            </a>
+            <a href="competences.html" class="btn btn--secondary btn--lg">
+              <span>Mes compétences</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <span class="header__logo-icon">DR</span>
+            <span>Dimitri Rey</span>
+          </a>
+          <p class="footer__description">
+            Technicien Systèmes et Réseaux en alternance. BTS SIO SISR chez Oelis, Saint-Étienne.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer__title">Navigation</h4>
+          <ul class="footer__links">
+            <li><a href="index.html" class="footer__link">Accueil</a></li>
+            <li><a href="a-propos.html" class="footer__link">À propos</a></li>
+            <li><a href="cv.html" class="footer__link">CV</a></li>
+            <li><a href="projets.html" class="footer__link">Projets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__title">BTS SIO</h4>
+          <ul class="footer__links">
+            <li><a href="oelis.html" class="footer__link">Entreprise</a></li>
+            <li><a href="competences.html" class="footer__link">Compétences</a></li>
+            <li><a href="veille.html" class="footer__link">Veille techno</a></li>
+            <li><a href="contact.html" class="footer__link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer__title">Contact</h4>
+          <ul class="footer__links">
+            <li><a href="mailto:contact@dimitri-rey.fr" class="footer__link">contact@dimitri-rey.fr</a></li>
+            <li><a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__link">LinkedIn</a></li>
+            <li><span class="footer__link">Saint-Étienne, France</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; 2025 Dimitri Rey. Portfolio BTS SIO SISR.
+        </p>
+        <div class="footer__socials">
+          <a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/dimitri-rey" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

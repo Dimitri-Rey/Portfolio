@@ -1,0 +1,389 @@
+/* ============================================
+   PORTFOLIO DIMITRI REY - RESPONSIVE
+   Mobile-first media queries
+   ============================================ */
+
+/* ============================================
+   MOBILE (< 480px)
+   ============================================ */
+
+@media (max-width: 480px) {
+  :root {
+    --text-5xl: 2.25rem;
+    --text-4xl: 1.875rem;
+    --text-3xl: 1.5rem;
+  }
+
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  section {
+    padding: var(--space-12) 0;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: calc(72px + var(--space-8));
+    padding-bottom: var(--space-12);
+  }
+
+  .hero__content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero__text {
+    order: 2;
+  }
+
+  .hero__image {
+    order: 1;
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__avatar-img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .hero__stats {
+    justify-content: center;
+    gap: var(--space-6);
+  }
+
+  .btn--lg {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .cv-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cv-header__contact {
+    justify-content: center;
+  }
+}
+
+/* ============================================
+   TABLET PORTRAIT (481px - 768px)
+   ============================================ */
+
+@media (min-width: 481px) and (max-width: 768px) {
+  :root {
+    --text-5xl: 2.5rem;
+    --text-4xl: 2rem;
+  }
+
+  .hero__content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero__text {
+    order: 2;
+    max-width: 100%;
+  }
+
+  .hero__image {
+    order: 1;
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__avatar-img {
+    width: 280px;
+    height: 280px;
+  }
+
+  .hero__stats {
+    justify-content: center;
+  }
+
+  .hero__actions {
+    justify-content: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ============================================
+   TABLET LANDSCAPE (769px - 1024px)
+   ============================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero__content {
+    gap: var(--space-10);
+  }
+
+  .hero__avatar-img {
+    width: 320px;
+    height: 320px;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .footer__brand {
+    grid-column: span 3;
+    max-width: 100%;
+    margin-bottom: var(--space-6);
+  }
+}
+
+/* ============================================
+   NAVIGATION MOBILE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: flex;
+    z-index: calc(var(--z-fixed) + 10);
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: calc(72px + var(--space-6)) var(--space-6) var(--space-6);
+    background: var(--primary);
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    gap: var(--space-2);
+  }
+
+  .nav--open {
+    transform: translateX(0);
+  }
+
+  .nav__link {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+  }
+
+  .nav__cta {
+    margin-left: 0;
+    margin-top: var(--space-4);
+    width: 100%;
+  }
+
+  .nav__cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Overlay */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-fixed) - 1);
+  }
+
+  .nav-overlay--visible {
+    display: block;
+  }
+}
+
+/* ============================================
+   DESKTOP (> 1024px)
+   ============================================ */
+
+@media (min-width: 1025px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .hero__content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   LARGE DESKTOP (> 1280px)
+   ============================================ */
+
+@media (min-width: 1281px) {
+  :root {
+    --text-6xl: 4rem;
+    --text-5xl: 3.5rem;
+  }
+
+  .hero__avatar-img {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .header,
+  .footer,
+  .menu-toggle,
+  .nav,
+  .btn,
+  .hero__background {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .card,
+  .project-card,
+  .competence-block,
+  .veille-section,
+  .cv-header {
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  .text-primary,
+  .card__title,
+  .project-card__title,
+  .timeline__title,
+  .cv-header__name {
+    color: black !important;
+  }
+
+  .text-secondary,
+  .card__description,
+  .timeline__description {
+    color: #333 !important;
+  }
+
+  .text-accent,
+  .accent,
+  .timeline__date,
+  .cv-header__title {
+    color: #2563eb !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  section {
+    padding: 1rem 0;
+    page-break-inside: avoid;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-in,
+  .fade-in-left,
+  .fade-in-right {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero__avatar-decoration {
+    animation: none;
+  }
+
+  .hero__label-dot {
+    animation: none;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  :root {
+    --border: rgba(255, 255, 255, 0.3);
+    --text-secondary: #b4bfcc;
+    --text-muted: #8a96a8;
+  }
+
+  .btn--primary {
+    border: 2px solid white;
+  }
+
+  .card,
+  .project-card {
+    border-width: 2px;
+  }
+}
