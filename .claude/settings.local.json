@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(git -C /home/xerox/Documents/GitHub/portfolioo status)",
+      "Skill(ralph-wiggum:ralph-loop)",
+      "Bash(python3:*)",
+      "Bash(ls:*)",
+      "Bash(ss:*)",
+      "Skill(ralph-wiggum:cancel-ralph)",
+      "Bash(python -m http.server:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMise à jour complète du portfolio\n\n- Accueil : mise à jour des infos, icônes tech, liens GitHub/email\n- À propos : parcours actualisé, objectifs Bachelor Formatik\n- CV : ajout page imprimable \\(cv-print.html\\), permis, centres d''intérêt\n- Oelis : mise à jour technologies \\(Stormshield, Synology, 3CX, etc.\\)\n- Compétences : préparation pour intégration Google Sheet\n- Projets : ajout GSB \\(STP/Wazuh\\), suppression labs OSPF et AD\n- Contact : mise à jour email pro@dimitri-rey.fr\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAjout projet Bac Pro : Station de filtrage USB\n\n- Raspberry Pi avec écran tactile\n- Application de scan ClamAV\n- Gestion autonome par batterie externe\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(xdg-open:*)",
+      "Bash(pdftoppm:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
