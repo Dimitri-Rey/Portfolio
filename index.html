@@ -3,52 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfolio de Dimitri Rey - Technicien Systèmes et Réseaux en alternance chez Oelis. BTS SIO SISR.">
+  <meta name="description" content="Portfolio de Dimitri Rey - Technicien Systèmes et Réseaux, BTS SIO SISR en alternance chez Oelis. Fondateur de Cryptalys.">
   <meta name="author" content="Dimitri Rey">
-  <meta name="keywords" content="Dimitri Rey, BTS SIO, SISR, portfolio, systèmes, réseaux, cybersécurité, alternance, Oelis">
-
-  <!-- Open Graph -->
+  <meta name="keywords" content="Dimitri Rey, BTS SIO, SISR, portfolio, systèmes, réseaux, cybersécurité, alternance, Oelis, Cryptalys">
   <meta property="og:title" content="Dimitri Rey | Technicien Systèmes & Réseaux">
-  <meta property="og:description" content="Portfolio de Dimitri Rey - Technicien Systèmes et Réseaux en alternance chez Oelis. BTS SIO SISR.">
+  <meta property="og:description" content="Portfolio BTS SIO SISR - 8 ans d'expérience IT, spécialiste systèmes, réseaux et cybersécurité.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-
   <title>Dimitri Rey | Technicien Systèmes & Réseaux</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%233b82f6' rx='20' width='100' height='100'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='system-ui'>DR</text></svg>">
-
-  <!-- Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-  <!-- Overlay mobile -->
   <div class="nav-overlay"></div>
 
-  <!-- Header -->
+  <!-- ========== HEADER ========== -->
   <header class="header">
     <div class="container">
       <div class="header__inner">
-        <a href="index.html" class="header__logo">
+        <a href="#accueil" class="header__logo">
           <span class="header__logo-icon">DR</span>
           <span>Dimitri Rey</span>
         </a>
-
         <nav class="nav">
-          <a href="index.html" class="nav__link nav__link--active">Accueil</a>
-          <a href="a-propos.html" class="nav__link">À propos</a>
-          <a href="cv.html" class="nav__link">CV</a>
-          <a href="oelis.html" class="nav__link">Oelis</a>
-          <a href="competences.html" class="nav__link">Compétences</a>
-          <a href="projets.html" class="nav__link">Projets</a>
-          <a href="veille.html" class="nav__link">Veille</a>
-          <a href="gsb.html" class="nav__link">GSB</a>
+          <a href="#accueil" class="nav__link nav__link--active">Accueil</a>
+          <a href="#parcours" class="nav__link">Parcours</a>
+          <a href="#oelis" class="nav__link">Oelis</a>
+          <a href="#veille" class="nav__link">Veille</a>
+          <a href="#competences" class="nav__link">Comp&eacute;tences</a>
+          <a href="#projets" class="nav__link">Projets</a>
           <div class="nav__cta">
-            <a href="contact.html" class="btn btn--primary">Contact</a>
+            <a href="#contact" class="btn btn--primary btn--sm">Contact</a>
           </div>
         </nav>
-
         <button class="menu-toggle" aria-label="Menu">
           <span class="menu-toggle__bar"></span>
           <span class="menu-toggle__bar"></span>
@@ -58,428 +48,669 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero__background">
-      <div class="hero__gradient hero__gradient--1"></div>
-      <div class="hero__gradient hero__gradient--2"></div>
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="accueil">
+    <div class="hero__bg">
+      <div class="hero__bg-orb hero__bg-orb--1"></div>
+      <div class="hero__bg-orb hero__bg-orb--2"></div>
     </div>
-
     <div class="container">
-      <div class="hero__content">
-        <div class="hero__text fade-in">
-          <div class="hero__label">
-            <span class="hero__label-dot"></span>
-            <span>BTS SIO SISR | Fondateur Cryptalys</span>
+      <div class="hero__grid">
+        <div>
+          <div class="hero__badge">
+            <span class="hero__badge-dot"></span>
+            BTS SIO SISR | Fondateur Cryptalys
           </div>
-
-          <h1 class="hero__title">
-            Dimitri Rey<br>
-            <span class="hero__title-highlight">Systèmes & Réseaux</span>
-          </h1>
-
+          <h1>Dimitri Rey<br><span>Syst&egrave;mes & R&eacute;seaux</span></h1>
           <p class="hero__subtitle">
-            8 ans d'expérience en tant que technicien IT, dont 6 ans comme technicien helpdesk et 2 ans comme admin systèmes et réseaux. Aujourd'hui en BTS SIO SISR chez Oelis, je me spécialise en cybersécurité et administration d'infrastructures.
+            8 ans d'exp&eacute;rience en tant que technicien IT, dont 6 ans comme technicien helpdesk et 2 ans comme admin syst&egrave;mes et r&eacute;seaux. Aujourd'hui en BTS SIO SISR chez Oelis, je me sp&eacute;cialise en cybers&eacute;curit&eacute; et administration d'infrastructures.
           </p>
-
           <div class="hero__actions">
-            <a href="projets.html" class="btn btn--primary btn--lg">
+            <a href="#projets" class="btn btn--primary btn--lg">
               <span>Voir mes projets</span>
-              <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
+              <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
-            <a href="cv.html" class="btn btn--secondary btn--lg">
-              <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              <span>Télécharger CV</span>
+            <a href="cv-print.html" class="btn btn--secondary btn--lg">
+              <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>T&eacute;l&eacute;charger CV</span>
             </a>
           </div>
-
           <div class="hero__stats">
-            <div class="hero__stat">
-              <div class="hero__stat-value">8+</div>
-              <div class="hero__stat-label">Années d'expérience</div>
+            <div><div class="hero__stat-value">8+</div><div class="hero__stat-label">Ann&eacute;es d'exp&eacute;rience</div></div>
+            <div><div class="hero__stat-value">10+</div><div class="hero__stat-label">Projets r&eacute;alis&eacute;s</div></div>
+            <div><div class="hero__stat-value">15+</div><div class="hero__stat-label">Technologies</div></div>
+          </div>
+        </div>
+        <div class="hero__avatar">
+          <div class="hero__avatar-ring"></div>
+          <img src="assets/images/photo-profil.jpg" alt="Photo de Dimitri Rey" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22><rect fill=%22%231e293b%22 width=%22400%22 height=%22400%22/><text x=%22200%22 y=%22220%22 font-size=%22120%22 text-anchor=%22middle%22 fill=%22%233b82f6%22 font-family=%22system-ui%22>DR</text></svg>'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PARCOURS ========== -->
+  <section id="parcours">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-label">Parcours</div>
+        <h2 class="section-title">Mon &eacute;volution</h2>
+        <p class="section-desc">Un profil atypique qui allie exp&eacute;rience terrain et passion pour la technique</p>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline reveal" style="max-width:720px;margin:0 auto;">
+        <div class="timeline__item" style="padding-bottom:22px;">
+          <div class="timeline__dot timeline__dot--green"></div>
+          <span class="timeline__date">2026 - Pr&eacute;sent</span>
+          <h3 class="timeline__title">Cryptalys - Entrepreneur individuel</h3>
+          <p class="timeline__text">Solutions SaaS (Tenantix), audit cybers&eacute;curit&eacute;, prestations IT.</p>
+        </div>
+        <div class="timeline__item" style="padding-bottom:22px;">
+          <div class="timeline__dot"></div>
+          <span class="timeline__date">2024 - Pr&eacute;sent</span>
+          <h3 class="timeline__title">BTS SIO SISR - Oelis</h3>
+          <p class="timeline__text">Support N1/N2, Windows Server, AD, r&eacute;seau Cisco/MikroTik/Fortinet, VMware/Hyper-V, Veeam.</p>
+        </div>
+        <div class="timeline__item" style="padding-bottom:22px;">
+          <div class="timeline__dot"></div>
+          <span class="timeline__date">2022 - 2024</span>
+          <h3 class="timeline__title">Conseil d&eacute;partemental du Doubs</h3>
+          <p class="timeline__text">Technicien Helpdesk — Support utilisateurs, gestion du parc informatique.</p>
+        </div>
+        <div class="timeline__item" style="padding-bottom:0;">
+          <div class="timeline__dot"></div>
+          <span class="timeline__date">2017 - 2021</span>
+          <h3 class="timeline__title">Arm&eacute;e de Terre</h3>
+          <p class="timeline__text">Technicien Helpdesk — Incidents critiques, environnement s&eacute;curis&eacute;, rigueur, discipline.</p>
+        </div>
+      </div>
+
+      <!-- Points forts -->
+      <div class="parcours-strengths reveal">
+        <div class="strength-pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>Rigueur &amp; Discipline</span>
+        </div>
+        <div class="strength-pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>R&eacute;activit&eacute;</span>
+        </div>
+        <div class="strength-pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Culture s&eacute;curit&eacute;</span>
+        </div>
+        <div class="strength-pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          <span>Curiosit&eacute; technique</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== OELIS ========== -->
+  <section id="oelis">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Entreprise d'accueil</div>
+        <h2 class="section-title">Oelis</h2>
+        <p class="section-desc">Prestataire informatique sp&eacute;cialis&eacute; en infog&eacute;rance, VoIP et cybers&eacute;curit&eacute;</p>
+      </div>
+
+      <div class="oelis-grid">
+        <div class="reveal">
+          <div class="oelis-logo-card">
+            <img src="oelis.jpg" alt="Logo Oelis">
+          </div>
+          <div class="oelis-stats">
+            <div><div class="oelis-stat__value">2009</div><div class="oelis-stat__label">Cr&eacute;ation</div></div>
+            <div><div class="oelis-stat__value">20-49</div><div class="oelis-stat__label">Employ&eacute;s</div></div>
+          </div>
+        </div>
+        <div class="reveal">
+          <p style="margin-bottom:16px;">
+            <strong style="color:var(--text-primary)">Oelis</strong> est une SAS sp&eacute;cialis&eacute;e en conseil en syst&egrave;mes et logiciels informatiques, bas&eacute;e &agrave; <strong style="color:var(--text-primary)">Saint-&Eacute;tienne</strong>. Elle accompagne des organisations de toutes tailles (PME, grandes entreprises, mairies et collectivit&eacute;s) dans leur transformation num&eacute;rique et la gestion de leur infrastructure informatique.
+          </p>
+          <div class="grid grid-2" style="margin-top:24px;">
+            <div class="mission-card">
+              <div class="mission-card__title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg> Support technique</div>
+              <ul><li>Gestion des tickets (GLPI)</li><li>Support N1/N2 clients</li><li>Intervention sur site et &agrave; distance</li></ul>
             </div>
-            <div class="hero__stat">
-              <div class="hero__stat-value">10+</div>
-              <div class="hero__stat-label">Projets réalisés</div>
+            <div class="mission-card">
+              <div class="mission-card__title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/></svg> Admin syst&egrave;mes</div>
+              <ul><li>Windows Server (AD, GPO, DNS, DHCP)</li><li>D&eacute;ploiement de serveurs</li><li>Scripting PowerShell</li></ul>
             </div>
-            <div class="hero__stat">
-              <div class="hero__stat-value">15+</div>
-              <div class="hero__stat-label">Technologies</div>
+            <div class="mission-card">
+              <div class="mission-card__title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg> R&eacute;seaux & S&eacute;curit&eacute;</div>
+              <ul><li>Cisco, MikroTik, Alcatel, HPE</li><li>Fortinet, Stormshield</li><li>VLAN, VPN client</li></ul>
+            </div>
+            <div class="mission-card">
+              <div class="mission-card__title"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg> Virtualisation & Backup</div>
+              <ul><li>VMware, Hyper-V</li><li>Veeam, Synology</li><li>3CX, Splashtop</li></ul>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="hero__image fade-in-right">
-          <div class="hero__avatar">
-            <div class="hero__avatar-decoration"></div>
-            <img src="assets/images/photo-profil.jpg" alt="Photo de Dimitri Rey" class="hero__avatar-img" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22><rect fill=%22%231e293b%22 width=%22400%22 height=%22400%22/><text x=%22200%22 y=%22220%22 font-size=%22120%22 text-anchor=%22middle%22 fill=%22%233b82f6%22 font-family=%22system-ui%22>DR</text></svg>'">
+      <!-- Technologies -->
+      <div style="margin-top:56px;" class="reveal">
+        <h3 style="font-size:1.1rem;color:var(--text-primary);margin-bottom:20px;text-align:center;">Technologies utilis&eacute;es au quotidien</h3>
+        <div class="tech-grid" style="justify-content:center;">
+          <span class="tech-chip">Windows Server</span>
+          <span class="tech-chip">Active Directory</span>
+          <span class="tech-chip">Linux</span>
+          <span class="tech-chip">Cisco</span>
+          <span class="tech-chip">MikroTik</span>
+          <span class="tech-chip">Fortinet</span>
+          <span class="tech-chip">Stormshield</span>
+          <span class="tech-chip">VMware</span>
+          <span class="tech-chip">Hyper-V</span>
+          <span class="tech-chip">Proxmox</span>
+          <span class="tech-chip">Veeam</span>
+          <span class="tech-chip">Docker</span>
+          <span class="tech-chip">PowerShell</span>
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">Bash</span>
+          <span class="tech-chip">GLPI</span>
+          <span class="tech-chip">Zabbix</span>
+          <span class="tech-chip">Microsoft 365</span>
+          <span class="tech-chip">Azure AD</span>
+          <span class="tech-chip">Synology</span>
+          <span class="tech-chip">3CX</span>
+          <span class="tech-chip">Alcatel</span>
+          <span class="tech-chip">HPE</span>
+          <span class="tech-chip">Dell</span>
+          <span class="tech-chip">Aruba</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VEILLE ========== -->
+  <section id="veille">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-label">Veille technologique</div>
+        <h2 class="section-title">Mes sujets de veille</h2>
+        <p class="section-desc">Deux th&egrave;mes majeurs de la cybers&eacute;curit&eacute; que je suis activement</p>
+      </div>
+
+      <div class="text-center reveal" style="margin-bottom:32px;">
+        <div class="veille-tools" style="justify-content:center;">
+          <a href="https://feedly.com" target="_blank" rel="noopener noreferrer" class="veille-tool">Feedly (RSS)</a>
+          <a href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener noreferrer" class="veille-tool">CERT-FR</a>
+          <a href="https://www.ssi.gouv.fr" target="_blank" rel="noopener noreferrer" class="veille-tool">ANSSI</a>
+          <a href="https://nvd.nist.gov" target="_blank" rel="noopener noreferrer" class="veille-tool">CVE / NVD</a>
+          <a href="https://thehackernews.com" target="_blank" rel="noopener noreferrer" class="veille-tool">The Hacker News</a>
+          <a href="https://krebsonsecurity.com" target="_blank" rel="noopener noreferrer" class="veille-tool">Krebs on Security</a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="veille-tabs">
+          <button class="veille-tab veille-tab--active" data-tab="tab-ia">Cyberattaques IA</button>
+          <button class="veille-tab" data-tab="tab-quantique">Cryptographie post-quantique</button>
+        </div>
+
+        <!-- Tab IA -->
+        <div id="tab-ia" class="veille-panel veille-panel--active">
+          <div class="veille-content">
+            <h3>1. Introduction et contexte</h3>
+            <p>L'intelligence artificielle transforme profond&eacute;ment le paysage de la cybers&eacute;curit&eacute;. Les cybercriminels exploitent l'IA pour automatiser et sophistiquer leurs attaques, tandis que les d&eacute;fenseurs utilisent ces m&ecirc;mes technologies pour d&eacute;tecter et contrer les menaces.</p>
+
+            <h3>2. Probl&eacute;matique</h3>
+            <p><strong>Comment l'IA est-elle utilis&eacute;e dans le domaine de la cybers&eacute;curit&eacute;, tant par les attaquants que par les d&eacute;fenseurs, et quels sont les enjeux pour les organisations ?</strong></p>
+
+            <h3>3. L'IA au service des attaquants</h3>
+            <ul>
+              <li><strong>Phishing avanc&eacute;</strong> : G&eacute;n&eacute;ration de messages personnalis&eacute;s gr&acirc;ce aux LLM</li>
+              <li><strong>Deepfakes</strong> : Cr&eacute;ation de faux contenus audio/vid&eacute;o pour usurper l'identit&eacute;</li>
+              <li><strong>Malwares polymorphes</strong> : Variantes automatiques pour &eacute;chapper aux antivirus</li>
+              <li><strong>Reconnaissance automatis&eacute;e</strong> : Analyse automatique des vuln&eacute;rabilit&eacute;s</li>
+            </ul>
+
+            <h3>4. L'IA au service des d&eacute;fenseurs</h3>
+            <ul>
+              <li><strong>D&eacute;tection d'anomalies</strong> : UEBA - User and Entity Behavior Analytics</li>
+              <li><strong>SIEM/SOAR</strong> : Automatisation de la corr&eacute;lation et de la r&eacute;ponse</li>
+              <li><strong>Threat Intelligence</strong> : Agr&eacute;gation des flux de renseignement</li>
+              <li><strong>SOC augment&eacute;s par l'IA</strong> : Pr&eacute;diction et anticipation des attaques</li>
+            </ul>
+
+            <h3>5. Perspectives</h3>
+            <ul>
+              <li>Adoption croissante des solutions EDR/XDR int&eacute;grant l'IA</li>
+              <li>D&eacute;veloppement de frameworks &eacute;thiques pour l'IA en cybers&eacute;curit&eacute;</li>
+              <li>Collaboration internationale pour r&eacute;guler l'usage malveillant de l'IA</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:32px;">
+            <h4 style="font-size:.95rem;color:var(--text-primary);margin-bottom:12px;">Sources</h4>
+            <div class="source-item"><span class="source-num">1.</span><div><a href="https://www.anssi.gouv.fr/" target="_blank" rel="noopener noreferrer">ANSSI - Panorama de la cybermenace 2024</a><div class="source-meta">Agence nationale de la s&eacute;curit&eacute; des syst&egrave;mes d'information - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">2.</span><div><a href="https://www.enisa.europa.eu/" target="_blank" rel="noopener noreferrer">ENISA Threat Landscape 2024</a><div class="source-meta">European Union Agency for Cybersecurity - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">3.</span><div><a href="https://www.weforum.org/" target="_blank" rel="noopener noreferrer">World Economic Forum - Global Cybersecurity Outlook</a><div class="source-meta">Forum &eacute;conomique mondial - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">4.</span><div><a href="https://www.ibm.com/security" target="_blank" rel="noopener noreferrer">IBM X-Force Threat Intelligence Index</a><div class="source-meta">IBM Security - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">5.</span><div><a href="https://www.crowdstrike.com/" target="_blank" rel="noopener noreferrer">CrowdStrike Global Threat Report</a><div class="source-meta">CrowdStrike - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">6.</span><div><a href="https://www.microsoft.com/security" target="_blank" rel="noopener noreferrer">Microsoft Digital Defense Report</a><div class="source-meta">Microsoft - 2024</div></div></div>
+          </div>
+
+          <div class="glossary">
+            <h4 style="font-size:.95rem;color:var(--text-primary);margin-bottom:12px;">Glossaire</h4>
+            <dl>
+              <dt>LLM (Large Language Model)</dt><dd>Mod&egrave;le de langage capable de g&eacute;n&eacute;rer du texte (ex: GPT-4, Claude)</dd>
+              <dt>UEBA</dt><dd>User and Entity Behavior Analytics - Analyse comportementale</dd>
+              <dt>EDR/XDR</dt><dd>Endpoint/Extended Detection and Response</dd>
+              <dt>SOC</dt><dd>Security Operations Center</dd>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Tab Quantique -->
+        <div id="tab-quantique" class="veille-panel">
+          <div class="veille-content">
+            <h3>1. Introduction et contexte</h3>
+            <p>La cryptographie post-quantique (PQC) d&eacute;signe les algorithmes con&ccedil;us pour r&eacute;sister aux attaques des ordinateurs quantiques. Ces machines pourraient &agrave; terme casser RSA et ECC.</p>
+
+            <h3>2. Probl&eacute;matique</h3>
+            <p><strong>Comment les organisations peuvent-elles se pr&eacute;parer &agrave; la menace quantique et quels sont les nouveaux standards cryptographiques &agrave; adopter ?</strong></p>
+
+            <h3>3. La menace quantique</h3>
+            <ul>
+              <li><strong>Algorithme de Shor</strong> : Peut casser RSA et les courbes elliptiques</li>
+              <li><strong>Algorithme de Grover</strong> : R&eacute;duit la complexit&eacute; des attaques par force brute</li>
+              <li><strong>Harvest Now, Decrypt Later</strong> : Collecte de donn&eacute;es chiffr&eacute;es pour d&eacute;chiffrement futur</li>
+              <li><strong>Timeline</strong> : Ordinateur quantique pertinent estim&eacute; d'ici 10-15 ans</li>
+            </ul>
+
+            <h3>4. Les nouveaux standards NIST</h3>
+            <ul>
+              <li><strong>CRYSTALS-Kyber (ML-KEM)</strong> : Encapsulation de cl&eacute; bas&eacute;e sur les r&eacute;seaux euclidiens</li>
+              <li><strong>CRYSTALS-Dilithium (ML-DSA)</strong> : Signature num&eacute;rique</li>
+              <li><strong>SPHINCS+ (SLH-DSA)</strong> : Signature bas&eacute;e sur les fonctions de hachage</li>
+              <li><strong>FALCON</strong> : Signature compacte</li>
+            </ul>
+
+            <h3>5. D&eacute;fis de la migration</h3>
+            <ul>
+              <li><strong>Inventaire cryptographique</strong> : Identifier tous les usages dans l'organisation</li>
+              <li><strong>Taille des cl&eacute;s</strong> : Les algorithmes PQC n&eacute;cessitent des cl&eacute;s plus grandes</li>
+              <li><strong>Crypto-agilit&eacute;</strong> : Capacit&eacute; &agrave; changer d'algorithme rapidement</li>
+            </ul>
+
+            <h3>6. Recommandations</h3>
+            <ul>
+              <li>R&eacute;aliser un inventaire complet des actifs cryptographiques</li>
+              <li>Suivre les recommandations de l'ANSSI sur la migration PQC</li>
+              <li>Adopter une approche hybride (classique + PQC) pendant la transition</li>
+              <li>Former les &eacute;quipes aux enjeux de la cryptographie post-quantique</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:32px;">
+            <h4 style="font-size:.95rem;color:var(--text-primary);margin-bottom:12px;">Sources</h4>
+            <div class="source-item"><span class="source-num">1.</span><div><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" target="_blank" rel="noopener noreferrer">NIST Post-Quantum Cryptography</a><div class="source-meta">National Institute of Standards and Technology - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">2.</span><div><a href="https://www.ssi.gouv.fr/" target="_blank" rel="noopener noreferrer">ANSSI - Avis sur la migration vers la cryptographie post-quantique</a><div class="source-meta">ANSSI - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">3.</span><div><a href="https://www.etsi.org/" target="_blank" rel="noopener noreferrer">ETSI - Quantum-Safe Cryptography</a><div class="source-meta">ETSI - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">4.</span><div><a href="https://www.ibm.com/quantum" target="_blank" rel="noopener noreferrer">IBM Quantum Network</a><div class="source-meta">IBM - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">5.</span><div><a href="https://cloud.google.com/security" target="_blank" rel="noopener noreferrer">Google Security Blog - Post-Quantum Cryptography</a><div class="source-meta">Google - 2024</div></div></div>
+            <div class="source-item"><span class="source-num">6.</span><div><a href="https://www.cloudflare.com/learning/ssl/what-is-post-quantum-cryptography/" target="_blank" rel="noopener noreferrer">Cloudflare - What is Post-Quantum Cryptography?</a><div class="source-meta">Cloudflare - 2024</div></div></div>
+          </div>
+
+          <div class="glossary">
+            <h4 style="font-size:.95rem;color:var(--text-primary);margin-bottom:12px;">Glossaire</h4>
+            <dl>
+              <dt>PQC (Post-Quantum Cryptography)</dt><dd>Cryptographie r&eacute;sistante aux ordinateurs quantiques</dd>
+              <dt>Qubit</dt><dd>Unit&eacute; d'information quantique</dd>
+              <dt>R&eacute;seaux euclidiens (Lattice)</dt><dd>Structure math&eacute;matique utilis&eacute;e par les algorithmes PQC</dd>
+              <dt>KEM (Key Encapsulation Mechanism)</dt><dd>M&eacute;canisme d'&eacute;change s&eacute;curis&eacute; de cl&eacute;s</dd>
+              <dt>Crypto-agilit&eacute;</dt><dd>Capacit&eacute; &agrave; changer rapidement d'algorithme cryptographique</dd>
+            </dl>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About Preview -->
-  <section class="bg-secondary">
+  <!-- ========== COMP&Eacute;TENCES ========== -->
+  <section id="competences">
     <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-header__label">À propos</span>
-        <h2 class="section-header__title">Mon parcours</h2>
-        <p class="section-header__description">
-          Un parcours atypique qui allie rigueur militaire et expertise technique
-        </p>
+      <div class="section-header section-header--center reveal">
+        <div class="section-label">R&eacute;f&eacute;rentiel BTS SIO</div>
+        <h2 class="section-title">Tableau de comp&eacute;tences</h2>
+        <p class="section-desc">Comp&eacute;tences acquises selon le r&eacute;f&eacute;rentiel officiel du BTS SIO option SISR</p>
       </div>
 
-      <div class="grid grid-cols-4 gap-6 stagger">
-        <div class="card fade-in">
-          <div class="card__icon">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Armée de Terre</h3>
-          <p class="card__description">
-            Technicien helpdesk dans l'armée. Gestion d'incidents critiques, environnements sécurisés.
-          </p>
-        </div>
-
-        <div class="card fade-in">
-          <div class="card__icon">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Conseil départemental</h3>
-          <p class="card__description">
-            Technicien helpdesk au Conseil départemental du Doubs. Gestion de parc et support utilisateurs.
-          </p>
-        </div>
-
-        <div class="card fade-in">
-          <div class="card__icon">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Oelis - Alternance</h3>
-          <p class="card__description">
-            BTS SIO SISR en alternance. Infogérance, virtualisation, réseaux et cybersécurité.
-          </p>
-        </div>
-
-        <div class="card fade-in" style="border-color: var(--success);">
-          <div class="card__icon" style="background: var(--success-subtle); color: var(--success);">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-          </div>
-          <h3 class="card__title">Cryptalys - Fondateur</h3>
-          <p class="card__description">
-            Ma micro-entreprise. SaaS Tenantix, audit cybersécurité et prestations IT.
-          </p>
-        </div>
-      </div>
-
-      <div class="text-center mt-12 fade-in">
-        <a href="a-propos.html" class="btn btn--secondary">
-          <span>En savoir plus</span>
-          <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
+      <div class="text-center reveal" style="margin-bottom:40px;">
+        <a href="assets/documents/TABLAU.ods" download class="btn btn--secondary btn--sm">
+          <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Tableau de synth&egrave;se E5 (.ods)
         </a>
       </div>
-    </div>
-  </section>
 
-  <!-- Skills Preview -->
-  <section>
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-header__label">Compétences</span>
-        <h2 class="section-header__title">Technologies maîtrisées</h2>
-        <p class="section-header__description">
-          Les outils et technologies que j'utilise au quotidien
-        </p>
-      </div>
+      <div class="grid" style="gap:14px;">
 
-      <div class="tech-grid stagger">
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://www.sparks-formation.com/wp-content/uploads/logo-windows-server.jpg" alt="Windows Server">
-          <span class="tech-item__name">Windows Server</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/960px-Python-logo-notext.svg.png" alt="Python">
-          <span class="tech-item__name">Python</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://pandorafms.com/blog/wp-content/uploads/2019/09/powershell-basico-1.png" alt="PowerShell">
-          <span class="tech-item__name">PowerShell</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://slash-root.fr/wp-content/uploads/2021/12/dockerLogo.png" alt="Docker">
-          <span class="tech-item__name">Docker</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://www.factorfx.com/wp-content/uploads/2024/04/proxmox-logo-stacked-color-1.png" alt="Proxmox">
-          <span class="tech-item__name">Proxmox</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/1280px-Tux.svg.png" alt="Linux">
-          <span class="tech-item__name">Linux</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/1280px-Cisco_logo_blue_2016.svg.png" alt="Cisco">
-          <span class="tech-item__name">Cisco</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://clslearn.com/wp-content/uploads/2022/12/Fortinet-logo.webp" alt="Fortinet">
-          <span class="tech-item__name">Fortinet</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://adoption.microsoft.com/wp-content/uploads/2024/04/veeam-logo.png" alt="Veeam">
-          <span class="tech-item__name">Veeam</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://seela.io/wp-content/uploads/2023/07/azure-active-directory-aad-.png" alt="Active Directory">
-          <span class="tech-item__name">Active Directory</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://www.antemeta.fr/wp-content/uploads/2020/03/Logo-VMware-Partenaires.png" alt="VMware">
-          <span class="tech-item__name">VMware</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://doknet.fr/wp-content/uploads/2023/10/logo-bash.png" alt="Bash">
-          <span class="tech-item__name">Bash</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://kappadata.fr/wp-content/uploads/2020/11/Kappa-Data-Vendor-Stormshield.png.webp" alt="Stormshield">
-          <span class="tech-item__name">Stormshield</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Aruba_Networks_logo.svg/langfr-250px-Aruba_Networks_logo.svg.png" alt="Aruba">
-          <span class="tech-item__name">Aruba</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://it-planet1.shop-cdn.com/media/image/e7/a2/98/HPE-Logo-2025-klein.png" alt="HPE">
-          <span class="tech-item__name">HPE</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://logo-marque.com/wp-content/uploads/2020/08/Dell-Logo.png" alt="Dell">
-          <span class="tech-item__name">Dell</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/logos/mikrotik-9fxkorisqhnq5ppw9ory2o.png/mikrotik-w4y9rth430h5bcfzp9in8i.png?_a=DATAiZAAZAA0" alt="MikroTik">
-          <span class="tech-item__name">MikroTik</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://microbert.fr/wp-content/uploads/2022/09/Logo_mib-noir-carre.png" alt="Mail in Black">
-          <span class="tech-item__name">Mail in Black</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://secuserve.fr/sites/default/files/LogoSecuserve_vecto_0.png" alt="Secuserve">
-          <span class="tech-item__name">Secuserve</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://images.icon-icons.com/3915/PNG/512/synology_logo_icon_249461.png" alt="Synology">
-          <span class="tech-item__name">Synology</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://www.portaone.com/wp-content/uploads/2022/09/Logo-Alcatel-Lucent-1.png" alt="Alcatel">
-          <span class="tech-item__name">Alcatel</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://avatars.githubusercontent.com/u/174622504?v=4" alt="Omnivista">
-          <span class="tech-item__name">Omnivista</span>
-        </div>
-
-        <div class="tech-item fade-in">
-          <img class="tech-item__icon" src="https://www.streamnetworks.co.uk/wp-content/uploads/3CX-Logo.png" alt="3CX">
-          <span class="tech-item__name">3CX</span>
-        </div>
-      </div>
-
-      <div class="text-center mt-12 fade-in">
-        <a href="competences.html" class="btn btn--secondary">
-          <span>Toutes mes compétences</span>
-          <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Preview -->
-  <section class="bg-secondary">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-header__label">Portfolio</span>
-        <h2 class="section-header__title">Projets récents</h2>
-        <p class="section-header__description">
-          Découvrez quelques-uns de mes projets réalisés en entreprise et à titre personnel
-        </p>
-      </div>
-
-      <div class="projects-grid stagger">
-        <article class="project-card fade-in">
-          <div class="project-card__image" style="background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%); display: flex; align-items: center; justify-content: center;">
-            <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
-            </svg>
+        <!-- Comp&eacute;tence 1 -->
+        <div class="comp-block reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C1</span><h3 class="comp-block__title">G&eacute;rer le patrimoine informatique</h3></div>
+          <p class="comp-block__text">Inventaire et documentation du parc via GLPI, gestion des droits AD (GPO, habilitations), sauvegardes Veeam/Synology avec tests de restauration, administration VMware/Hyper-V, application des normes internes.</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Oelis</span> Administration Windows Server (AD, GPO, DHCP, DNS) + backup Veeam/Synology</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Formation</span> Mise en place serveur GLPI / Grafana / Zabbix</div>
+            </div>
           </div>
-          <div class="project-card__content">
-            <span class="project-card__category">Cryptalys</span>
+          <div class="comp-block__skills">
+            <div class="comp-skill">1.1 Recenser les ressources<br><span class="comp-skill__why">Inventaire GLPI, gestion du parc Oelis</span></div>
+            <div class="comp-skill">1.2 Exploiter les normes<br><span class="comp-skill__why">Normes ITIL, proc&eacute;dures internes Oelis</span></div>
+            <div class="comp-skill">1.3 Niveaux d'habilitation<br><span class="comp-skill__why">GPO, droits AD, habilitations utilisateurs</span></div>
+            <div class="comp-skill">1.4 Continuit&eacute; de service<br><span class="comp-skill__why">PRA/PCA, redondance VMware/Hyper-V</span></div>
+            <div class="comp-skill">1.5 G&eacute;rer les sauvegardes<br><span class="comp-skill__why">Veeam, Synology, tests de restauration</span></div>
+            <div class="comp-skill">1.6 R&egrave;gles d'utilisation<br><span class="comp-skill__why">Charte informatique, sensibilisation utilisateurs</span></div>
+          </div>
+        </div>
+
+        <!-- Comp&eacute;tence 2 -->
+        <div class="comp-block comp-block--green reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C2</span><h3 class="comp-block__title">R&eacute;pondre aux incidents et aux demandes</h3></div>
+          <p class="comp-block__text">Support N1/N2 via GLPI et ticketing interne : diagnostic r&eacute;seau/syst&egrave;me, configuration switches/routeurs (Cisco, MikroTik, HPE), firewalls (Fortinet, Stormshield), d&eacute;placements techniques, Cloud M365/Azure AD.</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Oelis</span> Gestion des tickets + installation mat&eacute;riel (r&eacute;seaux, VoIP 3CX, firewalls)</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Formation</span> R&eacute;seau HP A5120 (trunk, STP, VLANs, Inter-VLANs, routage dynamique)</div>
+            </div>
+          </div>
+          <div class="comp-block__skills">
+            <div class="comp-skill">2.1 Collecter et orienter<br><span class="comp-skill__why">Tickets GLPI, diagnostic N1/N2 Oelis</span></div>
+            <div class="comp-skill">2.2 Services r&eacute;seau/syst&egrave;me<br><span class="comp-skill__why">Config switches Cisco/HPE, firewalls Fortinet</span></div>
+            <div class="comp-skill">2.3 Applications<br><span class="comp-skill__why">D&eacute;pannage M365, VoIP 3CX, Cloud Azure AD</span></div>
+          </div>
+        </div>
+
+        <!-- Comp&eacute;tence 3 -->
+        <div class="comp-block comp-block--amber reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C3</span><h3 class="comp-block__title">D&eacute;velopper la pr&eacute;sence en ligne</h3></div>
+          <p class="comp-block__text">Cr&eacute;ation de ce portfolio (HTML/CSS/JS, GitHub Pages), r&eacute;f&eacute;rencement (balises m&eacute;ta, structure s&eacute;mantique), gestion de la pr&eacute;sence en ligne Cryptalys (RGPD, mentions l&eacute;gales).</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Formation</span> TAE — Cr&eacute;ation du portfolio BTS SIO (HTML, CSS, JS, GitHub)</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Personnel</span> Site web et identit&eacute; num&eacute;rique Cryptalys</div>
+            </div>
+          </div>
+          <div class="comp-block__skills">
+            <div class="comp-skill">3.1 Valoriser l'image<br><span class="comp-skill__why">Portfolio BTS SIO, site Cryptalys</span></div>
+            <div class="comp-skill">3.2 R&eacute;f&eacute;rencement<br><span class="comp-skill__why">SEO, balises m&eacute;ta, structure s&eacute;mantique</span></div>
+            <div class="comp-skill">3.3 &Eacute;volution site Web<br><span class="comp-skill__why">Mises &agrave; jour portfolio, RGPD, mentions l&eacute;gales</span></div>
+          </div>
+        </div>
+
+        <!-- Comp&eacute;tence 4 -->
+        <div class="comp-block comp-block--purple reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C4</span><h3 class="comp-block__title">Travailler en mode projet</h3></div>
+          <p class="comp-block__text">Analyse des objectifs, planification avec ProjectLibre, suivi d'avancement et ajustements. Gestion de projets techniques chez Oelis (migrations, d&eacute;ploiements) et projets personnels (Tenantix, Cipher).</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Oelis</span> Suivi de projets : migration serveurs, impl&eacute;mentation Cloud</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Formation</span> Gestion de projet avec ProjectLibre</div>
+            </div>
+          </div>
+          <div class="comp-block__skills">
+            <div class="comp-skill">4.1 Analyser les objectifs<br><span class="comp-skill__why">Cahier des charges, analyse des besoins clients</span></div>
+            <div class="comp-skill">4.2 Planifier les activit&eacute;s<br><span class="comp-skill__why">ProjectLibre, diagramme de Gantt</span></div>
+            <div class="comp-skill">4.3 Suivi et &eacute;carts<br><span class="comp-skill__why">Suivi migrations serveurs, ajustements Oelis</span></div>
+          </div>
+        </div>
+
+        <!-- Comp&eacute;tence 5 -->
+        <div class="comp-block comp-block--cyan reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C5</span><h3 class="comp-block__title">Mettre &agrave; disposition un service</h3></div>
+          <p class="comp-block__text">Tests d'int&eacute;gration, d&eacute;ploiement de services (serveurs, VM, Docker, Cloud M365/Azure AD), documentation technique et accompagnement utilisateurs. Homelab Proxmox, Grafana, pfSense.</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Oelis</span> Installation serveurs + VM, migration, d&eacute;ploiement Cloud M365</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Formation</span> D&eacute;ploiement Nginx / Haproxy / Nextcloud / Docker / RustDesk</div>
+            </div>
+          </div>
+          <div class="comp-block__skills">
+            <div class="comp-skill">5.1 Tests d'int&eacute;gration<br><span class="comp-skill__why">Tests VM, validation services avant prod</span></div>
+            <div class="comp-skill">5.2 D&eacute;ployer un service<br><span class="comp-skill__why">Nginx, Docker, Nextcloud, M365, RustDesk</span></div>
+            <div class="comp-skill">5.3 Accompagner les utilisateurs<br><span class="comp-skill__why">Documentation, formation utilisateurs Oelis</span></div>
+          </div>
+        </div>
+
+        <!-- Comp&eacute;tence 6 -->
+        <div class="comp-block comp-block--pink reveal">
+          <div class="comp-block__header"><span class="comp-block__num">C6</span><h3 class="comp-block__title">Organiser son d&eacute;veloppement professionnel</h3></div>
+          <p class="comp-block__text">Environnement d'apprentissage (kDrive, homelab, certifications), veille active (ANSSI, CERT-FR, Feedly), gestion de l'identit&eacute; pro (LinkedIn, portfolio, GitHub), projet professionnel orient&eacute; cybers&eacute;curit&eacute;.</p>
+          <div class="comp-block__realisations">
+            <div class="comp-block__realisations-grid">
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Oelis</span> Veille technologique continue (1&egrave;re et 2&egrave;me ann&eacute;e)</div>
+              <div class="comp-realisation"><span class="comp-realisation__ctx">Personnel</span> Cr&eacute;ation de Cryptalys + homelab + portfolio</div>
+            </div>
+          </div>
+          <div class="comp-block__skills">
+            <div class="comp-skill">6.1 Environnement d'apprentissage<br><span class="comp-skill__why">kDrive, homelab Proxmox, certifications</span></div>
+            <div class="comp-skill">6.2 Strat&eacute;gies de veille<br><span class="comp-skill__why">Feedly, ANSSI, CERT-FR, The Hacker News</span></div>
+            <div class="comp-skill">6.3 Identit&eacute; professionnelle<br><span class="comp-skill__why">LinkedIn, portfolio, GitHub, Cryptalys</span></div>
+            <div class="comp-skill">6.4 Projet professionnel<br><span class="comp-skill__why">Objectif cybers&eacute;curit&eacute; / SOC / ing&eacute;nieur s&eacute;curit&eacute;</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROJETS ========== -->
+  <section id="projets">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Mes projets</h2>
+        <p class="section-desc">Projets r&eacute;alis&eacute;s en entreprise, en formation et &agrave; titre personnel</p>
+      </div>
+
+      <div class="text-center reveal" style="margin-bottom:32px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn--primary btn--sm" data-filter="all">Tous</button>
+        <button class="btn btn--secondary btn--sm" data-filter="ecole">Ecole</button>
+        <button class="btn btn--secondary btn--sm" data-filter="professionnel">Professionnel</button>
+        <button class="btn btn--secondary btn--sm" data-filter="personnel">Personnel</button>
+      </div>
+
+      <div class="grid grid-3 reveal-stagger">
+        <!-- GSB Resilience -->
+        <article class="project-card reveal" data-category="ecole">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,#14b8a6,#0d9488);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"/></svg>
+          </div>
+          <div class="project-card__body">
+            <div class="project-card__cat">Ecole - BTS SIO (E5)</div>
+            <h3 class="project-card__title">GSB - R&eacute;silience R&eacute;seau L2/L3</h3>
+            <p class="project-card__desc">Topologie Spanning Tree, HSRP, EtherChannel et routage inter-sites pour la haute disponibilit&eacute;.</p>
+            <div class="project-card__tags"><span class="tag">Spanning Tree</span><span class="tag">HSRP</span><span class="tag">Packet Tracer</span></div>
+            <a href="gsb.html" style="display:inline-block;margin-top:12px;font-size:.8rem;font-weight:600;">Voir le d&eacute;tail &rarr;</a>
+          </div>
+        </article>
+
+        <!-- GSB S&eacute;curit&eacute; -->
+        <article class="project-card reveal" data-category="ecole">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,#f43f5e,#e11d48);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/></svg>
+          </div>
+          <div class="project-card__body">
+            <div class="project-card__cat">Ecole - BTS SIO (E5)</div>
+            <h3 class="project-card__title">GSB - D&eacute;tection d'intrusions</h3>
+            <p class="project-card__desc">Filtrage IP avec NFTables et SIEM Wazuh pour la d&eacute;tection d'acc&egrave;s non autoris&eacute;s.</p>
+            <div class="project-card__tags"><span class="tag">NFTables</span><span class="tag">Wazuh</span><span class="tag">Logs</span></div>
+            <a href="gsb.html" style="display:inline-block;margin-top:12px;font-size:.8rem;font-weight:600;">Voir le d&eacute;tail &rarr;</a>
+          </div>
+        </article>
+
+        <!-- Tenantix -->
+        <article class="project-card reveal" data-category="professionnel">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,var(--accent),#1e40af);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          </div>
+          <div class="project-card__body">
+            <div class="project-card__cat">Professionnel - Cryptalys</div>
             <h3 class="project-card__title">Tenantix</h3>
-            <p class="project-card__description">
-              Plateforme SaaS d'audit de sécurité Microsoft 365. Analyse des configurations et recommandations.
-            </p>
-            <div class="project-card__tags">
-              <span class="tag">PowerShell</span>
-              <span class="tag">Azure</span>
-              <span class="tag">Graph API</span>
-            </div>
+            <p class="project-card__desc">Plateforme SaaS d'audit de s&eacute;curit&eacute; Microsoft 365. Analyse des configurations et recommandations.</p>
+            <div class="project-card__tags"><span class="tag">PowerShell</span><span class="tag">Azure</span><span class="tag">Graph API</span></div>
           </div>
-          <a href="projets.html#tenantix" class="project-card__link" aria-label="Voir le projet Tenantix"></a>
         </article>
 
-        <article class="project-card fade-in">
-          <div class="project-card__image" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); display: flex; align-items: center; justify-content: center;">
-            <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/>
-            </svg>
+        <!-- Cipher -->
+        <article class="project-card reveal" data-category="personnel">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,#ef4444,#b91c1c);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"/></svg>
           </div>
-          <div class="project-card__content">
-            <span class="project-card__category">Personnel</span>
+          <div class="project-card__body">
+            <div class="project-card__cat">Personnel</div>
             <h3 class="project-card__title">Cipher</h3>
-            <p class="project-card__description">
-              Plateforme d'orchestration de tests de pénétration. Automatisation et reporting.
-            </p>
-            <div class="project-card__tags">
-              <span class="tag">Python</span>
-              <span class="tag">Docker</span>
-              <span class="tag">Security</span>
-            </div>
+            <p class="project-card__desc">Plateforme d'orchestration de tests de p&eacute;n&eacute;tration. Automatisation et reporting.</p>
+            <div class="project-card__tags"><span class="tag">Python</span><span class="tag">Docker</span><span class="tag">Nmap</span></div>
           </div>
-          <a href="projets.html#cipher" class="project-card__link" aria-label="Voir le projet Cipher"></a>
         </article>
 
-        <article class="project-card fade-in">
-          <div class="project-card__image" style="background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); display: flex; align-items: center; justify-content: center;">
-            <svg width="80" height="80" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/>
-            </svg>
+        <!-- Homelab -->
+        <article class="project-card reveal" data-category="personnel">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,#22c55e,#15803d);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg>
           </div>
-          <div class="project-card__content">
-            <span class="project-card__category">Personnel</span>
+          <div class="project-card__body">
+            <div class="project-card__cat">Personnel</div>
             <h3 class="project-card__title">Homelab</h3>
-            <p class="project-card__description">
-              Infrastructure personnelle complète. Virtualisation, conteneurs, monitoring et services auto-hébergés.
-            </p>
-            <div class="project-card__tags">
-              <span class="tag">Proxmox</span>
-              <span class="tag">Docker</span>
-              <span class="tag">Grafana</span>
-            </div>
+            <p class="project-card__desc">Infrastructure personnelle compl&egrave;te : virtualisation, conteneurs, monitoring et services auto-h&eacute;berg&eacute;s.</p>
+            <div class="project-card__tags"><span class="tag">Proxmox</span><span class="tag">Docker</span><span class="tag">Grafana</span></div>
           </div>
-          <a href="projets.html#homelab" class="project-card__link" aria-label="Voir le projet Homelab"></a>
         </article>
-      </div>
 
-      <div class="text-center mt-12 fade-in">
-        <a href="projets.html" class="btn btn--primary">
-          <span>Tous les projets</span>
-          <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
+        <!-- Station USB -->
+        <article class="project-card reveal" data-category="ecole">
+          <div class="project-card__visual" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9V7a4 4 0 118 0v2m-8 0h8m-8 0H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2v-9a2 2 0 00-2-2h-3m-8 0v4m8-4v4"/></svg>
+          </div>
+          <div class="project-card__body">
+            <div class="project-card__cat">Ecole - Bac Pro SN</div>
+            <h3 class="project-card__title">Station de filtrage USB</h3>
+            <p class="project-card__desc">Station portable de filtrage de cl&eacute;s USB bas&eacute;e sur Raspberry Pi avec ClamAV.</p>
+            <div class="project-card__tags"><span class="tag">Raspberry Pi</span><span class="tag">ClamAV</span><span class="tag">Linux</span></div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ========== CONTACT ========== -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Me contacter</h2>
+        <p class="section-desc">Une question, une opportunit&eacute; ou simplement envie d'&eacute;changer ?</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="card" style="padding:32px;">
+            <h3 style="font-size:1.1rem;color:var(--text-primary);margin-bottom:24px;">Envoyez-moi un message</h3>
+            <form action="https://formspree.io/f/your-form-id" method="POST">
+              <div class="form__row">
+                <div class="form__group">
+                  <label for="name" class="form__label">Nom complet *</label>
+                  <input type="text" id="name" name="name" class="form__input" placeholder="Jean Dupont" required>
+                </div>
+                <div class="form__group">
+                  <label for="email" class="form__label">Email *</label>
+                  <input type="email" id="email" name="email" class="form__input" placeholder="jean@exemple.fr" required>
+                </div>
+              </div>
+              <div class="form__group">
+                <label for="subject" class="form__label">Sujet *</label>
+                <input type="text" id="subject" name="subject" class="form__input" placeholder="Objet du message" required>
+              </div>
+              <div class="form__group">
+                <label for="message" class="form__label">Message *</label>
+                <textarea id="message" name="message" class="form__textarea" placeholder="Votre message..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
+                <svg class="btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                <span>Envoyer</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <a href="mailto:pro@dimitri-rey.fr" class="contact-item">
+            <div class="contact-icon"><svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><div class="contact-label">Email</div><div class="contact-value">pro@dimitri-rey.fr</div></div>
+          </a>
+          <a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <div class="contact-icon"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
+            <div><div class="contact-label">LinkedIn</div><div class="contact-value">Dimitri Rey</div></div>
+          </a>
+          <div class="contact-item" style="cursor:default;">
+            <div class="contact-icon"><svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><div class="contact-label">Localisation</div><div class="contact-value">Saint-&Eacute;tienne, Loire (42)</div></div>
+          </div>
+
+          <div class="dispo-card">
+            <div class="dispo-header">
+              <span class="dispo-dot"></span>
+              <h3 style="font-size:1rem;font-weight:600;color:var(--text-primary);">Disponibilit&eacute;</h3>
+            </div>
+            <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:12px;">
+              Actuellement en <strong style="color:var(--text-primary)">BTS SIO SISR</strong> chez Oelis et fondateur de <strong style="color:var(--text-primary)">Cryptalys</strong>.
+            </p>
+            <p style="font-size:.8rem;color:var(--text-muted);">
+              8 ans d'exp&eacute;rience IT | Infrastructure, R&eacute;seaux, Cybers&eacute;curit&eacute;, SaaS
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
   <footer class="footer">
     <div class="container">
       <div class="footer__grid">
-        <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
+        <div>
+          <a href="#accueil" class="header__logo">
             <span class="header__logo-icon">DR</span>
             <span>Dimitri Rey</span>
           </a>
-          <p class="footer__description">
-            Technicien Systèmes et Réseaux en alternance. BTS SIO SISR chez Oelis, Saint-Étienne.
-          </p>
+          <p class="footer__desc">Technicien Syst&egrave;mes et R&eacute;seaux en alternance. BTS SIO SISR chez Oelis, Saint-&Eacute;tienne.</p>
         </div>
-
         <div>
-          <h4 class="footer__title">Navigation</h4>
-          <ul class="footer__links">
-            <li><a href="index.html" class="footer__link">Accueil</a></li>
-            <li><a href="a-propos.html" class="footer__link">À propos</a></li>
-            <li><a href="cv.html" class="footer__link">CV</a></li>
-            <li><a href="projets.html" class="footer__link">Projets</a></li>
-          </ul>
+          <div class="footer__heading">Navigation</div>
+          <a href="#accueil" class="footer__link">Accueil</a>
+          <a href="#parcours" class="footer__link">Parcours</a>
+          <a href="#oelis" class="footer__link">Oelis</a>
+          <a href="#veille" class="footer__link">Veille techno</a>
         </div>
-
         <div>
-          <h4 class="footer__title">BTS SIO</h4>
-          <ul class="footer__links">
-            <li><a href="oelis.html" class="footer__link">Entreprise</a></li>
-            <li><a href="competences.html" class="footer__link">Compétences</a></li>
-            <li><a href="veille.html" class="footer__link">Veille techno</a></li>
-            <li><a href="gsb.html" class="footer__link">Projets GSB</a></li>
-            <li><a href="contact.html" class="footer__link">Contact</a></li>
-          </ul>
+          <div class="footer__heading">BTS SIO</div>
+          <a href="#competences" class="footer__link">Comp&eacute;tences</a>
+          <a href="#projets" class="footer__link">Projets</a>
+          <a href="gsb.html" class="footer__link">Projets GSB</a>
+          <a href="#contact" class="footer__link">Contact</a>
         </div>
-
         <div>
-          <h4 class="footer__title">Contact</h4>
-          <ul class="footer__links">
-            <li><a href="mailto:pro@dimitri-rey.fr" class="footer__link">pro@dimitri-rey.fr</a></li>
-            <li><a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__link">LinkedIn</a></li>
-            <li><span class="footer__link">Saint-Étienne, France</span></li>
-          </ul>
+          <div class="footer__heading">Contact</div>
+          <a href="mailto:pro@dimitri-rey.fr" class="footer__link">pro@dimitri-rey.fr</a>
+          <a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__link">LinkedIn</a>
+          <span class="footer__link" style="cursor:default;">Saint-&Eacute;tienne, France</span>
         </div>
       </div>
-
       <div class="footer__bottom">
-        <p class="footer__copyright">
-          &copy; 2026 Dimitri Rey. Portfolio BTS SIO SISR.
-        </p>
+        <p>&copy; 2026 Dimitri Rey. Portfolio BTS SIO SISR.</p>
         <div class="footer__socials">
           <a href="https://www.linkedin.com/in/dimitri-rey-7610662a2/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           </a>
           <a href="https://github.com/Dimitri-Rey" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub">
-            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-            </svg>
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
           </a>
         </div>
       </div>

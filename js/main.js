@@ -1,412 +1,205 @@
 /* ============================================
-   PORTFOLIO DIMITRI REY - JAVASCRIPT
-   Interactions et animations
+   DIMITRI REY — ONE-PAGE PORTFOLIO JS
+   Mode présentation (scroll-snap slides)
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialisation
-  initMobileMenu();
-  initScrollAnimations();
-  initSmoothScroll();
-  initHeaderScroll();
-  initActiveNavLink();
-  initSkillBars();
-  initFormValidation();
-});
+document.addEventListener('DOMContentLoaded', function () {
 
-/* ============================================
-   MENU MOBILE
-   ============================================ */
+  /* --- Header scroll effect --- */
+  var header = document.querySelector('.header');
+  var scrollThreshold = 50;
 
-function initMobileMenu() {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('.nav');
-  const overlay = document.querySelector('.nav-overlay');
-  const navLinks = document.querySelectorAll('.nav__link');
-
-  if (!menuToggle || !nav) return;
-
-  // Toggle menu
-  menuToggle.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('nav--open');
-    menuToggle.classList.toggle('menu-toggle--active');
-
-    if (overlay) {
-      overlay.classList.toggle('nav-overlay--visible', isOpen);
-    }
-
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-
-  // Close menu when clicking overlay
-  if (overlay) {
-    overlay.addEventListener('click', closeMenu);
-  }
-
-  // Close menu when clicking a link
-  navLinks.forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // Close menu on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
-      closeMenu();
-    }
-  });
-
-  function closeMenu() {
-    nav.classList.remove('nav--open');
-    menuToggle.classList.remove('menu-toggle--active');
-    if (overlay) {
-      overlay.classList.remove('nav-overlay--visible');
-    }
-    document.body.style.overflow = '';
-  }
-}
-
-/* ============================================
-   ANIMATIONS AU SCROLL
-   ============================================ */
-
-function initScrollAnimations() {
-  const animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
-
-  if (!animatedElements.length) return;
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px 0px -50px 0px',
-    threshold: 0.1
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  animatedElements.forEach(el => observer.observe(el));
-}
-
-/* ============================================
-   SMOOTH SCROLL
-   ============================================ */
-
-function initSmoothScroll() {
-  const anchors = document.querySelectorAll('a[href^="#"]');
-
-  anchors.forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      const href = anchor.getAttribute('href');
-
-      // Skip if it's just "#"
-      if (href === '#') return;
-
-      const target = document.querySelector(href);
-
-      if (target) {
-        e.preventDefault();
-
-        const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-        const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
-}
-
-/* ============================================
-   HEADER AU SCROLL
-   ============================================ */
-
-function initHeaderScroll() {
-  const header = document.querySelector('.header');
-
-  if (!header) return;
-
-  let lastScroll = 0;
-  const scrollThreshold = 50;
-
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-
-    // Add/remove scrolled class
-    if (currentScroll > scrollThreshold) {
+  function updateHeader() {
+    if (window.scrollY > scrollThreshold) {
       header.classList.add('header--scrolled');
     } else {
       header.classList.remove('header--scrolled');
     }
+  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
 
-    lastScroll = currentScroll;
-  }, { passive: true });
-}
+  /* --- Active nav link on scroll (snap-aware) --- */
+  var navLinks = document.querySelectorAll('.nav__link[href^="#"]');
+  var sections = [];
 
-/* ============================================
-   LIEN NAV ACTIF
-   ============================================ */
-
-function initActiveNavLink() {
-  const navLinks = document.querySelectorAll('.nav__link');
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-
-    if (href === currentPath ||
-        (currentPath === '' && href === 'index.html') ||
-        (currentPath === 'index.html' && href === 'index.html')) {
-      link.classList.add('nav__link--active');
-    }
+  navLinks.forEach(function (link) {
+    var id = link.getAttribute('href').substring(1);
+    var section = document.getElementById(id);
+    if (section) sections.push({ el: section, link: link });
   });
-}
 
-/* ============================================
-   BARRES DE COMPÉTENCES ANIMÉES
-   ============================================ */
-
-function initSkillBars() {
-  const skillBars = document.querySelectorAll('.skill-bar__fill');
-
-  if (!skillBars.length) return;
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const bar = entry.target;
-        const width = bar.dataset.width || '0%';
-
-        // Small delay for visual effect
-        setTimeout(() => {
-          bar.style.width = width;
-        }, 200);
-
-        observer.unobserve(bar);
+  var snapObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+        navLinks.forEach(function (l) { l.classList.remove('nav__link--active'); });
+        var match = sections.find(function (s) { return s.el === entry.target; });
+        if (match) match.link.classList.add('nav__link--active');
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.5 });
 
-  skillBars.forEach(bar => {
-    // Store the target width and reset to 0
-    const style = bar.getAttribute('style');
-    const widthMatch = style?.match(/width:\s*(\d+%)/);
-    if (widthMatch) {
-      bar.dataset.width = widthMatch[1];
-      bar.style.width = '0%';
-    }
-    observer.observe(bar);
-  });
-}
+  sections.forEach(function (s) { snapObserver.observe(s.el); });
 
-/* ============================================
-   VALIDATION FORMULAIRE
-   ============================================ */
+  /* --- Keyboard navigation (arrows / page up-down) --- */
+  var allSlides = document.querySelectorAll('section[id], .hero');
+  var slideArray = Array.prototype.slice.call(allSlides);
 
-function initFormValidation() {
-  const form = document.querySelector('.form');
-
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    let isValid = true;
-    const requiredFields = form.querySelectorAll('[required]');
-
-    // Reset previous errors
-    form.querySelectorAll('.form__error').forEach(el => el.remove());
-    form.querySelectorAll('.form__input--error, .form__textarea--error').forEach(el => {
-      el.classList.remove('form__input--error', 'form__textarea--error');
-    });
-
-    requiredFields.forEach(field => {
-      if (!field.value.trim()) {
-        isValid = false;
-        showFieldError(field, 'Ce champ est requis');
-      } else if (field.type === 'email' && !isValidEmail(field.value)) {
-        isValid = false;
-        showFieldError(field, 'Veuillez entrer une adresse email valide');
+  function getCurrentSlideIndex() {
+    var scrollY = window.scrollY;
+    var best = 0;
+    slideArray.forEach(function (slide, i) {
+      if (slide.offsetTop <= scrollY + window.innerHeight / 2) {
+        best = i;
       }
     });
+    return best;
+  }
 
-    if (!isValid) {
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    var currentIndex = getCurrentSlideIndex();
+
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
       e.preventDefault();
+      if (currentIndex < slideArray.length - 1) {
+        slideArray[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (currentIndex > 0) {
+        slideArray[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+      }
     }
   });
 
-  function showFieldError(field, message) {
-    field.classList.add(field.tagName === 'TEXTAREA' ? 'form__textarea--error' : 'form__input--error');
+  /* --- Mobile menu --- */
+  var menuToggle = document.querySelector('.menu-toggle');
+  var nav = document.querySelector('.nav');
+  var overlay = document.querySelector('.nav-overlay');
 
-    const error = document.createElement('span');
-    error.className = 'form__error';
-    error.textContent = message;
-    error.style.cssText = 'color: var(--danger); font-size: var(--text-sm); margin-top: var(--space-1); display: block;';
-
-    field.parentNode.appendChild(error);
+  function openMenu() {
+    nav.classList.add('nav--open');
+    menuToggle.classList.add('menu-toggle--active');
+    overlay.classList.add('nav-overlay--active');
+    document.body.style.overflow = 'hidden';
   }
 
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-}
-
-/* ============================================
-   TYPING EFFECT (optionnel)
-   ============================================ */
-
-function initTypingEffect(element, texts, speed = 100, pause = 2000) {
-  if (!element || !texts.length) return;
-
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-
-  function type() {
-    const currentText = texts[textIndex];
-
-    if (isDeleting) {
-      element.textContent = currentText.substring(0, charIndex - 1);
-      charIndex--;
-    } else {
-      element.textContent = currentText.substring(0, charIndex + 1);
-      charIndex++;
-    }
-
-    let timeout = speed;
-
-    if (!isDeleting && charIndex === currentText.length) {
-      timeout = pause;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      textIndex = (textIndex + 1) % texts.length;
-      timeout = speed / 2;
-    }
-
-    setTimeout(type, timeout);
+  function closeMenu() {
+    nav.classList.remove('nav--open');
+    menuToggle.classList.remove('menu-toggle--active');
+    overlay.classList.remove('nav-overlay--active');
+    document.body.style.overflow = '';
   }
 
-  type();
-}
-
-/* ============================================
-   COUNTER ANIMATION
-   ============================================ */
-
-function animateCounter(element, target, duration = 2000) {
-  if (!element) return;
-
-  const start = 0;
-  const startTime = performance.now();
-
-  function update(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-
-    // Easing function (ease-out)
-    const easeOut = 1 - Math.pow(1 - progress, 3);
-    const current = Math.floor(start + (target - start) * easeOut);
-
-    element.textContent = current;
-
-    if (progress < 1) {
-      requestAnimationFrame(update);
-    } else {
-      element.textContent = target;
-    }
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function () {
+      if (nav.classList.contains('nav--open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
   }
 
-  requestAnimationFrame(update);
-}
+  if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+  }
 
-/* ============================================
-   PROJECT FILTER (pour projets.html)
-   ============================================ */
+  navLinks.forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
 
-function initProjectFilter() {
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const projects = document.querySelectorAll('.project-card');
+  var ctaLink = document.querySelector('.nav__cta a');
+  if (ctaLink) ctaLink.addEventListener('click', closeMenu);
 
-  if (!filterButtons.length || !projects.length) return;
+  /* --- Scroll reveal (triggered when section is visible) --- */
+  var reveals = document.querySelectorAll('.reveal');
 
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal--visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.05,
+    rootMargin: '0px 0px 0px 0px'
+  });
 
-      // Update active button
-      filterButtons.forEach(b => b.classList.remove('filter-btn--active'));
-      btn.classList.add('filter-btn--active');
+  reveals.forEach(function (el) {
+    revealObserver.observe(el);
+  });
 
-      // Filter projects
-      projects.forEach(project => {
-        const category = project.dataset.category;
+  /* --- Veille tabs --- */
+  var tabBtns = document.querySelectorAll('.veille-tab');
+  var tabPanels = document.querySelectorAll('.veille-panel');
 
-        if (filter === 'all' || category === filter) {
-          project.style.display = '';
-          setTimeout(() => {
-            project.style.opacity = '1';
-            project.style.transform = 'translateY(0)';
-          }, 50);
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = this.getAttribute('data-tab');
+
+      tabBtns.forEach(function (b) { b.classList.remove('veille-tab--active'); });
+      tabPanels.forEach(function (p) { p.classList.remove('veille-panel--active'); });
+
+      this.classList.add('veille-tab--active');
+      var panel = document.getElementById(target);
+      if (panel) panel.classList.add('veille-panel--active');
+    });
+  });
+
+  /* --- Project filter --- */
+  var filterBtns = document.querySelectorAll('[data-filter]');
+  var projectCards = document.querySelectorAll('[data-category]');
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var filter = this.getAttribute('data-filter');
+
+      filterBtns.forEach(function (b) { b.classList.remove('btn--primary'); b.classList.add('btn--secondary'); });
+      this.classList.remove('btn--secondary');
+      this.classList.add('btn--primary');
+
+      projectCards.forEach(function (card) {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = '';
         } else {
-          project.style.opacity = '0';
-          project.style.transform = 'translateY(20px)';
-          setTimeout(() => {
-            project.style.display = 'none';
-          }, 300);
+          card.style.display = 'none';
         }
       });
     });
   });
-}
 
-// Initialize filter if on projects page
-if (document.querySelector('.filter-btn')) {
-  initProjectFilter();
-}
+  /* --- Slide indicator (optional visual cue) --- */
+  var indicator = document.createElement('div');
+  indicator.className = 'slide-indicator';
+  document.body.appendChild(indicator);
 
-/* ============================================
-   TABS (pour veille.html)
-   ============================================ */
-
-function initTabs() {
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tabPanels = document.querySelectorAll('.tab-panel');
-
-  if (!tabButtons.length || !tabPanels.length) return;
-
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tabId = btn.dataset.tab;
-
-      // Update active button
-      tabButtons.forEach(b => b.classList.remove('tab-btn--active'));
-      btn.classList.add('tab-btn--active');
-
-      // Show corresponding panel
-      tabPanels.forEach(panel => {
-        if (panel.id === tabId) {
-          panel.classList.add('tab-panel--active');
-        } else {
-          panel.classList.remove('tab-panel--active');
-        }
-      });
+  var dots = [];
+  slideArray.forEach(function (slide, i) {
+    var dot = document.createElement('button');
+    dot.className = 'slide-indicator__dot';
+    dot.title = slide.id || 'accueil';
+    dot.addEventListener('click', function () {
+      slide.scrollIntoView({ behavior: 'smooth' });
     });
+    indicator.appendChild(dot);
+    dots.push(dot);
   });
-}
 
-// Initialize tabs if present
-if (document.querySelector('.tab-btn')) {
-  initTabs();
-}
+  var dotObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+        var idx = slideArray.indexOf(entry.target);
+        dots.forEach(function (d, i) {
+          d.classList.toggle('slide-indicator__dot--active', i === idx);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slideArray.forEach(function (s) { dotObserver.observe(s); });
+
+});
