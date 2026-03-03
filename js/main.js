@@ -265,4 +265,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  /* Swipe tactile pour mobile */
+  var ef4TouchStartX = 0;
+  if (ef4Overlay) {
+    ef4Overlay.addEventListener('touchstart', function (e) {
+      ef4TouchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    ef4Overlay.addEventListener('touchend', function (e) {
+      var diff = e.changedTouches[0].screenX - ef4TouchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) ef4ShowSlide(ef4Current + 1);
+        else ef4ShowSlide(ef4Current - 1);
+      }
+    }, { passive: true });
+  }
+
 });
