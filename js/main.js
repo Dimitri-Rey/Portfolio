@@ -202,4 +202,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
   slideArray.forEach(function (s) { dotObserver.observe(s); });
 
+  /* ========== SLIDESHOW EF4 ========== */
+  var ef4Overlay = document.getElementById('ef4-slideshow');
+  var ef4OpenBtn = document.getElementById('ef4-open-btn');
+  var ef4CloseBtn = document.getElementById('ef4-close-btn');
+  var ef4Prev = document.getElementById('ef4-prev');
+  var ef4Next = document.getElementById('ef4-next');
+  var ef4Progress = document.getElementById('ef4-progress');
+  var ef4Slides = ef4Overlay ? ef4Overlay.querySelectorAll('.ef4-slide') : [];
+  var ef4Current = 0;
+
+  /* Afficher la slide active et mettre à jour la barre de progression */
+  function ef4ShowSlide(index) {
+    if (!ef4Slides.length) return;
+    ef4Slides.forEach(function (s) { s.classList.remove('ef4-slide--active'); });
+    ef4Current = (index + ef4Slides.length) % ef4Slides.length;
+    ef4Slides[ef4Current].classList.add('ef4-slide--active');
+    if (ef4Progress) {
+      ef4Progress.style.width = ((ef4Current + 1) / ef4Slides.length * 100) + '%';
+    }
+  }
+
+  /* Ouvrir le slideshow */
+  function ef4Open() {
+    if (!ef4Overlay) return;
+    ef4Current = 0;
+    ef4ShowSlide(0);
+    ef4Overlay.classList.add('ef4-slideshow--active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* Fermer le slideshow */
+  function ef4Close() {
+    if (!ef4Overlay) return;
+    ef4Overlay.classList.remove('ef4-slideshow--active');
+    document.body.style.overflow = '';
+  }
+
+  if (ef4OpenBtn) ef4OpenBtn.addEventListener('click', ef4Open);
+  if (ef4CloseBtn) ef4CloseBtn.addEventListener('click', ef4Close);
+  if (ef4Prev) ef4Prev.addEventListener('click', function () { ef4ShowSlide(ef4Current - 1); });
+  if (ef4Next) ef4Next.addEventListener('click', function () { ef4ShowSlide(ef4Current + 1); });
+
+  /* Fermer en cliquant sur le fond (pas sur le contenu) */
+  if (ef4Overlay) {
+    ef4Overlay.addEventListener('click', function (e) {
+      if (e.target === ef4Overlay) ef4Close();
+    });
+  }
+
+  /* Navigation clavier : flèches + Escape */
+  document.addEventListener('keydown', function (e) {
+    if (!ef4Overlay || !ef4Overlay.classList.contains('ef4-slideshow--active')) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      ef4ShowSlide(ef4Current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      ef4ShowSlide(ef4Current - 1);
+    } else if (e.key === 'Escape') {
+      ef4Close();
+    }
+  });
+
 });
