@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Prompteur E5 - Dimitri Rey</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #222;
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar__left { display: flex; align-items: center; gap: 16px; }
+    .topbar__title { font-size: .85rem; font-weight: 600; color: #888; }
+
+    /* Timer */
+    .timer {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 2rem; font-weight: 700;
+      color: #22c55e;
+      letter-spacing: .05em;
+      min-width: 120px;
+      text-align: center;
+    }
+    .timer--warning { color: #f59e0b; }
+    .timer--danger { color: #ef4444; }
+    .timer--over { color: #ef4444; animation: blink .8s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* Progress bar */
+    .progress-wrap {
+      position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
+      height: 4px; background: #1a1a1a;
+    }
+    .progress-bar {
+      height: 100%; width: 0%; background: #22c55e;
+      transition: width .3s, background .3s;
+    }
+    .progress-bar--warning { background: #f59e0b; }
+    .progress-bar--danger { background: #ef4444; }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 20px; border-radius: 8px; font-size: .85rem; font-weight: 600;
+      border: 1px solid #333; background: #1a1a1a; color: #e0e0e0;
+      cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn:hover { border-color: #555; background: #222; }
+    .btn--primary { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+    .btn--primary:hover { background: #2563eb; }
+    .btn--danger { background: #ef4444; border-color: #ef4444; color: #fff; }
+    .btn--danger:hover { background: #dc2626; }
+    .btn--sm { padding: 6px 14px; font-size: .8rem; }
+    .controls { display: flex; gap: 8px; align-items: center; }
+
+    /* Speed control */
+    .speed-control { display: flex; align-items: center; gap: 8px; }
+    .speed-control label { font-size: .75rem; color: #666; }
+    .speed-slider {
+      -webkit-appearance: none; width: 80px; height: 4px;
+      background: #333; border-radius: 4px; outline: none;
+    }
+    .speed-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 14px; height: 14px;
+      background: #3b82f6; border-radius: 50%; cursor: pointer;
+    }
+    .speed-val { font-family: monospace; font-size: .8rem; color: #3b82f6; min-width: 28px; }
+
+    /* Section indicators */
+    .sections-bar {
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 98;
+      display: flex; background: #111; border-bottom: 1px solid #1a1a1a;
+    }
+    .section-ind {
+      flex: 1; padding: 6px 8px; text-align: center;
+      font-size: .65rem; font-weight: 600; color: #555;
+      border-right: 1px solid #1a1a1a; cursor: pointer;
+      transition: all .2s;
+    }
+    .section-ind:last-child { border-right: none; }
+    .section-ind--active { color: #3b82f6; background: rgba(59,130,246,.08); }
+    .section-ind--done { color: #22c55e; background: rgba(34,197,94,.05); }
+    .section-ind__time { display: block; font-size: .6rem; color: #444; margin-top: 1px; }
+
+    /* Prompteur content */
+    .prompteur {
+      position: fixed; top: 96px; bottom: 0; left: 0; right: 0;
+      overflow: hidden;
+    }
+    .prompteur__scroll {
+      padding: 40vh 10vw 60vh;
+      transition: transform .1s linear;
+    }
+    .prompteur__section {
+      margin-bottom: 48px;
+      opacity: .35;
+      transition: opacity .4s;
+    }
+    .prompteur__section--active {
+      opacity: 1;
+    }
+    .prompteur__label {
+      font-size: .75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #3b82f6; margin-bottom: 8px;
+      padding: 4px 12px; background: rgba(59,130,246,.1);
+      border-radius: 6px; display: inline-block;
+    }
+    .prompteur__label--green { color: #22c55e; background: rgba(34,197,94,.1); }
+    .prompteur__label--amber { color: #f59e0b; background: rgba(245,158,11,.1); }
+    .prompteur__label--purple { color: #8b5cf6; background: rgba(139,92,246,.1); }
+    .prompteur__label--cyan { color: #06b6d4; background: rgba(6,182,212,.1); }
+    .prompteur__label--pink { color: #ec4899; background: rgba(236,72,153,.1); }
+    .prompteur__heading {
+      font-size: 1.1rem; font-weight: 700; color: #fff;
+      margin-bottom: 16px;
+    }
+    .prompteur__text {
+      font-size: 1.4rem; line-height: 2; color: #ccc;
+      max-width: 900px;
+    }
+    .prompteur__text strong { color: #fff; }
+    .prompteur__text .hl { color: #3b82f6; font-weight: 600; }
+    .prompteur__text .sub { color: #f59e0b; font-weight: 600; }
+    .prompteur__divider {
+      width: 60px; height: 3px; background: #333;
+      border-radius: 2px; margin: 32px 0;
+    }
+
+    /* Reading line */
+    .reading-line {
+      position: fixed;
+      top: 38%;
+      left: 0; right: 0;
+      height: 2px;
+      background: rgba(59,130,246,.3);
+      pointer-events: none;
+      z-index: 50;
+    }
+    .reading-line::before {
+      content: '';
+      position: absolute; left: 0; top: -6px;
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 10px solid #3b82f6;
+    }
+
+    /* Start overlay */
+    .start-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,10,10,.97);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 24px;
+    }
+    .start-overlay--hidden { display: none; }
+    .start-overlay h1 {
+      font-size: 2rem; font-weight: 800; color: #fff;
+    }
+    .start-overlay p {
+      font-size: 1rem; color: #888; max-width: 500px; text-align: center; line-height: 1.7;
+    }
+    .start-overlay .keys {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px;
+    }
+    .key-hint {
+      padding: 6px 14px; background: #1a1a1a; border: 1px solid #333;
+      border-radius: 6px; font-size: .8rem; color: #aaa; font-family: monospace;
+    }
+    .key-hint b { color: #3b82f6; }
+  </style>
+</head>
+<body>
+
+<!-- Start screen -->
+<div class="start-overlay" id="startOverlay">
+  <h1>Prompteur E5</h1>
+  <p>Pr&eacute;sentation orale &mdash; 10 minutes<br>Dimitri Rey &mdash; BTS SIO SISR</p>
+  <button class="btn btn--primary" onclick="startPrompter()" style="font-size:1.1rem;padding:14px 40px;">
+    Lancer le prompteur
+  </button>
+  <div class="keys">
+    <span class="key-hint"><b>Espace</b> Pause/Play</span>
+    <span class="key-hint"><b>&uarr;&darr;</b> Vitesse</span>
+    <span class="key-hint"><b>&larr;&rarr;</b> Section</span>
+    <span class="key-hint"><b>R</b> Reset</span>
+  </div>
+</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar__left">
+    <div class="topbar__title">PROMPTEUR E5</div>
+    <div class="controls">
+      <button class="btn btn--primary btn--sm" id="btnPlay" onclick="togglePlay()">Pause</button>
+      <button class="btn btn--sm" onclick="resetAll()">Reset</button>
+    </div>
+    <div class="speed-control">
+      <label>Vitesse</label>
+      <input type="range" class="speed-slider" id="speedSlider" min="0.3" max="3" step="0.1" value="1">
+      <span class="speed-val" id="speedVal">1.0x</span>
+    </div>
+  </div>
+  <div class="timer" id="timer">00:00</div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Section indicators -->
+<div class="sections-bar" id="sectionsBar">
+  <div class="section-ind" data-section="0">INTRO<span class="section-ind__time">~3:00</span></div>
+  <div class="section-ind" data-section="1">C1<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="2">C2<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="3">C3<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="4">C4<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="5">C5<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="6">C6<span class="section-ind__time">~1:00</span></div>
+  <div class="section-ind" data-section="7">CONCLUSION<span class="section-ind__time">~1:00</span></div>
+</div>
+
+<!-- Reading line -->
+<div class="reading-line"></div>
+
+<!-- Content -->
+<div class="prompteur">
+  <div class="prompteur__scroll" id="scrollContent">
+
+    <!-- INTRODUCTION -->
+    <div class="prompteur__section" data-section="0">
+      <div class="prompteur__label">Introduction &mdash; 3 minutes</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Bonjour, je m'appelle <strong>Dimitri Rey</strong>, j'ai 26 ans et j'ai un parcours un peu atypique.</p>
+        <br>
+        <p>Avant de me lancer dans le BTS SIO, j'ai pass&eacute; <strong>quatre ans dans l'arm&eacute;e de Terre</strong> en tant que technicien helpdesk, dans un environnement classifi&eacute; o&ugrave; la rigueur et la s&eacute;curit&eacute; &eacute;taient essentielles au quotidien.</p>
+        <br>
+        <p>Ensuite, j'ai travaill&eacute; <strong>deux ans au Conseil d&eacute;partemental du Doubs</strong>, toujours en helpdesk, sur un parc de plusieurs centaines de postes.</p>
+        <br>
+        <p>Aujourd'hui, je pr&eacute;pare mon <strong>BTS SIO option SISR au CFAI LDA</strong>, en alternance chez <strong>Oelis</strong>, &agrave; Saint-&Eacute;tienne.</p>
+        <br>
+        <p>Oelis est un prestataire sp&eacute;cialis&eacute; en infog&eacute;rance, VoIP et cybers&eacute;curit&eacute;, qui accompagne des PME, des grandes entreprises et des collectivit&eacute;s.</p>
+        <br>
+        <p>Au sein de l'entreprise, j'interviens en support de niveau 1 et 2, en tant que helpdesk et administrateur syst&egrave;mes et r&eacute;seaux.</p>
+        <br>
+        <p>Concernant ma <strong>veille technologique</strong>, j'ai travaill&eacute; sur deux th&egrave;mes.</p>
+        <br>
+        <p>Le premier porte sur les <strong>cyberattaques bas&eacute;es sur l'intelligence artificielle</strong>, notamment l'utilisation des LLM pour le phishing et les deepfakes, face aux solutions de d&eacute;fense comme les EDR et XDR augment&eacute;s par l'IA.</p>
+        <br>
+        <p>Le second th&egrave;me concerne la <strong>cryptographie post-quantique</strong>, avec les nouveaux standards du NIST comme CRYSTALS-Kyber et les recommandations de migration de l'ANSSI.</p>
+        <br>
+        <p>Pour r&eacute;aliser cette veille, j'utilise des outils comme <span class="hl">Feedly</span>, <span class="hl">CERT-FR</span>, <span class="hl">ANSSI</span>, <span class="hl">The Hacker News</span> et <span class="hl">Krebs on Security</span>.</p>
+        <br>
+        <p>Je vais maintenant vous pr&eacute;senter <strong>six activit&eacute;s, une par bloc de comp&eacute;tences</strong>.</p>
+      </div>
+    </div>
+
+    <!-- C1 -->
+    <div class="prompteur__section" data-section="1">
+      <div class="prompteur__label">C1 &mdash; G&eacute;rer le patrimoine informatique &mdash; Oelis</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Pour ce premier bloc, j'administre les environnements <strong>Windows Server</strong> des clients d'Oelis.</p>
+        <br>
+        <p><span class="sub">Recenser et identifier les ressources num&eacute;riques</span> &mdash; J'ai r&eacute;alis&eacute; l'inventaire complet du parc informatique de nos clients dans <span class="hl">Lansweeper</span>, en r&eacute;f&eacute;ren&ccedil;ant les serveurs, les postes de travail, les switches et les licences logicielles.</p>
+        <br>
+        <p><span class="sub">Exploiter des r&eacute;f&eacute;rentiels, normes et standards</span> &mdash; J'ai r&eacute;dig&eacute; et appliqu&eacute; des proc&eacute;dures internes chez Oelis, en m'appuyant sur les bonnes pratiques <span class="hl">ITIL</span>.</p>
+        <br>
+        <p><span class="sub">Mettre en place et v&eacute;rifier les niveaux d'habilitation</span> &mdash; J'ai g&eacute;r&eacute; les droits d'acc&egrave;s via <span class="hl">Active Directory</span>, en cr&eacute;ant des groupes, en d&eacute;ployant des GPO et en auditant les acc&egrave;s trop permissifs.</p>
+        <br>
+        <p><span class="sub">V&eacute;rifier les conditions de la continuit&eacute; d'un service</span> &mdash; Pour la continuit&eacute; de service, j'ai mis en place de la redondance avec <span class="hl">Hyper-V</span> et r&eacute;alis&eacute; des tests de PRA avec un basculement effectu&eacute; en cinq minutes.</p>
+        <br>
+        <p><span class="sub">G&eacute;rer des sauvegardes</span> &mdash; J'ai configur&eacute; les sauvegardes avec <span class="hl">Veeam</span> et <span class="hl">Synology</span>, avec une r&eacute;tention de sept et trente jours. Gr&acirc;ce aux tests de restauration, j'ai r&eacute;duit le <strong>RTO, c'est-&agrave;-dire le temps de reprise d'activit&eacute;, de quatre heures &agrave; trente minutes</strong>.</p>
+        <br>
+        <p><span class="sub">V&eacute;rifier le respect des r&egrave;gles d'utilisation des ressources</span> &mdash; Enfin, j'ai audit&eacute; les postes des clients pour identifier les logiciels non autoris&eacute;s et j'ai men&eacute; des actions de sensibilisation aupr&egrave;s des utilisateurs.</p>
+        <br>
+        <p><strong>En r&eacute;sum&eacute;, la disponibilit&eacute; et la s&eacute;curit&eacute; du patrimoine informatique sont garanties, conform&eacute;ment aux SLA, c'est-&agrave;-dire les accords de niveau de service d&eacute;finis avec nos clients.</strong></p>
+      </div>
+    </div>
+
+    <!-- C2 -->
+    <div class="prompteur__section" data-section="2">
+      <div class="prompteur__label prompteur__label--green">C2 &mdash; R&eacute;pondre aux incidents et aux demandes &mdash; Oelis</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Au quotidien, je traite les incidents et les demandes des clients d'Oelis.</p>
+        <br>
+        <p><span class="sub">Collecter, suivre et orienter des demandes</span> &mdash; Je collecte et je qualifie chaque demande via le ticketing interne. J'&eacute;value l'urgence et l'impact, puis j'assigne le ticket et j'en assure le suivi jusqu'&agrave; la r&eacute;solution.</p>
+        <br>
+        <p><span class="sub">Traiter des demandes concernant les services r&eacute;seau et syst&egrave;me</span> &mdash; Pour les incidents r&eacute;seau et syst&egrave;me, j'interviens sur des probl&eacute;matiques de trunk VLAN sur des switches <span class="hl">Cisco</span>, sur les firewalls <span class="hl">Fortinet</span> et <span class="hl">Stormshield</span>, ou encore sur le d&eacute;pannage de serveurs. J'interviens &agrave; distance via <span class="hl">Splashtop</span> ou directement sur site.</p>
+        <br>
+        <p><span class="sub">Traiter des demandes concernant les applications</span> &mdash; Je traite &eacute;galement les demandes applicatives, notamment sur <span class="hl">Microsoft 365</span>, la VoIP avec <span class="hl">3CX</span>, et les demandes li&eacute;es &agrave; <span class="hl">365</span>.</p>
+        <br>
+        <p><strong>Les tickets sont r&eacute;solus dans les d&eacute;lais SLA, c'est-&agrave;-dire les accords de niveau de service. La base de connaissances que j'alimente permet une r&eacute;solution toujours plus rapide.</strong></p>
+      </div>
+    </div>
+
+    <!-- C3 -->
+    <div class="prompteur__section" data-section="3">
+      <div class="prompteur__label prompteur__label--amber">C3 &mdash; D&eacute;velopper la pr&eacute;sence en ligne &mdash; Formation / Personnel</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Pour illustrer ce bloc, je m'appuie sur deux sites web que j'ai r&eacute;alis&eacute;s.</p>
+        <br>
+        <p><span class="sub">Participer &agrave; la valorisation de l'image de l'organisation</span> &mdash; Le premier est ce portfolio, d&eacute;velopp&eacute; en <span class="hl">HTML, CSS et JavaScript</span>. Le second est le site <span class="hl">elanvertical.fr</span>, cr&eacute;&eacute; sous <span class="hl">WordPress</span>. Pour les deux, j'ai int&eacute;gr&eacute; les mentions l&eacute;gales et la conformit&eacute; <span class="hl">RGPD</span>.</p>
+        <br>
+        <p><span class="sub">R&eacute;f&eacute;rencer les services en ligne</span> &mdash; J'ai travaill&eacute; le r&eacute;f&eacute;rencement en ajoutant les balises meta, les mots-cl&eacute;s pertinents et en utilisant un HTML s&eacute;mantique. J'ai &eacute;galement v&eacute;rifi&eacute; l'indexation des pages.</p>
+        <br>
+        <p><span class="sub">Participer &agrave; l'&eacute;volution d'un site Web</span> &mdash; Ces sites &eacute;voluent r&eacute;guli&egrave;rement : j'ajoute de nouvelles sections au portfolio et je mets &agrave; jour le contenu du site du club.</p>
+        <br>
+        <p><strong>L'h&eacute;bergement de mon portfolio sur GitHub Pages d&eacute;montre &eacute;galement ma ma&icirc;trise de Git dans un contexte professionnel.</strong></p>
+      </div>
+    </div>
+
+    <!-- C4 -->
+    <div class="prompteur__section" data-section="4">
+      <div class="prompteur__label prompteur__label--purple">C4 &mdash; Travailler en mode projet &mdash; Oelis</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Pour ce bloc, je vais m'appuyer sur des projets de <strong>migration de serveurs</strong> que j'ai men&eacute;s chez Oelis.</p>
+        <br>
+        <p><span class="sub">Analyser les objectifs et les modalit&eacute;s d'organisation</span> &mdash; J'ai commenc&eacute; par analyser le p&eacute;rim&egrave;tre du projet, les donn&eacute;es concern&eacute;es et les services impact&eacute;s. Les contraintes &eacute;taient claires : la maintenance devait se faire le week-end et il fallait garantir la compatibilit&eacute; avec les applications m&eacute;tier.</p>
+        <br>
+        <p><span class="sub">Planifier les activit&eacute;s</span> &mdash; J'ai ensuite planifi&eacute; le projet avec <span class="hl">ProjectLibre</span>, en d&eacute;finissant les t&acirc;ches, les jalons, les estimations de dur&eacute;e et en g&eacute;n&eacute;rant un diagramme de Gantt.</p>
+        <br>
+        <p><span class="sub">&Eacute;valuer les indicateurs de suivi</span> &mdash; En cours de projet, j'ai identifi&eacute; un &eacute;cart : une incompatibilit&eacute; mat&eacute;rielle qui a entra&icirc;n&eacute; un retard de deux jours. J'ai r&eacute;solu le probl&egrave;me en mettant en place une VM temporaire et en ajustant le planning.</p>
+        <br>
+        <p><strong>Au final, la migration a &eacute;t&eacute; termin&eacute;e dans les d&eacute;lais, sans aucune perte de donn&eacute;es et avec une interruption minimale pour les utilisateurs.</strong></p>
+      </div>
+    </div>
+
+    <!-- C5 -->
+    <div class="prompteur__section" data-section="5">
+      <div class="prompteur__label prompteur__label--cyan">C5 &mdash; Mettre &agrave; disposition un service &mdash; Formation + Oelis</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Ce bloc porte sur le d&eacute;ploiement de services, aussi bien en formation que chez Oelis.</p>
+        <br>
+        <p><span class="sub">R&eacute;aliser les tests d'int&eacute;gration et d'acceptation</span> &mdash; J'ai r&eacute;alis&eacute; des tests d'int&eacute;gration, notamment pour un serveur <span class="hl">RustDesk</span>, en v&eacute;rifiant la connectivit&eacute;, la latence et le chiffrement. J'ai r&eacute;dig&eacute; un rapport de tests pour documenter les r&eacute;sultats.</p>
+        <br>
+        <p><span class="sub">D&eacute;ployer un service</span> &mdash; En formation, j'ai d&eacute;ploy&eacute; des services comme <span class="hl">Nginx</span>, <span class="hl">Nextcloud</span>, <span class="hl">Docker</span> et <span class="hl">Haproxy</span>. Chez Oelis, j'ai d&eacute;ploy&eacute; des environnements <span class="hl">Microsoft 365</span> pour les clients.</p>
+        <br>
+        <p><span class="sub">Accompagner les utilisateurs dans la mise en place d'un service</span> &mdash; J'ai r&eacute;dig&eacute; la documentation technique associ&eacute;e, form&eacute; les utilisateurs &agrave; Microsoft 365 et assur&eacute; le support apr&egrave;s le d&eacute;ploiement via le syst&egrave;me de ticketing.</p>
+        <br>
+        <p><strong>R&eacute;sultat : des services fonctionnels, bien document&eacute;s et adopt&eacute;s par les utilisateurs.</strong></p>
+      </div>
+    </div>
+
+    <!-- C6 -->
+    <div class="prompteur__section" data-section="6">
+      <div class="prompteur__label prompteur__label--pink">C6 &mdash; Organiser son d&eacute;veloppement professionnel &mdash; Personnel</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Pour ce dernier bloc, je vais aborder quatre axes de mon d&eacute;veloppement professionnel.</p>
+        <br>
+        <p><span class="sub">Mettre en place son environnement d'apprentissage</span> &mdash; Pour l'apprentissage, j'organise mes ressources sur <span class="hl">kDrive</span> et j'ai mont&eacute; un homelab sous <span class="hl">Proxmox</span> avec pfSense, Docker et Grafana, qui me permet d'exp&eacute;rimenter en dehors du cadre professionnel. Je suis &eacute;galement des formations en ligne.</p>
+        <br>
+        <p><span class="sub">Mettre en &oelig;uvre des outils et strat&eacute;gies de veille</span> &mdash; Pour la veille, j'utilise <span class="hl">Feedly</span>, les publications de l'<span class="hl">ANSSI</span> et du <span class="hl">CERT-FR</span>. J'ai r&eacute;dig&eacute; deux veilles document&eacute;es, chacune avec six sources v&eacute;rifi&eacute;es.</p>
+        <br>
+        <p><span class="sub">G&eacute;rer son identit&eacute; professionnelle</span> &mdash; J'ai construit mon identit&eacute; professionnelle &agrave; travers mon profil <span class="hl">LinkedIn</span>, mon portfolio h&eacute;berg&eacute; sur <span class="hl">GitHub Pages</span>, et mon projet <span class="hl">Cryptalys</span>.</p>
+        <br>
+        <p><span class="sub">D&eacute;velopper son projet professionnel</span> &mdash; Pour la suite, je vise un <strong>Bachelor AIS</strong>, le titre professionnel d'Administrateur d'Infrastructures S&eacute;curis&eacute;es, RNCP 37680, en 2026. Ensuite, je souhaite me sp&eacute;cialiser avec un dipl&ocirc;me d'<strong>Expert en Cybers&eacute;curit&eacute;</strong>, RNCP 36399. Mon objectif &agrave; terme est de devenir analyste SOC ou ing&eacute;nieur s&eacute;curit&eacute;.</p>
+      </div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="prompteur__section" data-section="7">
+      <div class="prompteur__label">Conclusion &mdash; 1 minute</div>
+      <div class="prompteur__divider"></div>
+      <div class="prompteur__text">
+        <p>Pour conclure, ces deux ann&eacute;es de BTS SIO chez Oelis m'ont permis de <strong>valider l'ensemble des comp&eacute;tences</strong> du r&eacute;f&eacute;rentiel.</p>
+        <br>
+        <p>Mon exp&eacute;rience dans l'arm&eacute;e m'a apport&eacute; la <strong>rigueur</strong> et une v&eacute;ritable <strong>culture de la s&eacute;curit&eacute;</strong>.</p>
+        <br>
+        <p>L'alternance chez Oelis m'a permis de d&eacute;velopper une r&eacute;elle <strong>polyvalence technique</strong> au contact de clients vari&eacute;s.</p>
+        <br>
+        <p>Mes projets personnels, comme Cryptalys, mon homelab et ce portfolio, t&eacute;moignent de mon <strong>autonomie</strong> et de ma motivation.</p>
+        <br>
+        <p>Ma prochaine &eacute;tape sera le <strong>Bachelor AIS</strong>, puis un dipl&ocirc;me d'<strong>Expert en Cybers&eacute;curit&eacute;</strong>.</p>
+        <br>
+        <p>Mon objectif &agrave; terme est de devenir <strong>analyste SOC</strong> ou <strong>ing&eacute;nieur s&eacute;curit&eacute;</strong>.</p>
+        <br>
+        <p><strong>Je vous remercie pour votre attention. Je suis disponible pour r&eacute;pondre &agrave; vos questions.</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  var scrollEl = document.getElementById('scrollContent');
+  var timerEl = document.getElementById('timer');
+  var progressBar = document.getElementById('progressBar');
+  var btnPlay = document.getElementById('btnPlay');
+  var speedSlider = document.getElementById('speedSlider');
+  var speedVal = document.getElementById('speedVal');
+  var startOverlay = document.getElementById('startOverlay');
+  var sectionInds = document.querySelectorAll('.section-ind');
+  var sections = document.querySelectorAll('.prompteur__section');
+
+  var isRunning = false;
+  var elapsed = 0;
+  var timerInterval = null;
+  var scrollPos = 0;
+  var speed = 1.0;
+  var totalDuration = 600; // 10 min
+  var scrollSpeed = 0.38; // px per frame at speed 1.0
+  var animFrame = null;
+
+  // Calculate total scroll needed
+  function getTotalScroll() {
+    return scrollEl.scrollHeight - window.innerHeight + 200;
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function updateTimer() {
+    elapsed += 0.1;
+    timerEl.textContent = formatTime(elapsed);
+
+    var pct = Math.min((elapsed / totalDuration) * 100, 100);
+    progressBar.style.width = pct + '%';
+
+    if (elapsed >= totalDuration) {
+      timerEl.className = 'timer timer--over';
+      progressBar.className = 'progress-bar progress-bar--danger';
+    } else if (elapsed >= totalDuration * 0.9) {
+      timerEl.className = 'timer timer--danger';
+      progressBar.className = 'progress-bar progress-bar--danger';
+    } else if (elapsed >= totalDuration * 0.75) {
+      timerEl.className = 'timer timer--warning';
+      progressBar.className = 'progress-bar progress-bar--warning';
+    } else {
+      timerEl.className = 'timer';
+      progressBar.className = 'progress-bar';
+    }
+  }
+
+  function updateActiveSections() {
+    var viewTop = scrollPos + window.innerHeight * 0.35;
+    var activeIdx = 0;
+    sections.forEach(function(sec, i) {
+      var top = sec.offsetTop;
+      var bottom = top + sec.offsetHeight;
+      if (viewTop >= top && viewTop < bottom) {
+        sec.classList.add('prompteur__section--active');
+        activeIdx = i;
+      } else {
+        sec.classList.remove('prompteur__section--active');
+      }
+    });
+    sectionInds.forEach(function(ind, i) {
+      ind.classList.remove('section-ind--active', 'section-ind--done');
+      if (i === activeIdx) ind.classList.add('section-ind--active');
+      else if (i < activeIdx) ind.classList.add('section-ind--done');
+    });
+  }
+
+  function scrollLoop() {
+    if (!isRunning) return;
+    scrollPos += scrollSpeed * speed;
+    var maxScroll = getTotalScroll();
+    if (scrollPos > maxScroll) scrollPos = maxScroll;
+    scrollEl.style.transform = 'translateY(-' + scrollPos + 'px)';
+    updateActiveSections();
+    animFrame = requestAnimationFrame(scrollLoop);
+  }
+
+  function startTimer() {
+    if (!timerInterval) {
+      timerInterval = setInterval(updateTimer, 100);
+    }
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  window.startPrompter = function() {
+    startOverlay.classList.add('start-overlay--hidden');
+    isRunning = true;
+    btnPlay.textContent = 'Pause';
+    startTimer();
+    scrollLoop();
+  };
+
+  window.togglePlay = function() {
+    if (isRunning) {
+      isRunning = false;
+      stopTimer();
+      cancelAnimationFrame(animFrame);
+      btnPlay.textContent = 'Play';
+      btnPlay.className = 'btn btn--primary btn--sm';
+    } else {
+      isRunning = true;
+      startTimer();
+      scrollLoop();
+      btnPlay.textContent = 'Pause';
+      btnPlay.className = 'btn btn--primary btn--sm';
+    }
+  };
+
+  window.resetAll = function() {
+    isRunning = false;
+    stopTimer();
+    cancelAnimationFrame(animFrame);
+    elapsed = 0;
+    scrollPos = 0;
+    scrollEl.style.transform = 'translateY(0)';
+    timerEl.textContent = '00:00';
+    timerEl.className = 'timer';
+    progressBar.style.width = '0%';
+    progressBar.className = 'progress-bar';
+    btnPlay.textContent = 'Play';
+    updateActiveSections();
+    startOverlay.classList.remove('start-overlay--hidden');
+  };
+
+  speedSlider.addEventListener('input', function() {
+    speed = parseFloat(this.value);
+    speedVal.textContent = speed.toFixed(1) + 'x';
+  });
+
+  // Click section indicators to jump
+  sectionInds.forEach(function(ind) {
+    ind.addEventListener('click', function() {
+      var idx = parseInt(this.getAttribute('data-section'));
+      if (sections[idx]) {
+        scrollPos = sections[idx].offsetTop - window.innerHeight * 0.35;
+        if (scrollPos < 0) scrollPos = 0;
+        scrollEl.style.transform = 'translateY(-' + scrollPos + 'px)';
+        updateActiveSections();
+      }
+    });
+  });
+
+  // Keyboard controls
+  document.addEventListener('keydown', function(e) {
+    if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      if (startOverlay.classList.contains('start-overlay--hidden')) {
+        togglePlay();
+      } else {
+        startPrompter();
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      speed = Math.min(3, speed + 0.1);
+      speedSlider.value = speed;
+      speedVal.textContent = speed.toFixed(1) + 'x';
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      speed = Math.max(0.3, speed - 0.1);
+      speedSlider.value = speed;
+      speedVal.textContent = speed.toFixed(1) + 'x';
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      var cur = 0;
+      sections.forEach(function(s, i) { if (s.classList.contains('prompteur__section--active')) cur = i; });
+      if (cur < sections.length - 1) {
+        scrollPos = sections[cur + 1].offsetTop - window.innerHeight * 0.35;
+        scrollEl.style.transform = 'translateY(-' + scrollPos + 'px)';
+        updateActiveSections();
+      }
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      var cur2 = 0;
+      sections.forEach(function(s, i) { if (s.classList.contains('prompteur__section--active')) cur2 = i; });
+      if (cur2 > 0) {
+        scrollPos = sections[cur2 - 1].offsetTop - window.innerHeight * 0.35;
+        if (scrollPos < 0) scrollPos = 0;
+        scrollEl.style.transform = 'translateY(-' + scrollPos + 'px)';
+        updateActiveSections();
+      }
+    } else if (e.key === 'r' || e.key === 'R') {
+      resetAll();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
