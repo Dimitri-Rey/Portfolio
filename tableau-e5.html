@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de synthese E5 - Dimitri Rey</title>
+  <style>
+    @page {
+      size: A3 landscape;
+      margin: 12mm 10mm;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #1a1a1a;
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Header info */
+    .doc-header {
+      border: 2px solid #333;
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 6px;
+    }
+    .doc-header td {
+      padding: 5px 10px;
+      border: 1px solid #999;
+      font-size: 9pt;
+    }
+    .doc-header .title-cell {
+      text-align: center;
+      font-size: 12pt;
+      font-weight: bold;
+      padding: 8px;
+    }
+    .doc-header .subtitle-cell {
+      text-align: center;
+      font-size: 10pt;
+      font-weight: 600;
+      padding: 6px;
+      background: #f0f0f0;
+    }
+    .doc-header .session {
+      text-align: center;
+      font-weight: bold;
+      font-size: 10pt;
+      width: 140px;
+    }
+    .doc-header .label { font-weight: 600; }
+
+    /* Main table */
+    .synth {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #333;
+      table-layout: fixed;
+    }
+    .synth th, .synth td {
+      border: 1px solid #888;
+      padding: 3px 5px;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Column widths */
+    .synth .col-real  { width: 30%; text-align: left; }
+    .synth .col-period { width: 11%; }
+    .synth .col-c1 { width: 10%; }
+    .synth .col-c2 { width: 10%; }
+    .synth .col-c3 { width: 10%; }
+    .synth .col-c4 { width: 10%; }
+    .synth .col-c5 { width: 10%; }
+    .synth .col-c6 { width: 9%; }
+
+    /* Header cells */
+    .synth thead th {
+      background: #e8e8e8;
+      font-weight: 700;
+      font-size: 7.5pt;
+      padding: 4px 3px;
+    }
+    .synth thead .comp-header {
+      background: #d9e2f3;
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 6px 3px;
+    }
+    .synth thead .sub-header {
+      background: #f2f2f2;
+      font-size: 6.5pt;
+      font-weight: 400;
+      text-align: left;
+      padding: 4px 5px;
+      line-height: 1.4;
+      vertical-align: top;
+    }
+    .synth thead .corner {
+      background: #d9e2f3;
+      font-weight: 700;
+      font-size: 8pt;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* Green check */
+    .g {
+      background: #00B050 !important;
+    }
+
+    /* Section headers */
+    .section-row td {
+      background: #f5f5f5;
+      font-weight: 700;
+      font-size: 8.5pt;
+      text-align: left;
+      padding: 5px 8px;
+      border-top: 2px solid #555;
+    }
+
+    /* Data rows */
+    .synth tbody td {
+      font-size: 7.8pt;
+    }
+    .synth tbody .cell-real {
+      text-align: left;
+      padding: 3px 6px;
+      font-size: 7.5pt;
+      line-height: 1.35;
+    }
+    .synth tbody .cell-period {
+      font-size: 7pt;
+      color: #444;
+    }
+
+    /* Alternating rows */
+    .synth tbody tr:nth-child(even):not(.section-row) {
+      background: #fafafa;
+    }
+
+    /* Print button */
+    .no-print { text-align: center; margin: 16px 0; }
+    .no-print button {
+      padding: 10px 32px; font-size: 14px; font-weight: 600;
+      background: #2563eb; color: #fff; border: none; border-radius: 8px;
+      cursor: pointer;
+    }
+    .no-print button:hover { background: #1d4ed8; }
+    @media print {
+      .no-print { display: none; }
+      body { background: #fff; }
+    }
+
+    /* Screen preview */
+    @media screen {
+      body { padding: 20px; max-width: 1400px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="no-print">
+  <button onclick="window.print()">Imprimer / Exporter en PDF</button>
+  <p style="margin-top:8px;font-size:12px;color:#666;">Astuce : dans la boite de dialogue d'impression, choisir <strong>Enregistrer au format PDF</strong>, orientation <strong>Paysage</strong>, format <strong>A3</strong>.</p>
+</div>
+
+<!-- Document header -->
+<table class="doc-header">
+  <tr>
+    <td class="title-cell" colspan="6">BTS SERVICES INFORMATIQUES AUX ORGANISATIONS</td>
+    <td class="session">SESSION 2026</td>
+  </tr>
+  <tr>
+    <td class="subtitle-cell" colspan="7">Tableau de synth&egrave;se des r&eacute;alisations professionnelles</td>
+  </tr>
+  <tr>
+    <td colspan="5" class="label">NOM et pr&eacute;nom : REY Dimitri</td>
+    <td colspan="2" class="label">N&deg; candidat : 02343463847</td>
+  </tr>
+  <tr>
+    <td colspan="5" class="label">Centre de formation : P&ocirc;le Formation CFAI - AFPI Loire-Dr&ocirc;me-Ard&egrave;che</td>
+    <td class="label">Option :</td>
+    <td style="font-weight:700;">SISR</td>
+  </tr>
+  <tr>
+    <td colspan="7" class="label">Adresse URL du portfolio : https://dimitri-rey.github.io/portfolio</td>
+  </tr>
+</table>
+
+<!-- Synthesis table -->
+<table class="synth">
+  <colgroup>
+    <col class="col-real">
+    <col class="col-period">
+    <col class="col-c1">
+    <col class="col-c2">
+    <col class="col-c3">
+    <col class="col-c4">
+    <col class="col-c5">
+    <col class="col-c6">
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="corner" rowspan="2">R&eacute;alisations professionnelles<br><small style="font-weight:400;">(intitul&eacute; et liste des activit&eacute;s)</small></th>
+      <th class="corner" rowspan="2">P&eacute;riode</th>
+      <th class="comp-header">G&eacute;rer le patrimoine informatique</th>
+      <th class="comp-header">R&eacute;pondre aux incidents et aux demandes</th>
+      <th class="comp-header">D&eacute;velopper la pr&eacute;sence en ligne</th>
+      <th class="comp-header">Travailler en mode projet</th>
+      <th class="comp-header">Mettre &agrave; disposition un service</th>
+      <th class="comp-header">Organiser son d&eacute;veloppement professionnel</th>
+    </tr>
+    <tr>
+      <th class="sub-header">
+        &bull; Recenser et identifier les ressources num&eacute;riques<br>
+        &bull; Exploiter des r&eacute;f&eacute;rentiels, normes et standards<br>
+        &bull; Mettre en place et v&eacute;rifier les niveaux d'habilitation<br>
+        &bull; V&eacute;rifier la continuit&eacute; d'un service informatique<br>
+        &bull; G&eacute;rer des sauvegardes<br>
+        &bull; V&eacute;rifier le respect des r&egrave;gles d'utilisation
+      </th>
+      <th class="sub-header">
+        &bull; Collecter, suivre et orienter des demandes<br>
+        &bull; Traiter des demandes concernant les services r&eacute;seau et syst&egrave;me<br>
+        &bull; Traiter des demandes concernant les applications
+      </th>
+      <th class="sub-header">
+        &bull; Participer &agrave; la valorisation de l'image num&eacute;rique<br>
+        &bull; R&eacute;f&eacute;rencer les services en ligne et mesurer leur visibilit&eacute;<br>
+        &bull; Participer &agrave; l'&eacute;volution d'un site Web
+      </th>
+      <th class="sub-header">
+        &bull; Analyser les objectifs et modalit&eacute;s d'un projet<br>
+        &bull; Planifier les activit&eacute;s<br>
+        &bull; &Eacute;valuer les indicateurs de suivi et analyser les &eacute;carts
+      </th>
+      <th class="sub-header">
+        &bull; R&eacute;aliser les tests d'int&eacute;gration et d'acceptation<br>
+        &bull; D&eacute;ployer un service<br>
+        &bull; Accompagner les utilisateurs
+      </th>
+      <th class="sub-header">
+        &bull; Mettre en place son environnement d'apprentissage<br>
+        &bull; Mettre en &oelig;uvre des strat&eacute;gies de veille<br>
+        &bull; G&eacute;rer son identit&eacute; professionnelle<br>
+        &bull; D&eacute;velopper son projet professionnel
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- ===== FORMATION ===== -->
+    <tr class="section-row"><td colspan="8">R&eacute;alisations en cours de formation</td></tr>
+    <tr>
+      <td class="cell-real">Introduction au C# / Python / SQL / HTML, CSS, JS, PHP</td>
+      <td class="cell-period">1er semestre</td>
+      <td></td><td></td><td class="g"></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Introduction Github et Gitlab</td>
+      <td class="cell-period">1er semestre</td>
+      <td class="g"></td><td></td><td class="g"></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Utilisation environnement Linux / Windows / Windows Server / routeur / switch</td>
+      <td class="cell-period">Toute la formation</td>
+      <td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Active Directory, routeur Linux, serveur RDP, DFS/DHCP/DNS, Droits NTFS</td>
+      <td class="cell-period">Toute la formation</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place d'un serveur web avec Wamp</td>
+      <td class="cell-period">1er semestre</td>
+      <td></td><td></td><td class="g"></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Installation d'un serveur RustDesk</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Cr&eacute;ation serveur Minecraft (Linux, stockage, droits POSIX, FTPS, Apache/Nginx)</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Introduction et cr&eacute;ation script BASH</td>
+      <td class="cell-period">2nd semestre</td>
+      <td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">R&eacute;seau HP A5120 (trunk, Spanning Tree, VLANs, Inter-VLANs, routage dynamique)</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place de serveur Nginx / Haproxy / Nextcloud</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place de VHost / KeepAlived</td>
+      <td class="cell-period">Toute la formation</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Droits NTFS/DFS</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Utilisation approfondie Linux (Web, Docker, SystemD, Fstab, Fdisk)</td>
+      <td class="cell-period">3&egrave;me semestre</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place d'un serveur IIS</td>
+      <td class="cell-period">3&egrave;me semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">MariaDB et redondance de base de donn&eacute;es</td>
+      <td class="cell-period">3&egrave;me semestre</td>
+      <td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Challenge Keepass / KeepassXC</td>
+      <td class="cell-period">2nd semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">TP bash sur Crontab et LogRotate</td>
+      <td class="cell-period">3&egrave;me semestre</td>
+      <td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Gestion de Projet avec ProjectLibre</td>
+      <td class="cell-period">2nd semestre</td>
+      <td></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">TAE &mdash; Cr&eacute;ation d'un Portfolio</td>
+      <td class="cell-period">3&egrave;me et 4&egrave;me sem.</td>
+      <td></td><td></td><td></td><td></td><td></td><td class="g"></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Introduction Docker / SFTP</td>
+      <td class="cell-period">2nd et 3&egrave;me sem.</td>
+      <td></td><td></td><td class="g"></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Introduction &agrave; LVM / Snapshot</td>
+      <td class="cell-period">3&egrave;me semestre</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Projet FlopSecurity MySQL</td>
+      <td class="cell-period">1er semestre</td>
+      <td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place de serveur GLPI / Grafana / Zabbix</td>
+      <td class="cell-period">Toute la formation</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+
+    <!-- ===== PRO 1ERE ANNEE ===== -->
+    <tr class="section-row"><td colspan="8">R&eacute;alisations en milieu professionnel &mdash; 1&egrave;re ann&eacute;e</td></tr>
+    <tr>
+      <td class="cell-real">Gestion des tickets d'incidents et demandes (GLPI + ticketing interne)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Installation mat&eacute;riel et &eacute;quipement (r&eacute;seaux, t&eacute;l&eacute;phonie, VoIP 3CX)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Documentation technique</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Administration Windows Server (AD, GPO, DHCP, DNS)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Configuration switches et routeurs (Cisco, MikroTik, Alcatel, HPE)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Configuration firewalls (Fortinet, Stormshield)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Administration clusters VMware et Hyper-V</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Mise en place solutions de backup (Veeam, Synology)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Script PowerShell &mdash; Automatisation</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Impl&eacute;mentation solutions Cloud (Microsoft 365, Azure AD)</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Suivi de projet</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td></td><td></td><td class="g"></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Veille technologique</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td>
+    </tr>
+    <tr>
+      <td class="cell-real">D&eacute;placement technique</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Migration serveurs</td>
+      <td class="cell-period">1&egrave;re ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+
+    <!-- ===== PRO 2EME ANNEE ===== -->
+    <tr class="section-row"><td colspan="8">R&eacute;alisations en milieu professionnel &mdash; 2&egrave;me ann&eacute;e</td></tr>
+    <tr>
+      <td class="cell-real">Gestion des tickets d'incidents et demandes (GLPI + ticketing interne)</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Configuration switches et routeurs (Cisco, MikroTik, Alcatel, HPE)</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Documentation technique et proc&eacute;dures</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Administration Windows Server (AD, GPO, DHCP, DNS)</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Administration clusters VMware et Hyper-V</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Configuration switches et routeurs (Cisco, MikroTik, Alcatel, HPE)</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Installation serveurs + VM</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Suivi de projet</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">D&eacute;placement technique</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td class="g"></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Script PowerShell</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Impl&eacute;mentation solutions Cloud</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Veille technologique</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td>
+    </tr>
+    <tr>
+      <td class="cell-real">Migration serveurs</td>
+      <td class="cell-period">2&egrave;me ann&eacute;e</td>
+      <td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td>
+    </tr>
+
+  </tbody>
+</table>
+
+</body>
+</html>
