@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Guide complet E5 — Dimitri Rey</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #0a0a0a;
+      --bg2:     #111;
+      --bg3:     #181818;
+      --border:  #1e1e1e;
+      --text:    #e0e0e0;
+      --muted:   #666;
+      --dim:     #333;
+      --blue:    #3b82f6;
+      --green:   #22c55e;
+      --orange:  #f59e0b;
+      --purple:  #a855f7;
+      --cyan:    #06b6d4;
+      --pink:    #ec4899;
+      --red:     #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── STICKY HEADER ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .header h1 { font-size: 1rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .header h1 span { color: var(--blue); }
+
+    .search-wrap { flex: 1; min-width: 200px; max-width: 400px; position: relative; }
+    .search-wrap input {
+      width: 100%;
+      padding: 8px 14px 8px 36px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .85rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .search-wrap input:focus { border-color: var(--blue); }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap::before {
+      content: '🔍';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .8rem;
+    }
+    .search-count { font-size: .75rem; color: var(--muted); white-space: nowrap; }
+
+    /* ── NAV PILLS ── */
+    .nav {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 32px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      flex-wrap: wrap;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a {
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .nav a:hover { color: var(--text); border-color: var(--dim); }
+
+    /* ── MAIN ── */
+    .main { max-width: 960px; margin: 0 auto; padding: 40px 32px 80px; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 60px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-badge {
+      font-size: .8rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 6px;
+      color: #fff;
+      letter-spacing: .04em;
+      flex-shrink: 0;
+    }
+    .section-title { font-size: 1.3rem; font-weight: 700; }
+    .section-sub { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── CARDS ── */
+    .cards { display: grid; gap: 12px; }
+
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--dim); }
+
+    .card-term {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .card-tag {
+      font-size: .68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg3);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .card-def {
+      font-size: .88rem;
+      color: #aaa;
+      line-height: 1.55;
+    }
+    .card-def strong { color: var(--text); }
+    .card-context {
+      margin-top: 10px;
+      font-size: .8rem;
+      color: var(--muted);
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    /* ── Q&A ── */
+    .qa-list { display: grid; gap: 10px; }
+    .qa {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .qa-q {
+      padding: 14px 20px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+      transition: background .15s;
+    }
+    .qa-q:hover { background: var(--bg3); }
+    .qa-q::after { content: '▾'; font-size: .85rem; color: var(--muted); flex-shrink: 0; transition: transform .2s; }
+    .qa.open .qa-q::after { transform: rotate(180deg); }
+    .qa-a {
+      display: none;
+      padding: 0 20px 16px;
+      font-size: .85rem;
+      color: #999;
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .qa.open .qa-a { display: block; }
+    .qa-a strong { color: var(--text); }
+
+    /* ── HIGHLIGHT on search ── */
+    mark { background: rgba(59,130,246,.25); color: var(--blue); border-radius: 2px; }
+
+    /* ── HIDDEN on search ── */
+    .card.hidden, .qa.hidden { display: none; }
+
+    /* ── SECTION HIDDEN ── */
+    .section.all-hidden .cards, .section.all-hidden .qa-list { display: none; }
+    .section.all-hidden .section-header { opacity: .3; }
+
+    /* ── COLOR VARIANTS ── */
+    .blue   { background: var(--blue);   }
+    .green  { background: var(--green);  }
+    .orange { background: var(--orange); }
+    .purple { background: var(--purple); }
+    .cyan   { background: var(--cyan);   }
+    .pink   { background: var(--pink);   }
+    .red    { background: var(--red);    }
+    .gray   { background: #475569; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin: 20px 0 10px;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      .header, .nav { position: static; }
+      .search-wrap { display: none; }
+      body { background: #fff; color: #000; }
+      .card, .qa { border-color: #ddd; background: #fafafa; }
+      .qa-a { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Guide E5 &mdash; <span>Dimitri Rey</span></h1>
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Rechercher un terme, un outil..." oninput="filterAll(this.value)" autocomplete="off">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="#parcours">Parcours</a>
+  <a href="#oelis">Oelis</a>
+  <a href="#c1">C1 — Patrimoine</a>
+  <a href="#c2">C2 — Incidents</a>
+  <a href="#c3">C3 — En ligne</a>
+  <a href="#c4">C4 — Projet</a>
+  <a href="#c5">C5 — Services</a>
+  <a href="#c6">C6 — Dev pro</a>
+  <a href="#veille-ia">Veille IA</a>
+  <a href="#veille-pq">Veille Post-quantique</a>
+  <a href="#jury">Questions jury</a>
+</div>
+
+<div class="main">
+
+  <!-- ═══════════════════════════════════════════ PARCOURS -->
+  <div class="section" id="parcours">
+    <div class="section-header">
+      <div class="section-badge gray">MOI</div>
+      <div>
+        <div class="section-title">Mon parcours</div>
+        <div class="section-sub">Ce que je dis dans l'introduction</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Armée de Terre (2017–2021) <span class="card-tag">4 ans</span></div>
+        <div class="card-def">Technicien helpdesk dans un environnement <strong>classifié</strong>. Support informatique en milieu militaire, où la rigueur et la sécurité sont non-négociables. C'est là que j'ai acquis la discipline et la culture de la sécurité.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Conseil départemental du Doubs (2022–2023) <span class="card-tag">2 ans</span></div>
+        <div class="card-def">Technicien helpdesk sur un parc de <strong>plusieurs centaines de postes</strong>. Gestion des incidents du quotidien dans une collectivité territoriale.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">BTS SIO SISR au CFAI LDA <span class="card-tag">2024–2026</span></div>
+        <div class="card-def"><strong>BTS SIO</strong> = Brevet de Technicien Supérieur Services Informatiques aux Organisations. Option <strong>SISR</strong> = Solutions d'Infrastructure, Systèmes et Réseaux. Formation en alternance au CFAI LDA (Centre de Formation par Alternance).</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Profil différenciant</div>
+        <div class="card-def">À la différence d'un étudiant classique, j'arrive avec <strong>6 ans d'expérience terrain</strong> avant mon BTS. L'armée m'a apporté rigueur, gestion de la pression et culture de la sécurité. Le Doubs m'a donné une vision des grandes infrastructures publiques.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ OELIS -->
+  <div class="section" id="oelis">
+    <div class="section-header">
+      <div class="section-badge blue">OELIS</div>
+      <div>
+        <div class="section-title">Mon entreprise d'alternance</div>
+        <div class="section-sub">Saint-Étienne — Infogérance, VoIP, Cybersécurité</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Oelis</div>
+        <div class="card-def">Prestataire informatique basé à Saint-Étienne, spécialisé en <strong>infogérance</strong>, <strong>VoIP</strong> et <strong>cybersécurité</strong>. Accompagne des PME, des grandes entreprises et des collectivités territoriales.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Infogérance</div>
+        <div class="card-def">Externalisation de tout ou partie de la gestion informatique d'une entreprise. Oelis <strong>gère le SI de ses clients</strong> à leur place : serveurs, réseau, postes, sécurité. Le client paye un abonnement mensuel.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Mon rôle chez Oelis</div>
+        <div class="card-def">Support de <strong>niveau 1 et 2</strong>, en tant que helpdesk et administrateur systèmes et réseaux. J'interviens sur les incidents des clients, je déploie des services, je gère les sauvegardes et les droits d'accès.</div>
+        <div class="card-context">→ Si le jury demande : "Vous êtes salarié ou alternant ?" → alternant, contrat d'apprentissage</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Support N1 (Niveau 1)</div>
+        <div class="card-def">Premier niveau de support : traitement des incidents <strong>courants et simples</strong>. Exemples : réinitialisation de mot de passe, problème d'imprimante, connexion réseau. On résout ou on escalade au N2.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Support N2 (Niveau 2)</div>
+        <div class="card-def">Deuxième niveau de support : incidents <strong>plus complexes</strong> nécessitant une expertise technique. Exemples : problème de serveur, configuration firewall, dépannage réseau avancé.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C1 -->
+  <div class="section" id="c1">
+    <div class="section-header">
+      <div class="section-badge green">C1</div>
+      <div>
+        <div class="section-title">Gérer le patrimoine informatique</div>
+        <div class="section-sub">Inventaire, droits, sauvegardes, continuité de service — chez Oelis</div>
+      </div>
+    </div>
+    <div class="divider">Outils et concepts utilisés</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Lansweeper <span class="card-tag">Inventaire</span></div>
+        <div class="card-def">Logiciel d'<strong>inventaire automatique</strong> du parc informatique. Il scanne le réseau et référence tous les équipements : serveurs, postes de travail, switches, imprimantes, licences logicielles. Utile pour avoir une vue complète de ce que possède un client.</div>
+        <div class="card-context">→ Utilisé pour : recenser et identifier les ressources numériques des clients d'Oelis</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Active Directory (AD) <span class="card-tag">Droits d'accès</span></div>
+        <div class="card-def">Service Microsoft qui centralise la <strong>gestion des utilisateurs, des groupes et des droits d'accès</strong> dans un réseau Windows. Quand quelqu'un se connecte à son PC au bureau, c'est l'AD qui vérifie son identité et ses droits.</div>
+        <div class="card-context">→ Utilisé pour : créer des groupes, déployer des GPO, auditer les accès trop permissifs</div>
+      </div>
+      <div class="card">
+        <div class="card-term">GPO (Group Policy Object) <span class="card-tag">Droits d'accès</span></div>
+        <div class="card-def">Règles de sécurité et de configuration appliquées <strong>automatiquement</strong> à des groupes d'utilisateurs ou d'ordinateurs via Active Directory. Exemples : interdire l'accès aux paramètres système, forcer un fond d'écran, bloquer les clés USB.</div>
+        <div class="card-context">→ Déployées via Active Directory pour standardiser et sécuriser les postes clients</div>
+      </div>
+      <div class="card">
+        <div class="card-term">ITIL <span class="card-tag">Bonnes pratiques</span></div>
+        <div class="card-def">Référentiel international de <strong>bonnes pratiques</strong> pour la gestion des services informatiques. Ce n'est pas un logiciel mais un ensemble de recommandations sur comment gérer les incidents, les changements, les actifs IT, etc.</div>
+        <div class="card-context">→ Utilisé comme base pour rédiger les procédures internes chez Oelis</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Hyper-V <span class="card-tag">Virtualisation</span></div>
+        <div class="card-def">Hyperviseur Microsoft intégré dans Windows Server qui permet de créer des <strong>machines virtuelles</strong> (VM). Grâce à la virtualisation, on peut faire tourner plusieurs serveurs virtuels sur une seule machine physique, et assurer la redondance.</div>
+        <div class="card-context">→ Utilisé pour mettre en place de la redondance et réaliser des tests de PRA</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Machine Virtuelle (VM) <span class="card-tag">Virtualisation</span></div>
+        <div class="card-def">Ordinateur simulé qui tourne à l'intérieur d'un ordinateur physique. Une VM se comporte comme un vrai serveur mais n'existe que sous forme logicielle. On peut en créer plusieurs sur une même machine, les démarrer/arrêter, les cloner.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">PRA (Plan de Reprise d'Activité) <span class="card-tag">Continuité</span></div>
+        <div class="card-def">Ensemble de procédures qui permettent à une organisation de <strong>reprendre son activité</strong> après un sinistre (panne serveur, incendie, cyberattaque). Le PRA définit ce qu'on fait, dans quel ordre, et avec quels outils.</div>
+        <div class="card-context">→ J'ai réalisé des tests de PRA avec basculement en 5 minutes (VM Hyper-V)</div>
+      </div>
+      <div class="card">
+        <div class="card-term">RTO (Recovery Time Objective) <span class="card-tag">Continuité</span></div>
+        <div class="card-def">Durée <strong>maximale acceptable</strong> pour reprendre l'activité après un incident. Si le RTO est de 30 minutes, ça veut dire que les serveurs doivent être à nouveau opérationnels en moins de 30 minutes. Plus le RTO est court, mieux c'est.</div>
+        <div class="card-context">→ J'ai réduit le RTO de 4 heures à 30 minutes grâce aux tests de restauration Veeam</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Veeam <span class="card-tag">Sauvegarde</span></div>
+        <div class="card-def">Logiciel spécialisé dans la <strong>sauvegarde et la restauration</strong> de machines virtuelles et de serveurs. Il crée des copies régulières des données et permet de les restaurer rapidement en cas de problème.</div>
+        <div class="card-context">→ Configurer les sauvegardes avec rétention 7 jours (quotidienne) et 30 jours (hebdomadaire)</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Synology <span class="card-tag">Sauvegarde</span></div>
+        <div class="card-def">Fabricant de <strong>NAS</strong> (Network Attached Storage = serveur de stockage réseau). Chez Oelis, on utilise des NAS Synology pour stocker les sauvegardes Veeam, en local chez le client.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">NAS (Network Attached Storage) <span class="card-tag">Stockage</span></div>
+        <div class="card-def">Serveur de fichiers connecté au réseau, accessible par tous les postes. Sert à <strong>centraliser le stockage</strong> et les sauvegardes. Moins cher et plus simple qu'un serveur dédié.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">SLA (Service Level Agreement) <span class="card-tag">Contrat</span></div>
+        <div class="card-def">Contrat qui définit les <strong>engagements de qualité de service</strong> entre Oelis et ses clients. Il précise notamment : les temps de réponse maximaux (ex : répondre en moins de 1h), les temps de résolution, la disponibilité garantie des services.</div>
+        <div class="card-context">→ Tous les tickets sont résolus dans les délais SLA définis avec chaque client</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Rétention des sauvegardes</div>
+        <div class="card-def">Durée pendant laquelle on <strong>conserve les copies de sauvegarde</strong>. Chez Oelis : 7 jours pour les sauvegardes quotidiennes (on peut remonter à hier, avant-hier...) et 30 jours pour les hebdomadaires. Après ce délai, les vieilles sauvegardes sont supprimées.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C2 -->
+  <div class="section" id="c2">
+    <div class="section-header">
+      <div class="section-badge green">C2</div>
+      <div>
+        <div class="section-title">Répondre aux incidents et aux demandes</div>
+        <div class="section-sub">Ticketing, réseau, système, applicatif — chez Oelis</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Ticketing <span class="card-tag">Gestion incidents</span></div>
+        <div class="card-def">Système informatique qui <strong>enregistre et suit chaque demande ou incident</strong> sous forme de "ticket". Chaque ticket a un numéro, une priorité, un responsable, un statut (ouvert, en cours, résolu). Permet de ne rien oublier et de tracer toutes les interventions.</div>
+        <div class="card-context">→ Chez Oelis, je qualifie l'urgence/impact, j'assigne le ticket et je le suis jusqu'à résolution</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Qualification d'un incident</div>
+        <div class="card-def">Étape où on analyse un ticket pour déterminer son <strong>urgence</strong> (à quel point c'est pressé ?) et son <strong>impact</strong> (combien de personnes/services sont affectés ?). Ça permet de prioriser les interventions.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Switch Cisco <span class="card-tag">Réseau</span></div>
+        <div class="card-def">Équipement réseau qui <strong>relie les appareils</strong> d'un réseau local (LAN). Cisco est le leader mondial des équipements réseau. Un switch dirige les paquets de données vers le bon destinataire sur le réseau interne.</div>
+        <div class="card-context">→ J'interviens sur la configuration des switches Cisco (VLAN, ports, spanning tree...)</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Firewall / Pare-feu <span class="card-tag">Sécurité réseau</span></div>
+        <div class="card-def">Équipement qui <strong>filtre le trafic réseau</strong> selon des règles de sécurité. Il décide ce qui peut entrer et sortir du réseau. C'est la "porte de sécurité" entre Internet et le réseau interne de l'entreprise.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Fortinet <span class="card-tag">Firewall</span></div>
+        <div class="card-def">Constructeur américain de firewalls et solutions de sécurité réseau. Ses produits FortiGate sont très utilisés en entreprise. <strong>Leader mondial</strong> de la cybersécurité réseau.</div>
+        <div class="card-context">→ J'interviens sur les firewalls Fortinet des clients d'Oelis</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Stormshield <span class="card-tag">Firewall</span></div>
+        <div class="card-def">Constructeur <strong>français</strong> de firewalls et solutions de cybersécurité. Filiale d'Airbus, certifié par l'ANSSI. Très utilisé dans les secteurs sensibles (défense, collectivités) car d'origine européenne.</div>
+        <div class="card-context">→ Différence avec Fortinet : Stormshield est français, certifié ANSSI, préféré pour les données sensibles</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Splashtop <span class="card-tag">Télémaintenance</span></div>
+        <div class="card-def">Logiciel de <strong>prise de contrôle à distance</strong> d'un ordinateur. Permet à un technicien d'intervenir sur le poste d'un utilisateur sans se déplacer, comme s'il était devant le clavier.</div>
+        <div class="card-context">→ Utilisé pour intervenir à distance sur les postes des clients d'Oelis</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Microsoft 365 <span class="card-tag">Suite bureautique</span></div>
+        <div class="card-def">Suite d'outils Microsoft accessible en <strong>cloud</strong> : Word, Excel, PowerPoint, Outlook (email), Teams (messagerie), OneDrive (stockage), SharePoint (partage de fichiers). Les entreprises paient un abonnement mensuel par utilisateur.</div>
+        <div class="card-context">→ Je gère les demandes liées à M365 : création de comptes, problèmes Teams, licences...</div>
+      </div>
+      <div class="card">
+        <div class="card-term">VoIP (Voice over IP) <span class="card-tag">Téléphonie</span></div>
+        <div class="card-def">Technologie de <strong>téléphonie via Internet</strong>. Au lieu d'utiliser les lignes téléphoniques classiques, les appels transitent par le réseau IP. Moins coûteux, plus flexible, fonctionnalités avancées (conférence, renvoi...).</div>
+      </div>
+      <div class="card">
+        <div class="card-term">3CX <span class="card-tag">VoIP</span></div>
+        <div class="card-def">Solution de <strong>téléphonie VoIP</strong> très répandue en PME. C'est un IPBX (standard téléphonique IP) qui gère les appels internes et externes d'une entreprise via Internet.</div>
+        <div class="card-context">→ Oelis déploie et maintient des systèmes 3CX chez ses clients</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Base de connaissances <span class="card-tag">Documentation</span></div>
+        <div class="card-def">Documentation interne qui référence les <strong>solutions aux problèmes déjà rencontrés</strong>. Quand un ticket est résolu, on documente la solution. La prochaine fois que le même problème survient, le technicien peut s'y référer pour résoudre plus vite.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C3 -->
+  <div class="section" id="c3">
+    <div class="section-header">
+      <div class="section-badge orange">C3</div>
+      <div>
+        <div class="section-title">Développer la présence en ligne</div>
+        <div class="section-sub">Portfolio HTML/JS + elanvertical.fr WordPress — perso</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">HTML / CSS / JavaScript <span class="card-tag">Développement web</span></div>
+        <div class="card-def"><strong>HTML</strong> = structure de la page (titres, paragraphes, images). <strong>CSS</strong> = mise en forme (couleurs, polices, mise en page). <strong>JavaScript</strong> = interactivité (animations, menus, formulaires). C'est la base du web.</div>
+        <div class="card-context">→ Mon portfolio est entièrement codé à la main en HTML/CSS/JS, sans framework</div>
+      </div>
+      <div class="card">
+        <div class="card-term">GitHub Pages <span class="card-tag">Hébergement</span></div>
+        <div class="card-def">Service d'hébergement <strong>gratuit</strong> proposé par GitHub pour les sites web statiques. Il suffit de déposer ses fichiers HTML/CSS/JS sur un dépôt GitHub pour que le site soit accessible en ligne. URL : dimitri-rey.github.io/Portfolio</div>
+        <div class="card-context">→ Mon portfolio est hébergé sur GitHub Pages, ce qui démontre ma maîtrise de Git</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Git <span class="card-tag">Gestion de versions</span></div>
+        <div class="card-def">Logiciel de <strong>gestion de versions</strong> du code. Il garde l'historique de toutes les modifications, permet de revenir en arrière, de travailler en équipe sans écraser le travail des autres. Commandes de base : git add, git commit, git push.</div>
+        <div class="card-context">→ J'utilise Git pour gérer le code de mon portfolio et le déployer sur GitHub Pages</div>
+      </div>
+      <div class="card">
+        <div class="card-term">WordPress <span class="card-tag">CMS</span></div>
+        <div class="card-def">CMS (<strong>Content Management System</strong> = système de gestion de contenu). Permet de créer un site web sans coder, via une interface graphique. Très populaire (43% des sites mondiaux). Utilisé pour elanvertical.fr.</div>
+        <div class="card-context">→ J'ai créé et maintiens le site elanvertical.fr (club d'escalade) sous WordPress</div>
+      </div>
+      <div class="card">
+        <div class="card-term">RGPD <span class="card-tag">Légal</span></div>
+        <div class="card-def">Règlement Général sur la <strong>Protection des Données</strong>. Loi européenne (2018) qui encadre la collecte et l'utilisation des données personnelles. Tout site web doit informer les utilisateurs des données collectées et obtenir leur consentement.</div>
+        <div class="card-context">→ J'ai intégré les mentions légales et la conformité RGPD sur les deux sites</div>
+      </div>
+      <div class="card">
+        <div class="card-term">SEO (Search Engine Optimization) <span class="card-tag">Référencement</span></div>
+        <div class="card-def">Ensemble de techniques pour améliorer le <strong>référencement naturel</strong> d'un site sur Google. Plus le SEO est bon, plus le site apparaît en haut des résultats de recherche. Techniques : balises meta, HTML sémantique, vitesse de chargement, mots-clés.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Balises meta <span class="card-tag">SEO</span></div>
+        <div class="card-def">Informations dans le code HTML, <strong>invisibles sur la page</strong> mais lues par Google. La balise meta description (160 caractères résumant la page) apparaît dans les résultats de recherche. La balise title définit le titre affiché dans l'onglet du navigateur.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">HTML sémantique <span class="card-tag">SEO / Accessibilité</span></div>
+        <div class="card-def">Utilisation des <strong>bonnes balises HTML</strong> pour décrire le sens du contenu. Ex : &lt;header&gt; pour l'en-tête, &lt;nav&gt; pour la navigation, &lt;article&gt; pour un article. Google comprend mieux la structure de la page, ce qui améliore le référencement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C4 -->
+  <div class="section" id="c4">
+    <div class="section-header">
+      <div class="section-badge purple">C4</div>
+      <div>
+        <div class="section-title">Travailler en mode projet</div>
+        <div class="section-sub">Migration de serveurs — chez Oelis</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Migration de serveurs <span class="card-tag">Projet</span></div>
+        <div class="card-def">Transfert des données, applications et services d'un <strong>ancien serveur vers un nouveau</strong>. Opération délicate car une erreur peut entraîner une perte de données ou une interruption de service. Se planifie rigoureusement.</div>
+        <div class="card-context">→ J'ai mené des projets de migration de serveurs chez des clients d'Oelis</div>
+      </div>
+      <div class="card">
+        <div class="card-term">ProjectLibre <span class="card-tag">Gestion de projet</span></div>
+        <div class="card-def">Logiciel de gestion de projet <strong>open source</strong>, équivalent gratuit de Microsoft Project. Permet de créer un planning, définir des tâches, les assigner, calculer les durées et générer un diagramme de Gantt.</div>
+        <div class="card-context">→ Utilisé pour planifier la migration : tâches, jalons, estimations de durée</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Diagramme de Gantt <span class="card-tag">Gestion de projet</span></div>
+        <div class="card-def">Représentation graphique d'un <strong>planning de projet</strong> sous forme de barres horizontales sur une frise chronologique. Chaque barre représente une tâche, sa longueur indique sa durée. Permet de visualiser rapidement l'avancement et les dépendances.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Jalon <span class="card-tag">Gestion de projet</span></div>
+        <div class="card-def"><strong>Étape clé</strong> d'un projet, sans durée propre, qui marque une date importante. Exemples : "Serveur livré", "Tests validés", "Mise en production". Permet de suivre l'avancement global du projet.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Gestion des écarts <span class="card-tag">Gestion de projet</span></div>
+        <div class="card-def">Capacité à <strong>identifier et corriger</strong> les différences entre ce qui était prévu et ce qui se passe réellement. Exemple vécu : incompatibilité matérielle → retard de 2 jours → solution : VM temporaire + ajustement du planning.</div>
+        <div class="card-context">→ Point clé pour le jury : montrer qu'on sait s'adapter quand un projet déraille</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Contraintes de la migration</div>
+        <div class="card-def">Pour ce projet : maintenance uniquement le <strong>week-end</strong> (pour ne pas perturber les utilisateurs) et garantir la <strong>compatibilité avec les applications métier</strong> (logiciels spécifiques du client).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C5 -->
+  <div class="section" id="c5">
+    <div class="section-header">
+      <div class="section-badge cyan">C5</div>
+      <div>
+        <div class="section-title">Mettre à disposition un service</div>
+        <div class="section-sub">Tests d'intégration, déploiement, formation — formation + Oelis</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">MikroTik <span class="card-tag">Réseau</span></div>
+        <div class="card-def">Constructeur letton de <strong>routeurs et équipements réseau</strong>. Ses produits RouterOS sont très utilisés en PME et chez les prestataires. Moins cher que Cisco mais très puissant, avec de nombreuses fonctionnalités réseau.</div>
+        <div class="card-context">→ J'ai réalisé des tests d'intégration sur un routeur MikroTik : connectivité, latence, chiffrement</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Tests d'intégration <span class="card-tag">Qualité</span></div>
+        <div class="card-def">Vérification qu'un <strong>nouveau service ou équipement fonctionne correctement</strong> avec le reste du système. On teste la connectivité, les performances, la sécurité. On rédige un rapport pour documenter les résultats et valider la mise en production.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Nginx <span class="card-tag">Serveur web</span></div>
+        <div class="card-def">Serveur web open source très performant. Peut servir des pages web (<strong>hébergement de sites</strong>), agir comme reverse proxy, ou répartir la charge. Alternative à Apache, réputé pour sa rapidité et sa faible consommation de ressources.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Nextcloud <span class="card-tag">Stockage cloud</span></div>
+        <div class="card-def">Solution de stockage et partage de fichiers <strong>auto-hébergée</strong>. Alternative à Google Drive ou OneDrive, mais installée sur ses propres serveurs. Idéal pour garder le contrôle de ses données.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Docker <span class="card-tag">Conteneurisation</span></div>
+        <div class="card-def">Outil qui permet de <strong>packager une application et toutes ses dépendances</strong> dans un "conteneur" portable. Le conteneur fonctionne de façon identique sur n'importe quelle machine. Simplifie grandement le déploiement d'applications.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Conteneur (Docker) <span class="card-tag">Conteneurisation</span></div>
+        <div class="card-def">Environnement <strong>isolé et léger</strong> qui contient une application et tout ce dont elle a besoin pour fonctionner. Plus léger qu'une VM car il partage le noyau du système hôte. Démarre en quelques secondes.</div>
+        <div class="card-context">→ Différence VM vs conteneur : la VM simule un ordinateur complet, le conteneur isole juste l'application</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Haproxy <span class="card-tag">Load balancing</span></div>
+        <div class="card-def"><strong>Répartiteur de charge</strong> (load balancer) : distribue le trafic réseau entre plusieurs serveurs pour éviter la surcharge. Si un serveur tombe, il redirige automatiquement vers les autres. Assure la haute disponibilité.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Latence <span class="card-tag">Réseau</span></div>
+        <div class="card-def">Délai de transmission des données sur un réseau, mesuré en <strong>millisecondes (ms)</strong>. Une latence faible = réseau réactif. Une latence élevée = réseau lent. On la mesure avec la commande <code>ping</code>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ C6 -->
+  <div class="section" id="c6">
+    <div class="section-header">
+      <div class="section-badge pink">C6</div>
+      <div>
+        <div class="section-title">Développement professionnel</div>
+        <div class="section-sub">Homelab, veille, identité, projet pro — personnel</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Homelab <span class="card-tag">Apprentissage</span></div>
+        <div class="card-def">Infrastructure informatique <strong>personnelle à la maison</strong> pour apprendre et expérimenter. Je fais tourner des serveurs, des VMs, des conteneurs sur mon propre matériel. Ça me permet de tester des technologies sans risque et en dehors du cadre professionnel.</div>
+        <div class="card-context">→ Mon homelab tourne sous Proxmox avec Docker et Grafana</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Proxmox <span class="card-tag">Virtualisation</span></div>
+        <div class="card-def">Hyperviseur open source basé sur Linux qui permet de créer et gérer des <strong>VMs et des conteneurs LXC</strong>. Interface web simple. Très utilisé en homelab et en entreprise pour son coût nul et ses fonctionnalités avancées (clustering, haute dispo, sauvegardes).</div>
+        <div class="card-context">→ Différence avec Hyper-V : Proxmox est open source et multi-plateforme, Hyper-V est Microsoft</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Grafana <span class="card-tag">Monitoring</span></div>
+        <div class="card-def">Outil open source de <strong>visualisation de données et de monitoring</strong>. Crée des tableaux de bord avec des graphiques en temps réel (CPU, RAM, réseau, disque...). Se connecte à des sources de données comme Prometheus, InfluxDB, etc.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">kDrive <span class="card-tag">Stockage</span></div>
+        <div class="card-def">Service de stockage cloud d'<strong>Infomaniak</strong>, hébergeur suisse. Alternative à Google Drive ou OneDrive, respectueux de la vie privée et hébergé en Europe. J'y organise mes ressources de formation et de travail.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Cryptalys <span class="card-tag">Projet perso</span></div>
+        <div class="card-def">Mon projet personnel de <strong>cybersécurité</strong>. Il démontre mon intérêt et mon investissement dans le domaine au-delà du cadre scolaire et professionnel.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Bachelor AIS <span class="card-tag">Formation</span></div>
+        <div class="card-def">Bachelor <strong>Administrateur d'Infrastructures Sécurisées</strong> — titre professionnel de niveau 6 (Bac+3). Ma prochaine étape après le BTS. Spécialisation dans la sécurisation des infrastructures systèmes et réseaux.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">SOC (Security Operations Center) <span class="card-tag">Cybersécurité</span></div>
+        <div class="card-def">Centre de <strong>surveillance de la sécurité informatique</strong> d'une organisation. Les analystes SOC surveillent les alertes 24h/24, détectent les incidents de sécurité et y répondent. Mon objectif professionnel à terme.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Analyste SOC <span class="card-tag">Métier</span></div>
+        <div class="card-def">Professionnel de la cybersécurité qui <strong>surveille et analyse</strong> les événements de sécurité en temps réel. Il détecte les attaques, les qualifie et déclenche la réponse à incident. Travaille au sein d'un SOC.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ VEILLE IA -->
+  <div class="section" id="veille-ia">
+    <div class="section-header">
+      <div class="section-badge blue">VEILLE 1</div>
+      <div>
+        <div class="section-title">Cyberattaques basées sur l'IA</div>
+        <div class="section-sub">Comment l'IA est utilisée en attaque et en défense</div>
+      </div>
+    </div>
+    <div class="divider">Définitions essentielles</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Intelligence Artificielle (IA) <span class="card-tag">Concept</span></div>
+        <div class="card-def">Technologie permettant à des machines d'<strong>effectuer des tâches qui nécessitent normalement l'intelligence humaine</strong> : reconnaître des images, comprendre du texte, générer du contenu, prendre des décisions. Exemples : ChatGPT, reconnaissance faciale, détection de fraudes.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Phishing <span class="card-tag">Attaque</span></div>
+        <div class="card-def">Technique d'<strong>hameçonnage par e-mail</strong> : un cybercriminel envoie un faux e-mail qui imite une organisation officielle (banque, impôts, Microsoft) pour voler les identifiants ou données personnelles de la victime. Avec l'IA, ces e-mails sont de plus en plus convaincants et personnalisés.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Deepfake <span class="card-tag">Attaque</span></div>
+        <div class="card-def">Contenu <strong>audio ou vidéo truqué</strong> par l'IA qui imite de façon réaliste une vraie personne. Un deepfake peut faire dire ou faire n'importe quoi à quelqu'un. Utilisé pour l'usurpation d'identité, la fraude ou la désinformation.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Malware adaptatif <span class="card-tag">Attaque</span></div>
+        <div class="card-def">Logiciel malveillant capable de <strong>se modifier automatiquement</strong> pour éviter d'être détecté par les antivirus. L'IA lui permet de générer des variantes de lui-même qui contournent les signatures connues des antivirus.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Détection d'anomalies <span class="card-tag">Défense</span></div>
+        <div class="card-def">L'IA analyse le <strong>comportement habituel des utilisateurs</strong> (heures de connexion, données accédées, actions effectuées) et déclenche une alerte quand quelque chose d'inhabituel se produit. Ex : connexion depuis un pays étranger à 3h du matin.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Réponse automatique aux menaces <span class="card-tag">Défense</span></div>
+        <div class="card-def">Des outils de sécurité <strong>isolent automatiquement</strong> un poste infecté, bloquent une IP suspecte ou désactivent un compte compromis, sans attendre qu'un technicien intervienne. Réduit drastiquement le temps de réaction.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Threat Intelligence <span class="card-tag">Défense</span></div>
+        <div class="card-def">Renseignement sur les cybermenaces : collecte et analyse d'informations sur les <strong>attaques en cours dans le monde</strong>. Permet d'anticiper les risques avant qu'ils touchent l'organisation. Alimenté par des feeds (flux) de données provenant de sources mondiales.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Problématique de la veille IA</div>
+        <div class="card-def"><em>"Comment l'intelligence artificielle est-elle utilisée dans les cyberattaques, et comment les organisations peuvent-elles s'en défendre ?"</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ VEILLE POST-QUANTIQUE -->
+  <div class="section" id="veille-pq">
+    <div class="section-header">
+      <div class="section-badge purple">VEILLE 2</div>
+      <div>
+        <div class="section-title">Cryptographie post-quantique</div>
+        <div class="section-sub">La menace des ordinateurs quantiques sur le chiffrement actuel</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-term">Cryptographie <span class="card-tag">Concept</span></div>
+        <div class="card-def">Science du <strong>chiffrement des données</strong> pour les rendre illisibles par quiconque n'ayant pas la clé de déchiffrement. Utilisée partout : connexions HTTPS, emails, paiements en ligne, VPN. Sans cryptographie, toutes nos communications seraient lisibles par n'importe qui.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Chiffrement RSA <span class="card-tag">Cryptographie actuelle</span></div>
+        <div class="card-def">Algorithme de chiffrement <strong>asymétrique très répandu</strong> (inventé en 1977). Repose sur la difficulté mathématique de factoriser de très grands nombres. Utilisé pour sécuriser les connexions HTTPS, les e-mails, les certificats numériques. Potentiellement vulnérable aux ordinateurs quantiques.</div>
+        <div class="card-context">→ Si le jury demande "c'est quoi RSA ?" : c'est le chiffrement qui sécurise les connexions web (cadenas HTTPS)</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Ordinateur quantique <span class="card-tag">Concept</span></div>
+        <div class="card-def">Ordinateur qui exploite les lois de la <strong>physique quantique</strong> pour effectuer certains calculs beaucoup plus rapidement qu'un ordinateur classique. Capable de tester des millions de possibilités simultanément. Pourrait casser des chiffrements qui prendraient des milliards d'années à un ordinateur normal.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">La menace concrète</div>
+        <div class="card-def">Un ordinateur quantique suffisamment puissant pourrait <strong>casser le chiffrement RSA</strong> en quelques heures. Cela remettrait en cause la sécurité de toutes les communications, transactions bancaires et données chiffrées actuelles. Les experts estiment cette menace réelle d'ici 10 à 15 ans.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Harvest Now, Decrypt Later <span class="card-tag">Attaque</span></div>
+        <div class="card-def">Stratégie d'attaque : des acteurs malveillants <strong>collectent dès aujourd'hui</strong> des données chiffrées (communications, secrets d'État, données médicales) pour les déchiffrer plus tard, quand ils disposeront d'un ordinateur quantique suffisamment puissant.</div>
+        <div class="card-context">→ C'est pour ça qu'il faut agir maintenant, même si la menace quantique est dans 10-15 ans</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Cryptographie post-quantique (PQC) <span class="card-tag">Solution</span></div>
+        <div class="card-def">Nouveaux algorithmes de chiffrement <strong>résistants aux ordinateurs quantiques</strong>. Conçus pour remplacer progressivement RSA et les autres standards actuels. Ne nécessite pas d'ordinateur quantique pour fonctionner.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">NIST <span class="card-tag">Organisme</span></div>
+        <div class="card-def"><strong>National Institute of Standards and Technology</strong> : organisme américain qui définit les standards technologiques. En 2024, il a officiellement validé les premiers algorithmes de cryptographie post-quantique. Ces standards servent de référence mondiale.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">ANSSI <span class="card-tag">Organisme</span></div>
+        <div class="card-def"><strong>Agence Nationale de la Sécurité des Systèmes d'Information</strong> : l'autorité française en matière de cybersécurité. Publie des recommandations, des guides et des certifications. Elle encourage les organisations françaises à anticiper dès maintenant la migration vers la PQC.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Migration vers la PQC <span class="card-tag">Défi</span></div>
+        <div class="card-def">Processus de <strong>remplacement progressif</strong> des algorithmes de chiffrement actuels par des algorithmes post-quantiques. Défis : identifier tous les systèmes qui utilisent du chiffrement, les mettre à jour un par un, former les équipes, maintenir la continuité de service pendant la transition.</div>
+      </div>
+      <div class="card">
+        <div class="card-term">Problématique de la veille post-quantique</div>
+        <div class="card-def"><em>"Comment les entreprises peuvent-elles protéger leurs données face à l'arrivée des ordinateurs quantiques, et quelles solutions existent pour anticiper cette menace ?"</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ QUESTIONS JURY -->
+  <div class="section" id="jury">
+    <div class="section-header">
+      <div class="section-badge red">JURY</div>
+      <div>
+        <div class="section-title">Questions possibles du jury</div>
+        <div class="section-sub">Clique sur une question pour voir la réponse</div>
+      </div>
+    </div>
+    <div class="qa-list">
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi le BTS SIO SISR exactement ?</div>
+        <div class="qa-a"><strong>BTS SIO</strong> = Brevet de Technicien Supérieur Services Informatiques aux Organisations. Option <strong>SISR</strong> = Solutions d'Infrastructure, Systèmes et Réseaux. C'est la filière orientée infrastructure réseau, par opposition à SLAM (développement). On apprend à gérer des serveurs, des réseaux, la sécurité, les sauvegardes.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Qu'est-ce qu'Oelis fait exactement ?</div>
+        <div class="qa-a">Oelis est un <strong>prestataire informatique</strong> (ESN = Entreprise de Services du Numérique) basé à Saint-Étienne. Il propose de l'<strong>infogérance</strong> (gestion du SI externalisée), de la <strong>VoIP</strong> (téléphonie IP) et de la <strong>cybersécurité</strong>. Ses clients sont des PME, des grandes entreprises et des collectivités territoriales.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Quelle est la différence entre N1 et N2 ?</div>
+        <div class="qa-a"><strong>N1</strong> = premier niveau, problèmes courants et simples (réinitialisation mot de passe, problème d'imprimante, connexion internet). <strong>N2</strong> = deuxième niveau, incidents techniques plus complexes nécessitant une expertise (configuration serveur, problème réseau, firewall). Si le N1 ne résout pas, il escalade vers le N2.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi un SLA et comment ça fonctionne chez Oelis ?</div>
+        <div class="qa-a">Un <strong>SLA (Service Level Agreement)</strong> est un contrat qui définit les engagements de qualité de service entre Oelis et ses clients. Il précise par exemple : répondre à un ticket critique en moins d'1 heure, résoudre un incident bloquant en moins de 4 heures. Si Oelis ne respecte pas ces délais, des pénalités financières peuvent s'appliquer. C'est pour ça qu'on priorise et suit chaque ticket rigoureusement.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Vous avez réduit le RTO de 4h à 30 minutes, comment ?</div>
+        <div class="qa-a">En configurant des <strong>sauvegardes Veeam</strong> plus fréquentes et mieux structurées, et en réalisant des <strong>tests de restauration réguliers</strong>. Avant, le processus de restauration n'était pas documenté et les techniciens devaient chercher comment faire. Après mes tests, j'ai documenté une procédure de restauration pas-à-pas. Le basculement vers la VM de secours (Hyper-V) se fait maintenant en 5 minutes.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi une GPO, donnez un exemple concret</div>
+        <div class="qa-a">Une <strong>GPO (Group Policy Object)</strong> est une règle appliquée automatiquement à des utilisateurs ou ordinateurs via Active Directory. Exemples concrets : interdire l'accès au panneau de configuration, forcer l'écran de veille après 10 minutes d'inactivité, bloquer l'utilisation des clés USB, imposer un fond d'écran avec le logo de l'entreprise, configurer automatiquement l'imprimante réseau.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Quelle différence entre Fortinet et Stormshield ?</div>
+        <div class="qa-a"><strong>Fortinet</strong> est américain, leader mondial des firewalls d'entreprise, produits FortiGate. <strong>Stormshield</strong> est français (filiale d'Airbus), certifié par l'ANSSI. La différence principale : Stormshield est privilégié dans les secteurs sensibles (défense, collectivités, santé) car il est d'origine européenne et certifié par l'autorité française de cybersécurité. Chez Oelis, on utilise les deux selon le profil du client.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Pourquoi avoir choisi GitHub Pages pour votre portfolio ?</div>
+        <div class="qa-a">Plusieurs raisons : c'est <strong>gratuit</strong>, ça donne une URL professionnelle (dimitri-rey.github.io), et surtout ça <strong>démontre la maîtrise de Git</strong> en contexte réel. Chaque modification du portfolio est versionnée, on peut voir l'historique complet. C'est aussi ce qui se fait dans l'industrie pour les projets open source. C'était aussi une façon d'apprendre Git en dehors du cadre purement scolaire.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi Docker et pourquoi l'utiliser ?</div>
+        <div class="qa-a"><strong>Docker</strong> permet de "conteneuriser" des applications : on emballe l'application et toutes ses dépendances dans un conteneur portable. Avantages : ça fonctionne de façon identique partout (plus le problème "ça marche sur ma machine"), déploiement rapide, isolation des applications entre elles, facile à mettre à jour. J'ai déployé des services comme Nginx, Nextcloud via Docker en formation et dans mon homelab.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Qu'est-ce que vous avez appris de l'armée qui vous sert aujourd'hui ?</div>
+        <div class="qa-a">Plusieurs choses concrètes : la <strong>rigueur dans les procédures</strong> (en milieu militaire, une erreur peut avoir des conséquences graves), la <strong>culture de la sécurité</strong> (confidentialité, gestion des accès, importance de l'information), la <strong>gestion du stress</strong> et la capacité à intervenir rapidement sous pression, et l'<strong>esprit d'équipe</strong>. Ces soft skills sont directement applicables en cybersécurité et administration système.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi la cryptographie post-quantique ?</div>
+        <div class="qa-a">C'est la création de nouveaux algorithmes de chiffrement <strong>résistants aux ordinateurs quantiques</strong>. Le problème : les ordinateurs quantiques pourraient casser les chiffrements actuels comme RSA, qui sécurisent Internet. Le NIST (organisme américain de normalisation) a validé en 2024 les premiers standards post-quantiques. L'ANSSI recommande aux organisations françaises d'anticiper dès maintenant la migration vers ces nouveaux algorithmes.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Qu'est-ce que le RGPD et comment l'avez-vous appliqué ?</div>
+        <div class="qa-a">Le <strong>RGPD</strong> (Règlement Général sur la Protection des Données) est une loi européenne de 2018 qui encadre la collecte de données personnelles. J'ai appliqué les obligations de base sur mes deux sites : une <strong>page de mentions légales</strong> (qui est l'éditeur, l'hébergeur, comment contacter), une <strong>politique de confidentialité</strong> expliquant quelles données sont collectées, et si un formulaire de contact est présent, informer l'utilisateur de ses droits (accès, suppression de ses données).</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Comment s'est passée la migration de serveurs chez Oelis ?</div>
+        <div class="qa-a">J'ai d'abord <strong>analysé le périmètre</strong> : quelles données migrer, quelles applications sont concernées. Contrainte principale : intervention le week-end pour ne pas perturber les utilisateurs. J'ai <strong>planifié avec ProjectLibre</strong> (Gantt, jalons). En cours de projet, j'ai détecté une <strong>incompatibilité matérielle</strong> qui a causé 2 jours de retard : j'ai mis en place une VM temporaire pour pallier et ajusté le planning. Au final, migration terminée dans les délais, zéro perte de données.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">Pourquoi voulez-vous devenir analyste SOC ?</div>
+        <div class="qa-a">Parce que la <strong>défense des systèmes informatiques</strong> m'intéresse vraiment. Mon parcours dans l'armée, où la sécurité de l'information était primordiale, m'a sensibilisé tôt à cet enjeu. Un analyste SOC est en première ligne pour détecter et contrer les attaques en temps réel. C'est un métier concret, à fort impact, qui évolue constamment. C'est pour ça que je prépare un Bachelor AIS puis un titre Expert en Cybersécurité.</div>
+      </div>
+
+      <div class="qa">
+        <div class="qa-q" onclick="toggleQA(this)">C'est quoi votre homelab et à quoi ça vous sert ?</div>
+        <div class="qa-a">Mon homelab est une infrastructure informatique chez moi qui tourne sous <strong>Proxmox</strong> (hyperviseur). J'y fais tourner plusieurs VMs et conteneurs Docker. J'ai un <strong>Grafana</strong> pour monitorer les métriques. Ça me permet d'expérimenter des technologies que je n'ai pas l'occasion de tester au travail (nouvelles versions de services, configs réseau avancées, outils de cybersécurité) sans risque. C'est aussi là que j'héberge mon projet Cryptalys.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  // ── Q&A toggle ──────────────────────────────
+  function toggleQA(el) {
+    el.parentElement.classList.toggle('open');
+  }
+
+  // ── Search / filter ─────────────────────────
+  function filterAll(query) {
+    const q = query.trim().toLowerCase();
+    const countEl = document.getElementById('searchCount');
+
+    if (!q) {
+      document.querySelectorAll('.card, .qa').forEach(el => {
+        el.classList.remove('hidden');
+        el.querySelectorAll('mark').forEach(m => m.replaceWith(m.textContent));
+      });
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('all-hidden'));
+      countEl.textContent = '';
+      return;
+    }
+
+    let total = 0;
+    document.querySelectorAll('.card, .qa').forEach(el => {
+      // Restore original text first
+      el.querySelectorAll('mark').forEach(m => m.replaceWith(m.textContent));
+
+      const text = el.textContent.toLowerCase();
+      if (text.includes(q)) {
+        el.classList.remove('hidden');
+        total++;
+        highlightIn(el, q);
+      } else {
+        el.classList.add('hidden');
+      }
+    });
+
+    // Hide empty sections
+    document.querySelectorAll('.section').forEach(sec => {
+      const visible = sec.querySelectorAll('.card:not(.hidden), .qa:not(.hidden)');
+      sec.classList.toggle('all-hidden', visible.length === 0);
+    });
+
+    countEl.textContent = total > 0 ? `${total} résultat${total > 1 ? 's' : ''}` : 'Aucun résultat';
+  }
+
+  function highlightIn(el, q) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let node;
+    while ((node = walker.nextNode())) nodes.push(node);
+    nodes.forEach(n => {
+      const idx = n.textContent.toLowerCase().indexOf(q);
+      if (idx === -1) return;
+      const span = document.createElement('span');
+      span.innerHTML = n.textContent.slice(0, idx)
+        + `<mark>${n.textContent.slice(idx, idx + q.length)}</mark>`
+        + n.textContent.slice(idx + q.length);
+      n.parentNode.replaceChild(span, n);
+    });
+  }
+
+  // Shortcut: focus search with /
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+  });
+</script>
+
+</body>
+</html>
