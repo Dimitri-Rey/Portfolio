@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Fiche mots-clés E5 — Dimitri Rey</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      height: 64px;
+      background: #111;
+      border-bottom: 1px solid #1e1e1e;
+      flex-shrink: 0;
+      gap: 0;
+    }
+    .topbar__left  { flex: 1; display: flex; align-items: center; gap: 12px; }
+    .topbar__mid   { flex: 0; padding: 0 20px; }
+    .topbar__right { flex: 1; display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+
+    .sec-badge {
+      font-size: .9rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 6px;
+      background: #3b82f6;
+      color: #fff;
+      letter-spacing: .03em;
+      transition: background .35s;
+    }
+    .sec-meta { display: flex; flex-direction: column; gap: 2px; }
+    .sec-target { font-size: .73rem; color: #444; font-family: monospace; }
+    .sec-finish { font-size: .7rem; color: #333; transition: color .3s; }
+
+    .timer {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #22c55e;
+      letter-spacing: .06em;
+      min-width: 120px;
+      text-align: center;
+      transition: color .3s;
+    }
+    .timer.warn   { color: #f59e0b; }
+    .timer.danger { color: #ef4444; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
+    .timer.over   { color: #ef4444; animation: blink .8s infinite; }
+
+    .pace {
+      font-size: .73rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: all .3s;
+    }
+    .pace.ok   { background: rgba(34,197,94,.1);  color: #22c55e; }
+    .pace.warn { background: rgba(245,158,11,.1); color: #f59e0b; }
+    .pace.bad  { background: rgba(239,68,68,.1);  color: #ef4444; }
+
+    .btn {
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 600;
+      border: 1px solid #252525;
+      background: #181818;
+      color: #aaa;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn:hover  { background: #222; border-color: #333; color: #ddd; }
+    .btn.go     { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+    .btn.go:hover { background: #2563eb; }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress { height: 3px; background: #181818; flex-shrink: 0; }
+    .progress__fill {
+      height: 100%;
+      width: 0%;
+      background: #3b82f6;
+      transition: width .4s ease, background .3s;
+    }
+
+    /* ===== SECTION NAV ===== */
+    .secnav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 24px;
+      background: #0d0d0d;
+      border-bottom: 1px solid #181818;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .secnav::-webkit-scrollbar { display: none; }
+
+    .spill {
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #1e1e1e;
+      color: #3a3a3a;
+      background: transparent;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .spill:hover   { color: #777; border-color: #2a2a2a; }
+    .spill.active  { color: #fff; }
+    .spill.done    { color: #252525; border-color: #181818; }
+
+    /* ===== MAIN KEYWORDS AREA ===== */
+    .main {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .main::before, .main::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 80px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .main::before { top: 0;    background: linear-gradient(to bottom, #0a0a0a 30%, transparent); }
+    .main::after  { bottom: 0; background: linear-gradient(to top,   #0a0a0a 30%, transparent); }
+
+    .kwscroll {
+      height: 100%;
+      overflow-y: auto;
+      padding: 0 80px;
+      scroll-behavior: smooth;
+    }
+    .kwscroll::-webkit-scrollbar { width: 3px; }
+    .kwscroll::-webkit-scrollbar-track { background: transparent; }
+    .kwscroll::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+    .kw-spacer { min-height: 38vh; }
+
+    .kw-items { display: flex; flex-direction: column; gap: 2px; }
+
+    .kw {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 4px 0;
+      transition: all .3s ease;
+    }
+    .kw__icon {
+      flex-shrink: 0;
+      width: 22px;
+      transition: color .3s;
+    }
+    .kw__text { line-height: 1.35; transition: font-size .3s ease, color .3s ease; }
+
+    /* PAST */
+    .kw.past .kw__icon { font-size: .75rem; color: #272727; margin-top: 3px; }
+    .kw.past .kw__text { font-size: .82rem; color: #313131; }
+
+    /* CURRENT */
+    .kw.current .kw__icon { font-size: 1.1rem; margin-top: 6px; }
+    .kw.current .kw__text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #f0f0f0;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+    }
+
+    /* FUTURE */
+    .kw.future .kw__icon { font-size: .7rem; color: #1a1a1a; margin-top: 4px; }
+    .kw.future .kw__text { font-size: .78rem; color: #1e1e1e; font-style: italic; }
+
+    @keyframes kwIn {
+      from { opacity: 0; transform: translateY(18px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+    .kw.current { animation: kwIn .3s ease; }
+
+    /* ===== BOTTOM BAR ===== */
+    .botbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 24px;
+      background: #0d0d0d;
+      border-top: 1px solid #181818;
+      flex-shrink: 0;
+    }
+    .bot-counter { font-size: .7rem; color: #2e2e2e; font-family: monospace; }
+    .bot-hints   { display: flex; gap: 16px; }
+    .hint-item   { font-size: .67rem; color: #272727; display: flex; align-items: center; gap: 4px; }
+    .hint-item kbd {
+      padding: 1px 6px;
+      border: 1px solid #222;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: .63rem;
+      color: #2e2e2e;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar__left">
+      <div class="sec-badge" id="secBadge">INTRO</div>
+      <div class="sec-meta">
+        <div class="sec-target"  id="secTarget">~3:00</div>
+        <div class="sec-finish"  id="secFinish">finir avant 7:00 restant</div>
+      </div>
+    </div>
+    <div class="topbar__mid">
+      <div class="timer" id="timer">10:00</div>
+    </div>
+    <div class="topbar__right">
+      <div class="pace ok" id="pace">✓ Dans les temps</div>
+      <button class="btn go" id="btnPlay" onclick="toggleTimer()">▶ Démarrer</button>
+      <button class="btn"              onclick="resetAll()">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress"><div class="progress__fill" id="progFill"></div></div>
+
+  <!-- SECTION NAV -->
+  <div class="secnav" id="secNav"></div>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <div class="kwscroll" id="kwScroll">
+      <div class="kw-spacer"></div>
+      <div class="kw-items" id="kwItems"></div>
+      <div class="kw-spacer"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="botbar">
+    <div class="bot-counter" id="botCounter"></div>
+    <div class="bot-hints">
+      <div class="hint-item"><kbd>ESPACE</kbd> <kbd>→</kbd> suivant</div>
+      <div class="hint-item"><kbd>←</kbd> précédent</div>
+      <div class="hint-item"><kbd>F</kbd> plein écran</div>
+      <div class="hint-item"><kbd>P</kbd> pause/reprise</div>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL = 600; // 10 minutes
+
+    const SECTIONS = [
+      {
+        id: 'INTRO', label: 'Introduction', time: 180, color: '#3b82f6',
+        kws: [
+          'Dimitri Rey · 26 ans · parcours atypique',
+          'Armée → 4 ans · technicien helpdesk · environnement classifié',
+          'Doubs → 2 ans · Conseil départemental · centaines de postes',
+          'BTS SIO SISR · CFAI LDA · alternance Oelis (Saint-Étienne)',
+          'Oelis → infogérance · VoIP · cybersécurité · PME et collectivités',
+          'Mon rôle → support N1/N2 · helpdesk + admin systèmes et réseaux',
+          'Veille 1 → Cyberattaques IA · phishing · deepfakes · défenses auto',
+          'Veille 2 → Cryptographie post-quantique · NIST · RSA menacé · ANSSI',
+          'Outils veille → Google Actualité · ANSSI · X · Clubbic · Perplexity',
+          '→ 6 activités présentées · une par bloc de compétences'
+        ]
+      },
+      {
+        id: 'C1', label: 'C1 — Patrimoine', time: 60, color: '#22c55e',
+        kws: [
+          'C1 — Gérer le patrimoine informatique · Oelis',
+          'Lansweeper → inventaire serveurs · postes · switches · licences',
+          'ITIL → procédures internes · bonnes pratiques',
+          'Active Directory → GPO · création groupes · audit accès permissifs',
+          'Hyper-V → redondance · PRA · basculement en 5 minutes',
+          'Veeam + Synology → rétention 7 / 30 jours · RTO : 4h → 30 min',
+          'Audit postes → logiciels non autorisés · sensibilisation utilisateurs',
+          '✦ SLA (accords de niveau de service) respectés'
+        ]
+      },
+      {
+        id: 'C2', label: 'C2 — Incidents', time: 60, color: '#22c55e',
+        kws: [
+          'C2 — Répondre aux incidents · Oelis',
+          'Ticketing → qualification urgence / impact · suivi jusqu\'à résolution',
+          'Switches Cisco · firewalls Fortinet / Stormshield · dépannage serveurs',
+          'Splashtop → télémaintenance · interventions sur site',
+          'Microsoft 365 · VoIP 3CX → demandes applicatives',
+          '✦ SLA respectés · base de connaissances alimentée en continu'
+        ]
+      },
+      {
+        id: 'C3', label: 'C3 — En ligne', time: 60, color: '#f59e0b',
+        kws: [
+          'C3 — Développer la présence en ligne · Formation / Perso',
+          'Portfolio → HTML · CSS · JavaScript · hébergé GitHub Pages',
+          'elanvertical.fr → WordPress',
+          'RGPD + mentions légales intégrées sur les deux sites',
+          'SEO → balises meta · HTML sémantique · indexation vérifiée',
+          '✦ GitHub Pages = maîtrise de Git en contexte professionnel'
+        ]
+      },
+      {
+        id: 'C4', label: 'C4 — Projet', time: 60, color: '#a855f7',
+        kws: [
+          'C4 — Travailler en mode projet · Oelis',
+          'Migration de serveurs chez Oelis',
+          'Analyse → périmètre · contraintes (week-end · compatibilité applis métier)',
+          'ProjectLibre → Gantt · jalons · estimations de durée',
+          'Écart → incompatibilité matérielle → VM temporaire · retard 2 jours géré',
+          '✦ Dans les délais · zéro perte de données · interruption minimale'
+        ]
+      },
+      {
+        id: 'C5', label: 'C5 — Services', time: 60, color: '#06b6d4',
+        kws: [
+          'C5 — Mettre à disposition un service · Formation + Oelis',
+          'MikroTik → tests intégration · connectivité · latence · chiffrement · rapport',
+          'École → Nginx · Nextcloud · Docker · Haproxy déployés',
+          'Oelis → déploiements Microsoft 365 pour clients',
+          'Documentation technique · formation utilisateurs · support ticketing',
+          '✦ Services fonctionnels · documentés · adoptés par les utilisateurs'
+        ]
+      },
+      {
+        id: 'C6', label: 'C6 — Dev pro', time: 60, color: '#ec4899',
+        kws: [
+          'C6 — Développement professionnel · Personnel',
+          'Homelab → Proxmox + Docker + Grafana · kDrive · formations en ligne',
+          'Veille → 2 thèmes documentés · 6 sources vérifiées chacune',
+          'Identité → LinkedIn · portfolio GitHub Pages · projet Cryptalys',
+          'Suite → Bachelor AIS (Administrateur d\'Infrastructures Sécurisées)',
+          '✦ Objectif → analyste SOC ou ingénieur sécurité'
+        ]
+      },
+      {
+        id: 'FIN', label: 'Conclusion', time: 60, color: '#3b82f6',
+        kws: [
+          'Conclusion — 1 minute',
+          '2 ans BTS chez Oelis → toutes les compétences validées',
+          'Armée → rigueur · discipline · culture de la sécurité',
+          'Oelis → polyvalence technique · clients variés',
+          'Perso → Cryptalys · homelab · portfolio → autonomie + motivation',
+          'Bachelor AIS → Expert Cybersécurité',
+          'Objectif → analyste SOC / ingénieur sécurité',
+          '"Je vous remercie. Disponible pour vos questions."'
+        ]
+      }
+    ];
+
+    // Pre-calculate cumulative timings
+    let acc = 0;
+    SECTIONS.forEach(s => { s.startAt = acc; acc += s.time; s.endAt = acc; });
+
+    // State
+    let elapsed = 0;
+    let running  = false;
+    let interval = null;
+    let curSec   = 0;
+    let curKw    = 0;
+
+    // ── Helpers ──────────────────────────────────────────────
+    function totalKws() { return SECTIONS.reduce((a, s) => a + s.kws.length, 0); }
+
+    function globalIdx() {
+      let n = 0;
+      for (let i = 0; i < curSec; i++) n += SECTIONS[i].kws.length;
+      return n + curKw;
+    }
+
+    function fmtTime(s) {
+      const neg = s < 0;
+      const abs = Math.abs(Math.round(s));
+      const m   = Math.floor(abs / 60);
+      const sec = abs % 60;
+      return `${neg ? '-' : ''}${m}:${String(sec).padStart(2, '0')}`;
+    }
+
+    // ── Build section nav ─────────────────────────────────────
+    const navEl = document.getElementById('secNav');
+    SECTIONS.forEach((s, i) => {
+      const p = document.createElement('button');
+      p.className = 'spill';
+      p.id        = `spill${i}`;
+      p.textContent = s.label;
+      p.onclick = () => { curSec = i; curKw = 0; render(); };
+      navEl.appendChild(p);
+    });
+
+    // ── Render ────────────────────────────────────────────────
+    function render() {
+      const sec = SECTIONS[curSec];
+
+      // Badge
+      const badge = document.getElementById('secBadge');
+      badge.textContent    = sec.id;
+      badge.style.background = sec.color;
+
+      // Meta
+      document.getElementById('secTarget').textContent = `~${fmtTime(sec.time)}`;
+      const shouldFinishRem = TOTAL - sec.endAt;
+      document.getElementById('secFinish').textContent = `finir avant ${fmtTime(shouldFinishRem)} restant`;
+
+      // Section pills
+      SECTIONS.forEach((s, i) => {
+        const p = document.getElementById(`spill${i}`);
+        p.className = 'spill';
+        if (i === curSec) {
+          p.classList.add('active');
+          p.style.background  = s.color;
+          p.style.borderColor = s.color;
+        } else {
+          p.style.background  = '';
+          p.style.borderColor = '';
+          if (i < curSec) p.classList.add('done');
+        }
+      });
+
+      // Keywords
+      const container = document.getElementById('kwItems');
+      container.innerHTML = '';
+
+      sec.kws.forEach((kw, i) => {
+        const el = document.createElement('div');
+        const state = i < curKw ? 'past' : i === curKw ? 'current' : 'future';
+        el.className = `kw ${state}`;
+        const icon      = i < curKw ? '✓' : i === curKw ? '▶' : '·';
+        const iconColor = i === curKw ? ` style="color:${sec.color}"` : '';
+        el.innerHTML = `<span class="kw__icon"${iconColor}>${icon}</span><span class="kw__text">${kw}</span>`;
+        container.appendChild(el);
+      });
+
+      // Scroll current keyword to center
+      requestAnimationFrame(() => {
+        const curr = container.querySelector('.kw.current');
+        if (curr) curr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      // Counter
+      const total = totalKws();
+      const idx   = globalIdx();
+      document.getElementById('botCounter').textContent =
+        `Mot-clé ${idx + 1} / ${total}  ·  Section ${curSec + 1} / ${SECTIONS.length}  ·  ${curKw + 1} / ${sec.kws.length} dans la section`;
+
+      // Progress bar
+      const pct  = idx / (total - 1) * 100;
+      const rem  = TOTAL - elapsed;
+      const fill = document.getElementById('progFill');
+      fill.style.width      = pct + '%';
+      fill.style.background = rem <= 60 ? '#ef4444' : rem <= 180 ? '#f59e0b' : sec.color;
+
+      updateTimer();
+    }
+
+    // ── Timer ─────────────────────────────────────────────────
+    function updateTimer() {
+      const rem     = TOTAL - elapsed;
+      const timerEl = document.getElementById('timer');
+      timerEl.textContent = fmtTime(rem);
+      timerEl.className   = 'timer';
+      if      (rem <= 0)   timerEl.classList.add('over');
+      else if (rem <= 60)  timerEl.classList.add('danger');
+      else if (rem <= 180) timerEl.classList.add('warn');
+
+      // Pace
+      const sec = SECTIONS[curSec];
+      const expectedElapsed = sec.startAt + (curKw / Math.max(sec.kws.length - 1, 1)) * sec.time;
+      const diff = elapsed - expectedElapsed;
+      const paceEl = document.getElementById('pace');
+      if      (diff > 45) { paceEl.textContent = '⚠ En retard';         paceEl.className = 'pace bad'; }
+      else if (diff > 15) { paceEl.textContent = '~ Légèrement en retard'; paceEl.className = 'pace warn'; }
+      else if (diff < -30){ paceEl.textContent = '⏩ En avance';         paceEl.className = 'pace ok'; }
+      else                { paceEl.textContent = '✓ Dans les temps';    paceEl.className = 'pace ok'; }
+
+      // Finish-by color
+      const shouldFinishRem = TOTAL - sec.endAt;
+      const timeDiff = rem - shouldFinishRem;
+      const finishEl = document.getElementById('secFinish');
+      if (running) {
+        finishEl.style.color = timeDiff < -30 ? '#ef4444' : timeDiff < 0 ? '#f59e0b' : '#3a3a3a';
+      } else {
+        finishEl.style.color = '#2e2e2e';
+      }
+    }
+
+    function startTimer() {
+      running  = true;
+      const btn = document.getElementById('btnPlay');
+      btn.textContent = '⏸ Pause';
+      btn.className   = 'btn';
+      interval = setInterval(() => { elapsed++; updateTimer(); }, 1000);
+    }
+
+    function toggleTimer() {
+      if (running) {
+        clearInterval(interval);
+        running = false;
+        const btn = document.getElementById('btnPlay');
+        btn.textContent = '▶ Reprendre';
+        btn.className   = 'btn go';
+      } else {
+        startTimer();
+      }
+    }
+
+    function resetAll() {
+      clearInterval(interval);
+      running  = false;
+      elapsed  = 0;
+      curSec   = 0;
+      curKw    = 0;
+      const btn = document.getElementById('btnPlay');
+      btn.textContent = '▶ Démarrer';
+      btn.className   = 'btn go';
+      render();
+    }
+
+    // ── Navigation ────────────────────────────────────────────
+    function next() {
+      const sec = SECTIONS[curSec];
+      if      (curKw < sec.kws.length - 1)      curKw++;
+      else if (curSec < SECTIONS.length - 1)  { curSec++; curKw = 0; }
+      render();
+    }
+
+    function prev() {
+      if      (curKw > 0)   curKw--;
+      else if (curSec > 0) { curSec--; curKw = SECTIONS[curSec].kws.length - 1; }
+      render();
+    }
+
+    // ── Keyboard + click ──────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      if      (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      else if (e.key === 'ArrowLeft')                   { e.preventDefault(); prev(); }
+      else if (e.key.toLowerCase() === 'f') {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+        else document.exitFullscreen();
+      }
+      else if (e.key.toLowerCase() === 'p') toggleTimer();
+    });
+
+    document.getElementById('kwScroll').addEventListener('click', () => next());
+
+    // ── Init ──────────────────────────────────────────────────
+    render();
+  </script>
+</body>
+</html>
