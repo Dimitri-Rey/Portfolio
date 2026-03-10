@@ -88,6 +88,8 @@
     .btn:hover  { background: #222; border-color: #333; color: #ddd; }
     .btn.go     { background: #3b82f6; border-color: #3b82f6; color: #fff; }
     .btn.go:hover { background: #2563eb; }
+    .btn.auto-on  { background: #a855f7; border-color: #a855f7; color: #fff; }
+    .btn.auto-on:hover { background: #9333ea; }
 
     /* ===== PROGRESS BAR ===== */
     .progress { height: 3px; background: #181818; flex-shrink: 0; }
@@ -196,6 +198,24 @@
     }
     .kw.current { animation: kwIn .3s ease; }
 
+    /* Auto-advance progress bar under current keyword */
+    @keyframes autoBar {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+    .kw.current .kw__text::after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 0%;
+      border-radius: 2px;
+      margin-top: 10px;
+      background: var(--bar-color, #3b82f6);
+    }
+    .kw.current.auto-run .kw__text::after {
+      animation: autoBar var(--bar-dur, 10s) linear forwards;
+    }
+
     /* ===== BOTTOM BAR ===== */
     .botbar {
       display: flex;
@@ -235,8 +255,10 @@
     </div>
     <div class="topbar__right">
       <div class="pace ok" id="pace">✓ Dans les temps</div>
-      <button class="btn go" id="btnPlay" onclick="toggleTimer()">▶ Démarrer</button>
-      <button class="btn"              onclick="resetAll()">↺ Reset</button>
+      <button class="btn"    id="btnSpeed" onclick="cycleSpeed()">🐢 Lent</button>
+      <button class="btn"    id="btnAuto"  onclick="toggleAuto()">⏩ Auto OFF</button>
+      <button class="btn go" id="btnPlay"  onclick="toggleTimer()">▶ Démarrer</button>
+      <button class="btn"                  onclick="resetAll()">↺ Reset</button>
     </div>
   </div>
 
@@ -263,6 +285,7 @@
       <div class="hint-item"><kbd>←</kbd> précédent</div>
       <div class="hint-item"><kbd>F</kbd> plein écran</div>
       <div class="hint-item"><kbd>P</kbd> pause/reprise</div>
+      <div class="hint-item"><kbd>A</kbd> auto ON/OFF</div>
     </div>
   </div>
 
@@ -373,11 +396,67 @@
     SECTIONS.forEach(s => { s.startAt = acc; acc += s.time; s.endAt = acc; });
 
     // State
-    let elapsed = 0;
+    let elapsed  = 0;
     let running  = false;
     let interval = null;
     let curSec   = 0;
     let curKw    = 0;
+
+    // Auto-advance
+    let autoMode    = false;
+    let autoTimeout = null;
+    const SPEEDS    = [
+      { label: '🐢 Lent',   mult: 1.6 },
+      { label: '▶ Normal',  mult: 1.0 },
+      { label: '⚡ Rapide', mult: 0.6 },
+    ];
+    let speedIdx = 0; // Lent par défaut pour l'oral
+
+    function kwInterval() {
+      const sec = SECTIONS[curSec];
+      return (sec.time / sec.kws.length) * 1000 * SPEEDS[speedIdx].mult;
+    }
+
+    function scheduleAuto() {
+      clearTimeout(autoTimeout);
+      if (!autoMode || !running) return;
+      const dur = kwInterval();
+      autoTimeout = setTimeout(() => {
+        const atEnd = curSec === SECTIONS.length - 1 && curKw === SECTIONS[curSec].kws.length - 1;
+        if (!atEnd) next();
+      }, dur);
+      // Visual progress bar on current keyword
+      const curr = document.querySelector('.kw.current');
+      if (curr) {
+        curr.classList.remove('auto-run');
+        curr.style.setProperty('--bar-color', SECTIONS[curSec].color);
+        curr.style.setProperty('--bar-dur', (dur / 1000) + 's');
+        void curr.offsetWidth; // force reflow to restart animation
+        curr.classList.add('auto-run');
+      }
+    }
+
+    function toggleAuto() {
+      autoMode = !autoMode;
+      const btn = document.getElementById('btnAuto');
+      if (autoMode) {
+        btn.textContent = '⏩ Auto ON';
+        btn.className   = 'btn auto-on';
+        if (running) scheduleAuto();
+      } else {
+        clearTimeout(autoTimeout);
+        btn.textContent = '⏩ Auto OFF';
+        btn.className   = 'btn';
+        const curr = document.querySelector('.kw.current');
+        if (curr) curr.classList.remove('auto-run');
+      }
+    }
+
+    function cycleSpeed() {
+      speedIdx = (speedIdx + 1) % SPEEDS.length;
+      document.getElementById('btnSpeed').textContent = SPEEDS[speedIdx].label;
+      if (autoMode && running) { clearTimeout(autoTimeout); scheduleAuto(); }
+    }
 
     // ── Helpers ──────────────────────────────────────────────
     function totalKws() { return SECTIONS.reduce((a, s) => a + s.kws.length, 0); }
@@ -403,7 +482,7 @@
       p.className = 'spill';
       p.id        = `spill${i}`;
       p.textContent = s.label;
-      p.onclick = () => { curSec = i; curKw = 0; render(); };
+      p.onclick = () => { clearTimeout(autoTimeout); curSec = i; curKw = 0; render(); if (autoMode && running) scheduleAuto(); };
       navEl.appendChild(p);
     });
 
@@ -509,12 +588,16 @@
       btn.textContent = '⏸ Pause';
       btn.className   = 'btn';
       interval = setInterval(() => { elapsed++; updateTimer(); }, 1000);
+      if (autoMode) scheduleAuto();
     }
 
     function toggleTimer() {
       if (running) {
         clearInterval(interval);
+        clearTimeout(autoTimeout);
         running = false;
+        const curr = document.querySelector('.kw.current');
+        if (curr) curr.classList.remove('auto-run');
         const btn = document.getElementById('btnPlay');
         btn.textContent = '▶ Reprendre';
         btn.className   = 'btn go';
@@ -525,28 +608,34 @@
 
     function resetAll() {
       clearInterval(interval);
+      clearTimeout(autoTimeout);
       running  = false;
+      autoMode = false;
       elapsed  = 0;
       curSec   = 0;
       curKw    = 0;
-      const btn = document.getElementById('btnPlay');
-      btn.textContent = '▶ Démarrer';
-      btn.className   = 'btn go';
+      document.getElementById('btnPlay').textContent = '▶ Démarrer';
+      document.getElementById('btnPlay').className   = 'btn go';
+      document.getElementById('btnAuto').textContent = '⏩ Auto OFF';
+      document.getElementById('btnAuto').className   = 'btn';
       render();
     }
 
     // ── Navigation ────────────────────────────────────────────
     function next() {
       const sec = SECTIONS[curSec];
-      if      (curKw < sec.kws.length - 1)      curKw++;
-      else if (curSec < SECTIONS.length - 1)  { curSec++; curKw = 0; }
+      if      (curKw < sec.kws.length - 1)     curKw++;
+      else if (curSec < SECTIONS.length - 1) { curSec++; curKw = 0; }
       render();
+      if (autoMode && running) scheduleAuto();
     }
 
     function prev() {
+      clearTimeout(autoTimeout);
       if      (curKw > 0)   curKw--;
       else if (curSec > 0) { curSec--; curKw = SECTIONS[curSec].kws.length - 1; }
       render();
+      if (autoMode && running) scheduleAuto();
     }
 
     // ── Keyboard + click ──────────────────────────────────────
@@ -558,6 +647,7 @@
         else document.exitFullscreen();
       }
       else if (e.key.toLowerCase() === 'p') toggleTimer();
+      else if (e.key.toLowerCase() === 'a') toggleAuto();
     });
 
     document.getElementById('kwScroll').addEventListener('click', () => next());
