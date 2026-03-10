@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Quiz E5 — Dimitri Rey</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0a; --bg2: #111; --bg3: #181818;
+      --border: #1e1e1e; --text: #e0e0e0; --muted: #666;
+      --blue: #3b82f6; --green: #22c55e; --red: #ef4444;
+      --orange: #f59e0b; --purple: #a855f7;
+    }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── HEADER ── */
+    .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .header h1 { font-size: 1rem; font-weight: 700; }
+    .header h1 span { color: var(--blue); }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .score-badge { font-size: .85rem; font-weight: 700; padding: 5px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; }
+    .score-badge span { color: var(--green); }
+    .btn { padding: 7px 16px; border-radius: 7px; font-size: .8rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg3); color: var(--text); cursor: pointer; transition: all .15s; }
+    .btn:hover { background: #222; border-color: #333; }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.primary:hover { background: #2563eb; }
+
+    /* ── PROGRESS ── */
+    .prog-wrap { height: 4px; background: var(--border); }
+    .prog-fill { height: 100%; background: var(--blue); transition: width .4s ease; }
+
+    /* ── FILTER BAR ── */
+    .filterbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 8px 28px; display: flex; gap: 6px; overflow-x: auto; flex-wrap: wrap; }
+    .filterbar::-webkit-scrollbar { display: none; }
+    .filter-pill { padding: 4px 12px; border-radius: 20px; font-size: .72rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); color: var(--muted); background: transparent; transition: all .15s; white-space: nowrap; }
+    .filter-pill:hover { color: var(--text); border-color: #333; }
+    .filter-pill.active { color: #fff; background: var(--blue); border-color: var(--blue); }
+
+    /* ── MAIN ── */
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 700px; overflow: hidden; }
+
+    /* ── QUESTION ── */
+    .q-header { padding: 20px 28px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+    .q-section { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 5px; color: #fff; flex-shrink: 0; }
+    .q-num { font-size: .8rem; color: var(--muted); margin-left: auto; flex-shrink: 0; }
+    .q-text { padding: 24px 28px 20px; font-size: 1.05rem; font-weight: 600; line-height: 1.5; }
+    .q-options { padding: 0 28px 28px; display: grid; gap: 10px; }
+    .option {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg3); cursor: pointer; transition: all .2s; font-size: .9rem; line-height: 1.4;
+    }
+    .option:hover:not(.disabled) { border-color: var(--blue); background: rgba(59,130,246,.06); }
+    .option.selected { border-color: var(--blue); background: rgba(59,130,246,.1); }
+    .option.correct  { border-color: var(--green); background: rgba(34,197,94,.1); }
+    .option.wrong    { border-color: var(--red);   background: rgba(239,68,68,.1); }
+    .option.show-correct { border-color: var(--green); background: rgba(34,197,94,.06); }
+    .option.disabled { cursor: default; }
+    .opt-letter { width: 28px; height: 28px; border-radius: 6px; background: var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; flex-shrink: 0; transition: all .2s; }
+    .option.correct  .opt-letter { background: var(--green); color: #000; }
+    .option.wrong    .opt-letter { background: var(--red);   color: #fff; }
+    .option.show-correct .opt-letter { background: var(--green); color: #000; }
+    .opt-text { flex: 1; padding-top: 3px; }
+
+    /* ── EXPLANATION ── */
+    .explanation { margin: 0 28px 24px; padding: 14px 16px; border-radius: 9px; font-size: .85rem; line-height: 1.55; display: none; }
+    .explanation.correct-exp { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2); color: #86efac; }
+    .explanation.correct-exp::before { content: '✓ '; font-weight: 700; }
+    .explanation.wrong-exp   { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.2);  color: #fca5a5; }
+    .explanation.wrong-exp::before { content: '✗ '; font-weight: 700; }
+    .explanation strong { color: #fff; }
+
+    /* ── ACTIONS ── */
+    .q-actions { padding: 16px 28px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid var(--border); }
+    .q-actions .left { font-size: .8rem; color: var(--muted); }
+
+    /* ── RESULTS SCREEN ── */
+    .results { display: none; flex-direction: column; align-items: center; padding: 48px 28px; text-align: center; }
+    .results.show { display: flex; }
+    .results-score { font-size: 4rem; font-weight: 800; margin-bottom: 8px; }
+    .results-label { font-size: 1rem; color: var(--muted); margin-bottom: 32px; }
+    .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 420px; margin-bottom: 32px; }
+    .stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 16px 12px; }
+    .stat-val { font-size: 1.6rem; font-weight: 700; }
+    .stat-lbl { font-size: .72rem; color: var(--muted); margin-top: 2px; }
+    .results-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+    /* ── REVIEW ── */
+    .review { display: none; padding: 28px; }
+    .review.show { display: block; }
+    .review-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+    .review-q { padding: 14px 18px; font-size: .9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .review-badge { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; flex-shrink: 0; }
+    .review-badge.ok  { background: rgba(34,197,94,.2); color: var(--green); }
+    .review-badge.ko  { background: rgba(239,68,68,.2);  color: var(--red); }
+    .review-detail { padding: 0 18px 14px; font-size: .82rem; color: var(--muted); line-height: 1.5; }
+    .review-detail strong { color: var(--text); }
+
+    /* ── START SCREEN ── */
+    .start { display: flex; flex-direction: column; align-items: center; padding: 52px 28px; text-align: center; }
+    .start h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
+    .start p { color: var(--muted); font-size: .9rem; margin-bottom: 32px; max-width: 400px; line-height: 1.6; }
+    .start-stats { display: flex; gap: 20px; margin-bottom: 36px; flex-wrap: wrap; justify-content: center; }
+    .start-stat { font-size: .8rem; color: var(--muted); }
+    .start-stat strong { display: block; font-size: 1.4rem; font-weight: 700; color: var(--text); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Quiz E5 — <span>Dimitri Rey</span></h1>
+  <div class="header-right">
+    <div class="score-badge" id="scoreBadge" style="display:none">Score : <span id="scoreNum">0</span> / <span id="scoreTotal">0</span></div>
+    <button class="btn" onclick="showReview()" id="btnReview" style="display:none">📋 Révision</button>
+    <button class="btn primary" onclick="restartQuiz()" id="btnRestart" style="display:none">↺ Recommencer</button>
+    <a href="guide.html" class="btn">📖 Guide</a>
+  </div>
+</div>
+<div class="prog-wrap"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+<div class="filterbar" id="filterBar" style="display:none">
+  <button class="filter-pill active" onclick="setFilter('all', this)">Tout</button>
+  <button class="filter-pill" onclick="setFilter('Parcours', this)">Parcours</button>
+  <button class="filter-pill" onclick="setFilter('Oelis', this)">Oelis</button>
+  <button class="filter-pill" onclick="setFilter('C1', this)">C1 — Patrimoine</button>
+  <button class="filter-pill" onclick="setFilter('C2', this)">C2 — Incidents</button>
+  <button class="filter-pill" onclick="setFilter('C3', this)">C3 — En ligne</button>
+  <button class="filter-pill" onclick="setFilter('C4', this)">C4 — Projet</button>
+  <button class="filter-pill" onclick="setFilter('C5', this)">C5 — Services</button>
+  <button class="filter-pill" onclick="setFilter('C6', this)">C6 — Dev pro</button>
+  <button class="filter-pill" onclick="setFilter('Veille IA', this)">Veille IA</button>
+  <button class="filter-pill" onclick="setFilter('Veille PQ', this)">Veille Post-quantique</button>
+</div>
+
+<div class="main" id="mainArea">
+  <div class="card" id="quizCard">
+
+    <!-- START -->
+    <div class="start" id="startScreen">
+      <h2>Quiz de préparation E5</h2>
+      <p>Teste ta connaissance de ton portfolio, tes outils, tes compétences et tes veilles technologiques. Clique sur une réponse pour valider.</p>
+      <div class="start-stats">
+        <div class="start-stat"><strong id="totalQ">62</strong>Questions</div>
+        <div class="start-stat"><strong>8</strong>Thèmes</div>
+        <div class="start-stat"><strong>4</strong>Choix par question</div>
+      </div>
+      <button class="btn primary" style="font-size:.95rem;padding:12px 32px;" onclick="startQuiz()">▶ Commencer le quiz</button>
+    </div>
+
+    <!-- QUESTION -->
+    <div id="questionArea" style="display:none">
+      <div class="q-header">
+        <div class="q-section" id="qSection">C1</div>
+        <div style="flex:1;font-size:.78rem;color:var(--muted)" id="qTheme"></div>
+        <div class="q-num" id="qNum">1 / 62</div>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-options" id="qOptions"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="q-actions">
+        <div class="left" id="qHint">Choisis une réponse</div>
+        <button class="btn primary" id="btnNext" onclick="nextQuestion()" style="display:none">Question suivante →</button>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results" id="resultsScreen">
+      <div class="results-score" id="finalScore">—</div>
+      <div class="results-label" id="finalLabel">Quiz terminé</div>
+      <div class="results-grid">
+        <div class="stat-card"><div class="stat-val" id="statCorrect" style="color:var(--green)">0</div><div class="stat-lbl">Correctes</div></div>
+        <div class="stat-card"><div class="stat-val" id="statWrong"   style="color:var(--red)">0</div><div class="stat-lbl">Incorrectes</div></div>
+        <div class="stat-card"><div class="stat-val" id="statPct"     style="color:var(--blue)">0%</div><div class="stat-lbl">Réussite</div></div>
+      </div>
+      <div class="results-actions">
+        <button class="btn primary" onclick="restartQuiz()">↺ Recommencer</button>
+        <button class="btn" onclick="showReview()">📋 Voir les erreurs</button>
+        <button class="btn" onclick="restartWrong()" id="btnRetryWrong">🎯 Refaire les erreurs</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- REVIEW -->
+<div class="review" id="reviewArea">
+  <div style="max-width:700px;margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:1.1rem">📋 Révision des réponses</h2>
+      <button class="btn" onclick="hideReview()">← Retour</button>
+    </div>
+    <div id="reviewList"></div>
+  </div>
+</div>
+
+<script>
+const COLORS = {
+  'Parcours':    '#475569',
+  'Oelis':       '#3b82f6',
+  'C1':          '#22c55e',
+  'C2':          '#22c55e',
+  'C3':          '#f59e0b',
+  'C4':          '#a855f7',
+  'C5':          '#06b6d4',
+  'C6':          '#ec4899',
+  'Veille IA':   '#3b82f6',
+  'Veille PQ':   '#a855f7',
+};
+
+const ALL_QUESTIONS = [
+  // ── PARCOURS ──
+  { s:'Parcours', q:"Combien d'années Dimitri a-t-il passé dans l'armée de Terre ?", o:["2 ans","4 ans","6 ans","8 ans"], c:1, e:"Dimitri a passé <strong>4 ans dans l'armée de Terre</strong> (2017-2021) en tant que technicien helpdesk dans un environnement classifié." },
+  { s:'Parcours', q:"Où travaillait Dimitri avant de commencer le BTS SIO ?", o:["Mairie de Saint-Étienne","Conseil départemental du Doubs","Oelis","SNCF"], c:1, e:"Après l'armée, Dimitri a travaillé <strong>2 ans au Conseil départemental du Doubs</strong> comme technicien helpdesk sur un parc de plusieurs centaines de postes." },
+  { s:'Parcours', q:"Que signifie l'acronyme SISR dans BTS SIO SISR ?", o:["Systèmes Informatiques, Sécurité et Réseaux","Solutions d'Infrastructure, Systèmes et Réseaux","Services Informatiques, Systèmes et Réseaux","Sécurité des Infrastructures Systèmes et Réseaux"], c:1, e:"<strong>SISR = Solutions d'Infrastructure, Systèmes et Réseaux</strong>. C'est l'option orientée infrastructure/réseau, par opposition à SLAM (développement)." },
+  { s:'Parcours', q:"Dans quel établissement Dimitri prépare-t-il son BTS ?", o:["CFAI LDA","CFA de Saint-Étienne","Lycée Beauregard","IUT du Doubs"], c:0, e:"Dimitri est en alternance au <strong>CFAI LDA</strong> (Centre de Formation par Alternance)." },
+  { s:'Parcours', q:"Quel est le principal avantage du parcours militaire de Dimitri pour son futur métier ?", o:["Il connaît les armes","Rigueur, culture de la sécurité et gestion du stress","Il a un rang élevé","Il a travaillé en réseau OTAN"], c:1, e:"L'armée apporte <strong>rigueur, discipline, culture de la sécurité et gestion du stress</strong> — des qualités directement applicables en cybersécurité et administration système." },
+
+  // ── OELIS ──
+  { s:'Oelis', q:"Oelis est spécialisé dans quels domaines ?", o:["Développement web, SEO, marketing","Infogérance, VoIP, cybersécurité","Vente de matériel, formation, audit","Cloud, IA, big data"], c:1, e:"Oelis est un prestataire spécialisé en <strong>infogérance, VoIP et cybersécurité</strong>, qui accompagne des PME, grandes entreprises et collectivités." },
+  { s:'Oelis', q:"Qu'est-ce que l'infogérance ?", o:["La vente de logiciels informatiques","L'externalisation de la gestion informatique d'une entreprise","La formation des employés à l'informatique","L'hébergement de sites web"], c:1, e:"L'<strong>infogérance</strong> = externalisation de tout ou partie de la gestion du SI. Le client paye un abonnement et Oelis gère son infrastructure à sa place." },
+  { s:'Oelis', q:"Quel est le rôle de Dimitri chez Oelis ?", o:["Développeur web","Chef de projet","Support N1/N2 + admin systèmes et réseaux","Responsable commercial"], c:2, e:"Dimitri intervient en <strong>support de niveau 1 et 2</strong>, en tant que helpdesk et administrateur systèmes et réseaux." },
+  { s:'Oelis', q:"Quelle est la différence entre le support N1 et N2 ?", o:["N1 = réseau, N2 = système","N1 = problèmes simples et courants, N2 = incidents complexes","N1 = clients internes, N2 = clients externes","N1 = logiciels, N2 = matériel"], c:1, e:"<strong>N1</strong> = premier niveau, incidents simples (mot de passe, imprimante). <strong>N2</strong> = incidents complexes nécessitant une expertise technique (serveur, firewall, réseau)." },
+
+  // ── C1 ──
+  { s:'C1', q:"À quoi sert Lansweeper ?", o:["Gérer les sauvegardes","Inventaire automatique du parc informatique","Surveiller le réseau en temps réel","Déployer des mises à jour"], c:1, e:"<strong>Lansweeper</strong> scanne le réseau et référence automatiquement tous les équipements : serveurs, postes, switches, licences logicielles." },
+  { s:'C1', q:"Qu'est-ce qu'ITIL ?", o:["Un logiciel d'inventaire réseau","Un langage de programmation","Un référentiel de bonnes pratiques pour la gestion des services IT","Un protocole réseau"], c:2, e:"<strong>ITIL</strong> n'est pas un logiciel mais un ensemble de <strong>bonnes pratiques</strong> pour gérer les services informatiques (incidents, changements, actifs IT...)." },
+  { s:'C1', q:"GPO signifie :", o:["General Protocol Object","Group Policy Object","Global Permission Override","Gateway Proxy Option"], c:1, e:"<strong>GPO = Group Policy Object</strong>. Ce sont des règles appliquées automatiquement aux utilisateurs/ordinateurs via Active Directory (interdire l'accès au panneau de configuration, bloquer les USB...)." },
+  { s:'C1', q:"Active Directory sert principalement à :", o:["Héberger des sites web","Gérer les sauvegardes automatiques","Centraliser la gestion des utilisateurs et des droits d'accès","Surveiller les performances réseau"], c:2, e:"<strong>Active Directory</strong> est l'annuaire Microsoft qui centralise la gestion des utilisateurs, groupes et droits d'accès dans un réseau Windows." },
+  { s:'C1', q:"Hyper-V est :", o:["Un logiciel de sauvegarde","Un hyperviseur Microsoft pour créer des machines virtuelles","Un firewall Microsoft","Un outil de monitoring réseau"], c:1, e:"<strong>Hyper-V</strong> est l'hyperviseur intégré à Windows Server. Il permet de créer des VMs, assurer la redondance et réaliser des tests de PRA." },
+  { s:'C1', q:"Que signifie RTO ?", o:["Remote Terminal Operation","Recovery Time Objective","Real-Time Output","Redundant Transfer Object"], c:1, e:"<strong>RTO = Recovery Time Objective</strong> : durée maximale acceptable pour reprendre l'activité après un incident. Dimitri l'a réduit de 4h à 30 min." },
+  { s:'C1', q:"De combien à combien Dimitri a-t-il réduit le RTO chez Oelis ?", o:["De 8h à 1h","De 2h à 15 min","De 4h à 30 min","De 1h à 10 min"], c:2, e:"Grâce aux tests de restauration Veeam et à la VM Hyper-V de secours, le <strong>RTO est passé de 4 heures à 30 minutes</strong>." },
+  { s:'C1', q:"À quoi sert Veeam ?", o:["Inventaire réseau","Monitoring système","Sauvegarde et restauration de serveurs/VMs","Gestion des licences logicielles"], c:2, e:"<strong>Veeam</strong> est un logiciel spécialisé dans la sauvegarde et la restauration de machines virtuelles et serveurs. Chez Oelis, rétention 7 et 30 jours." },
+  { s:'C1', q:"Synology fabrique quoi ?", o:["Des firewalls","Des NAS (serveurs de stockage réseau)","Des switches réseau","Des routeurs VPN"], c:1, e:"<strong>Synology</strong> est un fabricant de NAS (Network Attached Storage). Les NAS Synology stockent les sauvegardes Veeam chez les clients d'Oelis." },
+  { s:'C1', q:"SLA signifie :", o:["System Log Archive","Service Level Agreement","Secure Local Access","Server Lifecycle Administration"], c:1, e:"<strong>SLA = Service Level Agreement</strong> : contrat définissant les engagements de qualité de service (temps de réponse, temps de résolution, disponibilité garantie)." },
+  { s:'C1', q:"Qu'est-ce qu'un PRA ?", o:["Plan de Référencement Automatique","Plan de Reprise d'Activité","Protocole de Réseau Avancé","Procédure de Restauration Active"], c:1, e:"<strong>PRA = Plan de Reprise d'Activité</strong> : ensemble de procédures pour reprendre l'activité après un sinistre (panne, incendie, cyberattaque). Dimitri a réalisé des tests de PRA avec basculement en 5 min." },
+  { s:'C1', q:"La rétention des sauvegardes chez Oelis est de :", o:["3 et 7 jours","7 et 30 jours","14 et 60 jours","1 et 7 jours"], c:1, e:"Chez Oelis : <strong>7 jours</strong> pour les sauvegardes quotidiennes et <strong>30 jours</strong> pour les hebdomadaires." },
+
+  // ── C2 ──
+  { s:'C2', q:"À quoi sert un système de ticketing ?", o:["Gérer les accès utilisateurs","Enregistrer et suivre chaque incident ou demande","Surveiller les performances des serveurs","Déployer des mises à jour automatiques"], c:1, e:"Le <strong>ticketing</strong> enregistre chaque demande sous forme de ticket numéroté avec priorité, responsable et statut. Permet de ne rien oublier et de tracer les interventions." },
+  { s:'C2', q:"Cisco est connu pour :", o:["Les logiciels de sauvegarde","Les systèmes d'exploitation","Les équipements réseau (switches, routeurs)","Les solutions antivirus"], c:2, e:"<strong>Cisco</strong> est le leader mondial des équipements réseau : switches, routeurs, firewalls. Dimitri intervient sur la configuration des switches Cisco des clients d'Oelis." },
+  { s:'C2', q:"Un firewall / pare-feu sert à :", o:["Accélérer le débit internet","Sauvegarder les données en temps réel","Filtrer le trafic réseau selon des règles de sécurité","Gérer les adresses IP automatiquement"], c:2, e:"Un <strong>firewall</strong> filtre le trafic réseau : il décide ce qui peut entrer et sortir du réseau selon des règles définies. C'est la porte de sécurité entre Internet et le réseau interne." },
+  { s:'C2', q:"Fortinet est :", o:["Un constructeur français de firewalls","Un constructeur américain de firewalls et sécurité réseau","Un éditeur de logiciels antivirus","Un fournisseur cloud européen"], c:1, e:"<strong>Fortinet</strong> est américain, leader mondial des firewalls d'entreprise (produits FortiGate). Très répandu en PME et grandes entreprises." },
+  { s:'C2', q:"Stormshield se différencie de Fortinet car :", o:["Il est moins cher","Il est français et certifié ANSSI","Il gère aussi les sauvegardes","Il est open source"], c:1, e:"<strong>Stormshield</strong> est français (filiale d'Airbus), certifié par l'ANSSI. Préféré pour les secteurs sensibles (défense, collectivités) pour son origine européenne et sa certification française." },
+  { s:'C2', q:"Splashtop est un outil de :", o:["Sauvegarde distante","Télémaintenance (prise de contrôle à distance)","Surveillance réseau","Gestion de projet"], c:1, e:"<strong>Splashtop</strong> permet de prendre le contrôle d'un ordinateur à distance, comme si on était devant l'écran. Utilisé par Dimitri pour intervenir sans se déplacer chez les clients d'Oelis." },
+  { s:'C2', q:"Microsoft 365 comprend :", o:["Seulement Word et Excel","Word, Excel, Teams, Outlook, OneDrive, SharePoint...","Uniquement des outils cloud","Visual Studio et les outils de développement"], c:1, e:"<strong>Microsoft 365</strong> est une suite complète accessible en cloud : Word, Excel, PowerPoint, Outlook, Teams, OneDrive, SharePoint... Les entreprises paient un abonnement mensuel par utilisateur." },
+  { s:'C2', q:"VoIP signifie :", o:["Virtual Office Internet Protocol","Voice over IP (téléphonie via Internet)","Video over Internet Protocol","Virtual Open IP"], c:1, e:"<strong>VoIP = Voice over IP</strong> : technologie de téléphonie via Internet. Les appels transitent par le réseau IP au lieu des lignes téléphoniques classiques. Moins coûteux et plus flexible." },
+  { s:'C2', q:"3CX est :", o:["Un switch réseau","Un logiciel de monitoring","Une solution de téléphonie VoIP","Un hyperviseur"], c:2, e:"<strong>3CX</strong> est un IPBX (standard téléphonique IP) très utilisé en PME. Il gère les appels internes et externes d'une entreprise via Internet." },
+  { s:'C2', q:"La base de connaissances chez Oelis sert à :", o:["Stocker les sauvegardes","Référencer les solutions aux problèmes déjà rencontrés","Gérer les licences logicielles","Surveiller les performances réseau"], c:1, e:"La <strong>base de connaissances</strong> documente les solutions aux incidents déjà résolus. Quand le même problème revient, on s'y réfère pour résoudre plus vite, sans recréer la solution from scratch." },
+
+  // ── C3 ──
+  { s:'C3', q:"En quels langages est codé le portfolio de Dimitri ?", o:["PHP, Python, Ruby","HTML, CSS, JavaScript","Java, Kotlin, Swift","React, Vue, Angular"], c:1, e:"Le portfolio est entièrement codé en <strong>HTML, CSS et JavaScript vanille</strong>, sans framework, ce qui démontre la maîtrise des bases du web." },
+  { s:'C3', q:"GitHub Pages permet de :", o:["Gérer des tickets d'incidents","Héberger gratuitement des sites web statiques","Créer des bases de données","Déployer des applications mobile"], c:1, e:"<strong>GitHub Pages</strong> héberge gratuitement des sites statiques (HTML/CSS/JS). L'URL du portfolio est dimitri-rey.github.io/Portfolio. Bonus : démontre la maîtrise de Git." },
+  { s:'C3', q:"Git est :", o:["Un langage de programmation","Un système d'exploitation","Un logiciel de gestion de versions du code","Un éditeur de texte"], c:2, e:"<strong>Git</strong> est un logiciel de gestion de versions. Il garde l'historique de toutes les modifications du code, permet de revenir en arrière et de travailler en équipe." },
+  { s:'C3', q:"WordPress est un :", o:["Langage de programmation","Système d'exploitation","Logiciel de montage vidéo","CMS (système de gestion de contenu)"], c:3, e:"<strong>WordPress</strong> est un CMS (Content Management System) qui permet de créer des sites web sans coder via une interface graphique. Utilisé pour elanvertical.fr." },
+  { s:'C3', q:"RGPD signifie :", o:["Règlement Général sur la Protection des Données","Référentiel de Gestion des Projets Digitaux","Règles Générales pour la Protection des Droits","Registre Général des Pratiques Digitales"], c:0, e:"<strong>RGPD = Règlement Général sur la Protection des Données</strong>. Loi européenne de 2018 qui encadre la collecte des données personnelles. Obligation : mentions légales + politique de confidentialité." },
+  { s:'C3', q:"SEO signifie :", o:["System Encryption Option","Search Engine Optimization","Secure Email Output","Server Execution Order"], c:1, e:"<strong>SEO = Search Engine Optimization</strong> : techniques pour améliorer le référencement naturel sur Google (balises meta, HTML sémantique, vitesse de chargement, mots-clés)." },
+  { s:'C3', q:"Quel site a été créé sous WordPress par Dimitri ?", o:["Son portfolio","dimitri-rey.fr","elanvertical.fr","oelis.fr"], c:2, e:"Dimitri a créé et maintient le site <strong>elanvertical.fr</strong> (site d'un club d'escalade) sous WordPress." },
+
+  // ── C4 ──
+  { s:'C4', q:"Quel type de projet illustre le bloc C4 chez Oelis ?", o:["Déploiement de firewalls","Migration de serveurs","Création d'un site web","Installation d'un système VoIP"], c:1, e:"Le bloc C4 est illustré par des projets de <strong>migration de serveurs</strong> chez des clients d'Oelis." },
+  { s:'C4', q:"ProjectLibre est :", o:["Un logiciel de sauvegarde open source","Un logiciel de gestion de projet open source (alternative à MS Project)","Un outil de monitoring réseau","Un éditeur de code"], c:1, e:"<strong>ProjectLibre</strong> est l'équivalent open source de Microsoft Project. Il permet de créer des plannings, définir des tâches, calculer des durées et générer des diagrammes de Gantt." },
+  { s:'C4', q:"Qu'est-ce qu'un diagramme de Gantt ?", o:["Un graphique circulaire de répartition des coûts","Un schéma de réseau informatique","Une représentation visuelle d'un planning de projet sous forme de barres horizontales","Un tableau de bord de monitoring"], c:2, e:"Le <strong>diagramme de Gantt</strong> représente un planning sous forme de barres horizontales sur une frise chronologique. Chaque barre = une tâche, sa longueur = sa durée." },
+  { s:'C4', q:"Quel écart (problème) a été rencontré lors de la migration ?", o:["Un problème de réseau chez le client","Une incompatibilité matérielle","Un virus informatique","Un manque de budget"], c:1, e:"Une <strong>incompatibilité matérielle</strong> a causé un retard de 2 jours. Solution : mise en place d'une VM temporaire et ajustement du planning." },
+  { s:'C4', q:"Pourquoi les interventions de migration se faisaient le week-end ?", o:["Pour des raisons de coût","Pour ne pas perturber les utilisateurs","Parce que le client était fermé la semaine","Pour avoir plus de temps"], c:1, e:"La contrainte principale était d'intervenir le week-end pour <strong>ne pas perturber les utilisateurs</strong> en période d'activité. Les applications métier devaient rester disponibles en semaine." },
+
+  // ── C5 ──
+  { s:'C5', q:"MikroTik est :", o:["Un éditeur de logiciels antivirus","Un constructeur de routeurs et équipements réseau","Un fournisseur cloud","Un fabricant de serveurs"], c:1, e:"<strong>MikroTik</strong> est un constructeur letton de routeurs et équipements réseau. Très utilisé en PME, moins cher que Cisco mais très puissant." },
+  { s:'C5', q:"Qu'est-ce qu'un test d'intégration ?", o:["Tester les sauvegardes manuellement","Vérifier qu'un nouveau service fonctionne correctement avec le reste du système","Former les utilisateurs à un nouveau logiciel","Auditer la sécurité d'un réseau"], c:1, e:"Un <strong>test d'intégration</strong> vérifie qu'un nouveau service ou équipement fonctionne correctement avec le reste du système existant. On teste la connectivité, les performances, la sécurité." },
+  { s:'C5', q:"Nginx est :", o:["Un système de sauvegarde","Un firewall open source","Un serveur web open source","Un outil de monitoring"], c:2, e:"<strong>Nginx</strong> est un serveur web open source très performant. Il peut héberger des sites, agir comme reverse proxy ou répartir la charge. Alternative rapide à Apache." },
+  { s:'C5', q:"Nextcloud est :", o:["Un service d'email d'entreprise","Une solution de stockage cloud auto-hébergée (alternative à Google Drive)","Un logiciel de visioconférence","Un outil de gestion de projet"], c:1, e:"<strong>Nextcloud</strong> est une solution de stockage et partage de fichiers auto-hébergée. Alternative à Google Drive ou OneDrive, mais installée sur ses propres serveurs pour garder le contrôle des données." },
+  { s:'C5', q:"À quoi sert Docker ?", o:["À gérer les droits d'accès utilisateurs","À packager des applications dans des conteneurs portables","À surveiller les performances serveur","À créer des sauvegardes incrémentales"], c:1, e:"<strong>Docker</strong> permet de packager une application et toutes ses dépendances dans un conteneur. Ce conteneur fonctionne de façon identique partout. Simplifie le déploiement et l'isolation des applications." },
+  { s:'C5', q:"Quelle est la différence entre un conteneur Docker et une VM ?", o:["Il n'y a pas de différence","La VM est plus rapide","Le conteneur isole juste l'application et partage le noyau hôte ; la VM simule un ordinateur complet","Le conteneur nécessite plus de ressources"], c:2, e:"Un <strong>conteneur Docker</strong> isole seulement l'application et partage le noyau du système hôte → plus léger et rapide. Une <strong>VM</strong> simule un ordinateur complet avec son propre OS → plus lourd mais isolation totale." },
+  { s:'C5', q:"Haproxy est :", o:["Un logiciel de sauvegarde","Un serveur web","Un répartiteur de charge (load balancer)","Un système de ticketing"], c:2, e:"<strong>Haproxy</strong> est un load balancer : il distribue le trafic réseau entre plusieurs serveurs pour éviter la surcharge. Si un serveur tombe, il redirige automatiquement vers les autres." },
+  { s:'C5', q:"La latence se mesure en :", o:["Mégabits par seconde (Mbps)","Gigaoctets (Go)","Millisecondes (ms)","Hertz (Hz)"], c:2, e:"La <strong>latence</strong> est le délai de transmission des données, mesurée en <strong>millisecondes (ms)</strong>. On la mesure avec la commande ping. Faible latence = réseau réactif." },
+
+  // ── C6 ──
+  { s:'C6', q:"Sur quel hyperviseur tourne le homelab de Dimitri ?", o:["VMware ESXi","Hyper-V","Proxmox","VirtualBox"], c:2, e:"Le homelab de Dimitri tourne sous <strong>Proxmox</strong>, un hyperviseur open source basé sur Linux. Il gère des VMs et des conteneurs LXC." },
+  { s:'C6', q:"Proxmox se différencie d'Hyper-V car :", o:["Proxmox est plus récent","Proxmox est open source et multi-plateforme, Hyper-V est propriétaire Microsoft","Proxmox est moins stable","Proxmox ne supporte pas les VMs"], c:1, e:"<strong>Proxmox</strong> est open source, gratuit et fonctionne sur Linux. <strong>Hyper-V</strong> est propriétaire Microsoft, intégré à Windows Server. Proxmox est privilégié en homelab pour son coût nul." },
+  { s:'C6', q:"À quoi sert Grafana ?", o:["Gérer les sauvegardes","Créer des sites web","Visualiser des métriques et créer des tableaux de bord de monitoring","Scanner le réseau"], c:2, e:"<strong>Grafana</strong> est un outil de visualisation open source. Il affiche des graphiques en temps réel (CPU, RAM, réseau, disque...) à partir de sources de données comme Prometheus." },
+  { s:'C6', q:"kDrive est proposé par :", o:["Google","Microsoft","OVH","Infomaniak"], c:3, e:"<strong>kDrive</strong> est le service de stockage cloud d'<strong>Infomaniak</strong>, hébergeur suisse. Alternative respectueuse de la vie privée à Google Drive, hébergée en Europe." },
+  { s:'C6', q:"Bachelor AIS signifie :", o:["Bachelor Audit Informatique et Sécurité","Bachelor Administrateur d'Infrastructures Sécurisées","Bachelor Administration et Ingénierie des Systèmes","Bachelor Architecture et Infrastructure des SI"], c:1, e:"<strong>AIS = Administrateur d'Infrastructures Sécurisées</strong>. Titre professionnel de niveau 6 (Bac+3), prochaine étape de Dimitri après le BTS." },
+  { s:'C6', q:"SOC signifie :", o:["System Operations Command","Security Operations Center","Secure Online Communication","Service Optimization Core"], c:1, e:"<strong>SOC = Security Operations Center</strong> : centre de surveillance de la sécurité informatique. Les analystes SOC surveillent les alertes 24h/24 et répondent aux incidents de sécurité." },
+  { s:'C6', q:"Quels outils Dimitri utilise-t-il pour sa veille technologique ?", o:["Feedly, CERT-FR, Krebs on Security","Google Actualité, ANSSI, X, Clubbic, Perplexity","Twitter, Reddit, Wikipedia, LinkedIn","YouTube, Twitch, Discord, Forums"], c:1, e:"Dimitri utilise <strong>Google Actualité, ANSSI, X (ex-Twitter), Clubbic et Perplexity</strong> pour sa veille. 2 thèmes documentés avec 6 sources vérifiées chacun." },
+
+  // ── VEILLE IA ──
+  { s:'Veille IA', q:"Qu'est-ce que le phishing ?", o:["Un logiciel malveillant qui chiffre les données","Un e-mail frauduleux pour voler des identifiants","Une attaque par déni de service","Un virus qui se propage par USB"], c:1, e:"Le <strong>phishing</strong> (hameçonnage) est une technique d'arnaque par e-mail : un faux e-mail imite une organisation officielle pour voler les identifiants. Avec l'IA, ces e-mails sont de plus en plus personnalisés et convaincants." },
+  { s:'Veille IA', q:"Un deepfake, c'est quoi ?", o:["Un faux compte sur les réseaux sociaux","Un contenu audio ou vidéo truqué par l'IA imitant une vraie personne","Un virus qui modifie les fichiers","Un faux site web qui copie un original"], c:1, e:"Un <strong>deepfake</strong> est un contenu audio ou vidéo généré par l'IA qui imite de façon réaliste une vraie personne. Utilisé pour l'usurpation d'identité, la fraude ou la désinformation." },
+  { s:'Veille IA', q:"Un malware adaptatif se caractérise par :", o:["Sa taille très réduite en mémoire","Sa capacité à se modifier automatiquement pour éviter la détection","Sa propagation uniquement par email","Son chiffrement des données de la victime"], c:1, e:"Un <strong>malware adaptatif</strong> utilise l'IA pour générer des variantes de lui-même et contourner les signatures des antivirus. Il se modifie automatiquement pour rester indétectable." },
+  { s:'Veille IA', q:"Comment l'IA aide-t-elle les défenseurs en cybersécurité ?", o:["En créant des antivirus plus légers","En détectant les anomalies comportementales et en automatisant la réponse aux menaces","En remplaçant tous les techniciens de sécurité","En chiffrant les données automatiquement"], c:1, e:"L'IA aide les défenseurs en <strong>détectant les comportements anormaux</strong>, en <strong>automatisant la réponse</strong> aux incidents (isoler un poste, bloquer une IP) et en <strong>analysant les menaces</strong> mondiales." },
+  { s:'Veille IA', q:"Quelle est la problématique de ta veille sur les cyberattaques IA ?", o:["Comment bloquer tous les e-mails frauduleux ?","Comment l'IA est-elle utilisée dans les cyberattaques, et comment les organisations peuvent-elles s'en défendre ?","Faut-il interdire l'intelligence artificielle ?","Comment créer un antivirus basé sur l'IA ?"], c:1, e:"La problématique est : <strong>\"Comment l'IA est-elle utilisée dans les cyberattaques, et comment les organisations peuvent-elles s'en défendre ?\"</strong>" },
+
+  // ── VEILLE POST-QUANTIQUE ──
+  { s:'Veille PQ', q:"Qu'est-ce que la cryptographie ?", o:["La science des ordinateurs quantiques","La science du chiffrement des données","La science de la compression des fichiers","La science de la transmission réseau"], c:1, e:"La <strong>cryptographie</strong> est la science du chiffrement des données pour les rendre illisibles par quiconque n'a pas la clé de déchiffrement. Utilisée partout : HTTPS, emails, VPN, paiements." },
+  { s:'Veille PQ', q:"Le chiffrement RSA est basé sur :", o:["La vitesse de la lumière","La difficulté de factoriser de très grands nombres","L'entropie des systèmes","Les propriétés des ondes quantiques"], c:1, e:"<strong>RSA</strong> repose sur la difficulté mathématique de factoriser de très grands nombres premiers. Un ordinateur classique mettrait des milliards d'années, mais un ordinateur quantique pourrait le faire rapidement." },
+  { s:'Veille PQ', q:"Pourquoi les ordinateurs quantiques menacent le chiffrement actuel ?", o:["Ils consomment trop d'énergie","Ils pourraient casser les algorithmes comme RSA en un temps très court","Ils sont trop chers pour être achetés","Ils ne fonctionnent qu'à très basse température"], c:1, e:"Les ordinateurs quantiques pourraient <strong>casser RSA et les autres chiffrements actuels</strong> grâce à leur puissance de calcul exceptionnelle pour certains problèmes mathématiques." },
+  { s:'Veille PQ', q:"Qu'est-ce que 'Harvest Now, Decrypt Later' ?", o:["Une technique de sauvegarde progressive","Collecter des données chiffrées maintenant pour les déchiffrer plus tard avec un ordinateur quantique","Un algorithme de chiffrement hybride","Une méthode de migration des données"], c:1, e:"<strong>Harvest Now, Decrypt Later</strong> : des attaquants collectent dès aujourd'hui des données chiffrées (secrets d'État, données médicales) pour les déchiffrer plus tard quand ils auront un ordinateur quantique." },
+  { s:'Veille PQ', q:"NIST signifie :", o:["Network Infrastructure Security Team","National Institute of Standards and Technology","New Internet Security Technologies","National Information Security Trust"], c:1, e:"<strong>NIST = National Institute of Standards and Technology</strong> : organisme américain qui définit les standards technologiques. En 2024, il a validé les premiers algorithmes de cryptographie post-quantique." },
+  { s:'Veille PQ', q:"ANSSI signifie :", o:["Agence Nationale de Surveillance des Systèmes Informatiques","Agence Nationale de la Sécurité des Systèmes d'Information","Association Nationale des Spécialistes en Sécurité Informatique","Autorité Nationale des Standards et Systèmes Informatiques"], c:1, e:"<strong>ANSSI = Agence Nationale de la Sécurité des Systèmes d'Information</strong> : l'autorité française en cybersécurité. Elle publie des recommandations et certifie des produits (ex : Stormshield)." },
+  { s:'Veille PQ', q:"La cryptographie post-quantique (PQC), c'est :", o:["Le chiffrement utilisé par les ordinateurs quantiques","De nouveaux algorithmes de chiffrement résistants aux ordinateurs quantiques","Un protocole de communication quantique","Un algorithme plus rapide que RSA"], c:1, e:"La <strong>PQC (Post-Quantum Cryptography)</strong> désigne les nouveaux algorithmes de chiffrement conçus pour résister aux ordinateurs quantiques, tout en fonctionnant sur des ordinateurs classiques." },
+  { s:'Veille PQ', q:"Dans combien de temps la menace quantique est-elle estimée réelle ?", o:["Dans 1 à 2 ans","Dans 5 à 7 ans","Dans 10 à 15 ans","Dans plus de 50 ans"], c:2, e:"Les experts estiment que la menace quantique pourrait devenir réelle d'ici <strong>10 à 15 ans</strong>. C'est pour ça qu'il faut anticiper dès maintenant (surtout à cause du Harvest Now, Decrypt Later)." },
+  { s:'Veille PQ', q:"Quelle est la problématique de ta veille post-quantique ?", o:["Comment créer un ordinateur quantique ?","Comment les entreprises peuvent-elles protéger leurs données face à l'arrivée des ordinateurs quantiques ?","Faut-il interdire les ordinateurs quantiques ?","Quel pays aura le premier ordinateur quantique ?"], c:1, e:"La problématique est : <strong>\"Comment les entreprises peuvent-elles protéger leurs données face à l'arrivée des ordinateurs quantiques, et quelles solutions existent pour anticiper cette menace ?\"</strong>" },
+];
+
+// ── State ──────────────────────────────────────────────
+let questions = [];
+let current   = 0;
+let score     = 0;
+let answers   = []; // {correct: bool, qIdx: int, chosen: int}
+let answered  = false;
+let activeFilter = 'all';
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - .5); }
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function startQuiz() {
+  questions = shuffle(activeFilter === 'all' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.s === activeFilter));
+  current = 0; score = 0; answers = [];
+  document.getElementById('startScreen').style.display   = 'none';
+  document.getElementById('questionArea').style.display  = 'block';
+  document.getElementById('resultsScreen').classList.remove('show');
+  document.getElementById('scoreBadge').style.display = '';
+  document.getElementById('filterBar').style.display  = '';
+  updateScoreBadge();
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('qSection').textContent = q.s;
+  document.getElementById('qSection').style.background = COLORS[q.s] || '#475569';
+  document.getElementById('qNum').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progFill').style.width = (current / questions.length * 100) + '%';
+  document.getElementById('btnNext').style.display = 'none';
+  document.getElementById('qHint').textContent = 'Choisis une réponse';
+
+  const exp = document.getElementById('explanation');
+  exp.style.display = 'none';
+  exp.className = 'explanation';
+  exp.innerHTML = '';
+
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+  const shuffledOpts = q.o.map((text, i) => ({ text, orig: i }));
+  // Don't shuffle options (keep A B C D consistent)
+  shuffledOpts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.dataset.orig = opt.orig;
+    div.innerHTML = `<div class="opt-letter">${'ABCD'[i]}</div><div class="opt-text">${opt.text}</div>`;
+    div.onclick = () => selectOption(div, opt.orig);
+    opts.appendChild(div);
+  });
+}
+
+function selectOption(el, origIdx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const allOpts = document.querySelectorAll('.option');
+  allOpts.forEach(o => o.classList.add('disabled'));
+
+  const isCorrect = origIdx === q.c;
+  if (isCorrect) {
+    el.classList.add('correct');
+    score++;
+  } else {
+    el.classList.add('wrong');
+    // Show correct answer
+    allOpts.forEach(o => { if (parseInt(o.dataset.orig) === q.c) o.classList.add('show-correct'); });
+  }
+
+  answers.push({ correct: isCorrect, qIdx: current, chosen: origIdx });
+
+  const exp = document.getElementById('explanation');
+  exp.innerHTML = q.e;
+  exp.className = 'explanation ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
+  exp.style.display = 'block';
+
+  document.getElementById('qHint').textContent = isCorrect ? '✓ Bonne réponse !' : '✗ Mauvaise réponse';
+  document.getElementById('btnNext').style.display = '';
+  updateScoreBadge();
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function updateScoreBadge() {
+  document.getElementById('scoreNum').textContent  = score;
+  document.getElementById('scoreTotal').textContent = current + (answered ? 1 : 0);
+}
+
+function showResults() {
+  document.getElementById('questionArea').style.display = 'none';
+  document.getElementById('progFill').style.width = '100%';
+  const pct   = Math.round(score / questions.length * 100);
+  const wrong = questions.length - score;
+  document.getElementById('finalScore').textContent = pct + '%';
+  document.getElementById('finalScore').style.color = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--orange)' : 'var(--red)';
+  document.getElementById('finalLabel').textContent = pct >= 80 ? '🎉 Excellent ! Tu es prêt pour le jury.' : pct >= 50 ? '👍 Pas mal, encore un peu de révision !' : '📚 Il faut réviser, utilise le guide !';
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent   = wrong;
+  document.getElementById('statPct').textContent     = pct + '%';
+  document.getElementById('btnRetryWrong').style.display = wrong > 0 ? '' : 'none';
+  document.getElementById('resultsScreen').classList.add('show');
+  document.getElementById('btnReview').style.display  = '';
+  document.getElementById('btnRestart').style.display = '';
+}
+
+function restartQuiz() {
+  document.getElementById('btnReview').style.display  = 'none';
+  document.getElementById('btnRestart').style.display = 'none';
+  document.getElementById('resultsScreen').classList.remove('show');
+  document.getElementById('reviewArea').classList.remove('show');
+  document.getElementById('reviewArea').style.display = 'none';
+  document.getElementById('mainArea').style.display   = 'flex';
+  document.getElementById('questionArea').style.display = 'block';
+  document.getElementById('scoreBadge').style.display = '';
+  current = 0; score = 0; answers = [];
+  questions = shuffle(activeFilter === 'all' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.s === activeFilter));
+  updateScoreBadge();
+  showQuestion();
+}
+
+function restartWrong() {
+  const wrongQs = answers.filter(a => !a.correct).map(a => questions[a.qIdx]);
+  if (!wrongQs.length) return;
+  questions = shuffle(wrongQs);
+  current = 0; score = 0; answers = [];
+  document.getElementById('resultsScreen').classList.remove('show');
+  document.getElementById('questionArea').style.display = 'block';
+  document.getElementById('btnReview').style.display  = 'none';
+  document.getElementById('btnRestart').style.display = 'none';
+  updateScoreBadge();
+  showQuestion();
+}
+
+function showReview() {
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  answers.forEach((a, i) => {
+    const q = questions[a.qIdx];
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    div.innerHTML = `
+      <div class="review-q">
+        <div class="review-badge ${a.correct ? 'ok' : 'ko'}">${a.correct ? '✓' : '✗'}</div>
+        ${q.q}
+      </div>
+      ${!a.correct ? `<div class="review-detail">Ta réponse : <strong style="color:var(--red)">${q.o[a.chosen]}</strong><br>Bonne réponse : <strong style="color:var(--green)">${q.o[q.c]}</strong><br>${q.e}</div>` : ''}
+    `;
+    list.appendChild(div);
+  });
+  document.getElementById('mainArea').style.display   = 'none';
+  document.getElementById('reviewArea').style.display = 'block';
+  document.getElementById('reviewArea').classList.add('show');
+}
+
+function hideReview() {
+  document.getElementById('reviewArea').style.display = 'none';
+  document.getElementById('reviewArea').classList.remove('show');
+  document.getElementById('mainArea').style.display   = 'flex';
+}
+
+// Init
+document.getElementById('totalQ').textContent = ALL_QUESTIONS.length;
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    if (answered) { const btn = document.getElementById('btnNext'); if (btn.style.display !== 'none') nextQuestion(); }
+  }
+  if (['1','2','3','4'].includes(e.key)) {
+    const opts = document.querySelectorAll('.option:not(.disabled)');
+    const idx = parseInt(e.key) - 1;
+    if (opts[idx]) opts[idx].click();
+  }
+});
+</script>
+</body>
+</html>
