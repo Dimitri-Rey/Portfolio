@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mentions légales — Dimitri Rey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #3b82f6;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: rgba(255,255,255,.07);
+      --font-main: 'Inter', -apple-system, sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-main);
+      background: var(--primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(15,23,42,.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .header__inner {
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header__logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text-primary); font-weight: 700;
+    }
+    .header__logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 800; color: #fff;
+    }
+    .header__back {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--text-secondary); text-decoration: none;
+      font-size: .85rem; transition: color .2s;
+    }
+    .header__back:hover { color: var(--accent); }
+
+    /* Content */
+    .page {
+      max-width: 900px; margin: 0 auto; padding: 60px 24px 80px;
+    }
+    .page__badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.2);
+      color: var(--accent); font-size: .75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+    }
+    .page__title {
+      font-family: var(--font-heading);
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 12px;
+    }
+    .page__subtitle {
+      color: var(--text-secondary); font-size: 1rem; margin-bottom: 48px;
+    }
+
+    /* Sections */
+    .section {
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .section__title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section__title-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(59,130,246,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem;
+    }
+    .section p { color: var(--text-secondary); margin-bottom: 10px; font-size: .95rem; }
+    .section p:last-child { margin-bottom: 0; }
+    .section strong { color: var(--text-primary); }
+    .section a { color: var(--accent); text-decoration: none; }
+    .section a:hover { text-decoration: underline; }
+
+    /* Table */
+    .info-table { width: 100%; border-collapse: collapse; }
+    .info-table tr { border-bottom: 1px solid var(--border); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table td {
+      padding: 10px 0; font-size: .9rem; color: var(--text-secondary); vertical-align: top;
+    }
+    .info-table td:first-child {
+      color: var(--text-muted); font-weight: 600;
+      width: 200px; padding-right: 16px;
+      font-size: .8rem; text-transform: uppercase; letter-spacing: .04em;
+      padding-top: 12px;
+    }
+    .info-table td strong { color: var(--text-primary); }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0; text-align: center;
+      color: var(--text-muted); font-size: .8rem;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="index.html" class="header__logo">
+      <div class="header__logo-icon">DR</div>
+      <span>Dimitri Rey</span>
+    </a>
+    <a href="index.html" class="header__back">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      Retour au portfolio
+    </a>
+  </div>
+</header>
+
+<main class="page">
+  <div class="page__badge">Informations légales</div>
+  <h1 class="page__title">Mentions légales</h1>
+  <p class="page__subtitle">Conformément à la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN)</p>
+
+  <!-- Éditeur -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">👤</div>
+      Éditeur du site
+    </div>
+    <table class="info-table">
+      <tr>
+        <td>Nom</td>
+        <td><strong>Dimitri Rey</strong></td>
+      </tr>
+      <tr>
+        <td>Qualité</td>
+        <td>Particulier — Étudiant BTS SIO SISR</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><a href="mailto:pro@dimitri-rey.fr">pro@dimitri-rey.fr</a></td>
+      </tr>
+      <tr>
+        <td>Localisation</td>
+        <td>Saint-Étienne, Loire (42), France</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Hébergeur -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">🖥️</div>
+      Hébergeur
+    </div>
+    <table class="info-table">
+      <tr>
+        <td>Société</td>
+        <td><strong>GitHub, Inc.</strong></td>
+      </tr>
+      <tr>
+        <td>Service</td>
+        <td>GitHub Pages</td>
+      </tr>
+      <tr>
+        <td>Adresse</td>
+        <td>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis</td>
+      </tr>
+      <tr>
+        <td>Site web</td>
+        <td><a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Propriété intellectuelle -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">©</div>
+      Propriété intellectuelle
+    </div>
+    <p>L'ensemble du contenu de ce site (textes, images, structure, code source) est la propriété exclusive de <strong>Dimitri Rey</strong>, sauf mention contraire.</p>
+    <p>Toute reproduction, représentation, modification ou exploitation, totale ou partielle, par quelque procédé que ce soit, sans autorisation préalable écrite de l'auteur, est strictement interdite.</p>
+    <p>Les logos et marques citées (Cisco, Microsoft, Fortinet, etc.) appartiennent à leurs propriétaires respectifs et sont utilisés à titre illustratif dans un cadre pédagogique.</p>
+  </div>
+
+  <!-- Données personnelles -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">🔒</div>
+      Données personnelles — RGPD
+    </div>
+    <p>Ce site <strong>ne collecte aucune donnée personnelle</strong> de ses visiteurs. Il ne contient ni formulaire de contact, ni système de commentaires, ni outil de suivi analytique (Google Analytics, etc.).</p>
+    <p>Aucun cookie de traçage n'est déposé sur votre terminal. Les seuls échanges réseau proviennent du chargement des polices de caractères via <strong>Google Fonts</strong>, soumis à la politique de confidentialité de Google.</p>
+    <p>Conformément au <strong>Règlement Général sur la Protection des Données (RGPD)</strong> — Règlement UE 2016/679 — et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification et de suppression sur toute donnée vous concernant, en contactant : <a href="mailto:pro@dimitri-rey.fr">pro@dimitri-rey.fr</a></p>
+  </div>
+
+  <!-- Cookies -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">🍪</div>
+      Cookies
+    </div>
+    <p>Ce site n'utilise <strong>aucun cookie de pistage ou publicitaire</strong>. Le navigateur peut stocker des données de cache locales pour améliorer les performances de chargement, conformément aux mécanismes standards du web.</p>
+  </div>
+
+  <!-- Responsabilité -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">⚖️</div>
+      Limitation de responsabilité
+    </div>
+    <p>Les informations contenues sur ce site sont fournies à titre indicatif dans le cadre d'un portfolio professionnel. L'éditeur ne saurait être tenu responsable des erreurs ou omissions, ni des dommages directs ou indirects résultant de l'utilisation de ce site.</p>
+    <p>Ce site peut contenir des liens vers des sites tiers. L'éditeur n'assume aucune responsabilité quant au contenu de ces sites externes.</p>
+  </div>
+
+  <!-- Droit applicable -->
+  <div class="section">
+    <div class="section__title">
+      <div class="section__title-icon">🇫🇷</div>
+      Droit applicable
+    </div>
+    <p>Le présent site est soumis au <strong>droit français</strong>. Tout litige relatif à l'utilisation de ce site relève de la compétence exclusive des tribunaux français.</p>
+    <p>Dernière mise à jour : <strong>mars 2026</strong></p>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p>&copy; 2026 Dimitri Rey — <a href="index.html">Retour au portfolio</a></p>
+</footer>
+
+</body>
+</html>
