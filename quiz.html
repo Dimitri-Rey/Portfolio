@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Quiz E5 — Dimitri Rey</title>
+  <title>Quiz E5 : Dimitri Rey</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -111,7 +111,7 @@
 <body>
 
 <div class="header">
-  <h1>Quiz E5 — <span>Dimitri Rey</span></h1>
+  <h1>Quiz E5 : <span>Dimitri Rey</span></h1>
   <div class="header-right">
     <div class="score-badge" id="scoreBadge" style="display:none">Score : <span id="scoreNum">0</span> / <span id="scoreTotal">0</span></div>
     <button class="btn" onclick="showReview()" id="btnReview" style="display:none">📋 Révision</button>
@@ -125,12 +125,12 @@
   <button class="filter-pill active" onclick="setFilter('all', this)">Tout</button>
   <button class="filter-pill" onclick="setFilter('Parcours', this)">Parcours</button>
   <button class="filter-pill" onclick="setFilter('Oelis', this)">Oelis</button>
-  <button class="filter-pill" onclick="setFilter('C1', this)">C1 — Patrimoine</button>
-  <button class="filter-pill" onclick="setFilter('C2', this)">C2 — Incidents</button>
-  <button class="filter-pill" onclick="setFilter('C3', this)">C3 — En ligne</button>
-  <button class="filter-pill" onclick="setFilter('C4', this)">C4 — Projet</button>
-  <button class="filter-pill" onclick="setFilter('C5', this)">C5 — Services</button>
-  <button class="filter-pill" onclick="setFilter('C6', this)">C6 — Dev pro</button>
+  <button class="filter-pill" onclick="setFilter('C1', this)">C1 : Patrimoine</button>
+  <button class="filter-pill" onclick="setFilter('C2', this)">C2 : Incidents</button>
+  <button class="filter-pill" onclick="setFilter('C3', this)">C3 : En ligne</button>
+  <button class="filter-pill" onclick="setFilter('C4', this)">C4 : Projet</button>
+  <button class="filter-pill" onclick="setFilter('C5', this)">C5 : Services</button>
+  <button class="filter-pill" onclick="setFilter('C6', this)">C6 : Dev pro</button>
   <button class="filter-pill" onclick="setFilter('Veille IA', this)">Veille IA</button>
   <button class="filter-pill" onclick="setFilter('Veille PQ', this)">Veille Post-quantique</button>
 </div>
@@ -216,7 +216,7 @@ const ALL_QUESTIONS = [
   { s:'Parcours', q:"Où travaillait Dimitri avant de commencer le BTS SIO ?", o:["Mairie de Saint-Étienne","Conseil départemental du Doubs","Oelis","SNCF"], c:1, e:"Après l'armée, Dimitri a travaillé <strong>2 ans au Conseil départemental du Doubs</strong> comme technicien helpdesk sur un parc de plusieurs centaines de postes." },
   { s:'Parcours', q:"Que signifie l'acronyme SISR dans BTS SIO SISR ?", o:["Systèmes Informatiques, Sécurité et Réseaux","Solutions d'Infrastructure, Systèmes et Réseaux","Services Informatiques, Systèmes et Réseaux","Sécurité des Infrastructures Systèmes et Réseaux"], c:1, e:"<strong>SISR = Solutions d'Infrastructure, Systèmes et Réseaux</strong>. C'est l'option orientée infrastructure/réseau, par opposition à SLAM (développement)." },
   { s:'Parcours', q:"Dans quel établissement Dimitri prépare-t-il son BTS ?", o:["CFAI LDA","CFA de Saint-Étienne","Lycée Beauregard","IUT du Doubs"], c:0, e:"Dimitri est en alternance au <strong>CFAI LDA</strong> (Centre de Formation par Alternance)." },
-  { s:'Parcours', q:"Quel est le principal avantage du parcours militaire de Dimitri pour son futur métier ?", o:["Il connaît les armes","Rigueur, culture de la sécurité et gestion du stress","Il a un rang élevé","Il a travaillé en réseau OTAN"], c:1, e:"L'armée apporte <strong>rigueur, discipline, culture de la sécurité et gestion du stress</strong> — des qualités directement applicables en cybersécurité et administration système." },
+  { s:'Parcours', q:"Quel est le principal avantage du parcours militaire de Dimitri pour son futur métier ?", o:["Il connaît les armes","Rigueur, culture de la sécurité et gestion du stress","Il a un rang élevé","Il a travaillé en réseau OTAN"], c:1, e:"L'armée apporte <strong>rigueur, discipline, culture de la sécurité et gestion du stress</strong> : des qualités directement applicables en cybersécurité et administration système." },
 
   // ── OELIS ──
   { s:'Oelis', q:"Oelis est spécialisé dans quels domaines ?", o:["Développement web, SEO, marketing","Infogérance, VoIP, cybersécurité","Vente de matériel, formation, audit","Cloud, IA, big data"], c:1, e:"Oelis est un prestataire spécialisé en <strong>infogérance, VoIP et cybersécurité</strong>, qui accompagne des PME, grandes entreprises et collectivités." },

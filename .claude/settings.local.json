@@ -19,7 +19,13 @@
       "Bash(pip install:*)",
       "Bash(git checkout:*)",
       "Bash(wc:*)",
-      "WebFetch(domain:elanvertical.fr)"
+      "WebFetch(domain:elanvertical.fr)",
+      "Bash(mkdir:*)",
+      "Bash(pip3 list:*)",
+      "Bash(git remote:*)",
+      "Bash(wkhtmltopdf:*)",
+      "Bash(grep:*)",
+      "Bash(do:*)"
     ]
   }
 }

@@ -14,151 +14,284 @@
   <link rel="stylesheet" href="css/responsive.css">
 
   <style>
+    /* ── Override scroll-snap pour page de contenu long ── */
+    html { scroll-snap-type: none; }
+    section { min-height: unset; scroll-snap-align: none; display: block; padding: 60px 0; }
+    section.bg-secondary { background: #111827; }
+
+    /* ── Tabs modernes pills ── */
+    .tab-wrap {
+      position: sticky; top: 72px; z-index: 50;
+      background: rgba(10,15,26,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e293b;
+      padding: 0 0 0 0;
+    }
     .tab-container {
-      display: flex;
-      gap: var(--space-2);
-      margin-bottom: var(--space-8);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: var(--space-4);
+      display: flex; gap: 0;
+      max-width: 1140px; margin: 0 auto; padding: 0 24px;
     }
-
     .tab-btn {
-      padding: var(--space-3) var(--space-6);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--text-secondary);
+      display: flex; align-items: center; gap: 8px;
+      padding: 16px 28px;
+      font-size: .9rem; font-weight: 600;
+      color: #64748b;
       background: transparent;
-      border: none;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      border: none; border-bottom: 3px solid transparent;
       cursor: pointer;
-      transition: var(--transition-fast);
-      position: relative;
+      transition: all .2s;
+      font-family: 'Space Grotesk', sans-serif;
     }
-
-    .tab-btn:hover {
-      color: var(--text-primary);
-      background: var(--surface);
+    .tab-btn:hover { color: #f1f5f9; }
+    .tab-btn--active { color: #3b82f6; border-bottom-color: #3b82f6; }
+    .tab-btn .tab-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem;
     }
+    .tab-btn--active .tab-icon { background: rgba(59,130,246,.15); }
+    .tab-btn:not(.tab-btn--active) .tab-icon { background: #1e293b; }
 
-    .tab-btn--active {
-      color: var(--accent);
-      background: var(--surface);
+    .tab-panel { display: none; }
+    .tab-panel--active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* ── Contenu principal ── */
+    .gsb-content { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ── Titres de section numérotés ── */
+    .gsb-content { counter-reset: section-counter; }
+    .gsb-content h3 {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.1rem; font-weight: 700; color: #f1f5f9;
+      margin: 40px 0 16px;
+      counter-increment: section-counter;
     }
-
-    .tab-btn--active::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--accent);
+    .gsb-content h3::before {
+      content: counter(section-counter);
+      min-width: 28px; height: 28px;
+      background: rgba(59,130,246,.15);
+      color: #3b82f6;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 800;
+      flex-shrink: 0;
     }
+    .gsb-content h3:first-of-type { margin-top: 0; }
 
-    .tab-panel {
-      display: none;
+    /* ── Sous-titres d'étapes ── */
+    .step-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .95rem; font-weight: 600;
+      margin: 24px 0 12px;
     }
-
-    .tab-panel--active {
-      display: block;
+    .step-badge {
+      padding: 3px 10px; border-radius: 20px;
+      font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
     }
+    .step-badge--blue { background: rgba(59,130,246,.15); color: #3b82f6; }
+    .step-badge--green { background: rgba(34,197,94,.12); color: #22c55e; }
+    .step-badge--amber { background: rgba(245,158,11,.12); color: #f59e0b; }
 
+    /* ── Tables ── */
     .info-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: var(--space-4) 0;
-      font-size: var(--text-sm);
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin: 16px 0 24px;
+      font-size: .875rem;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid #1e293b;
     }
-
     .info-table th {
-      background: var(--accent);
-      color: white;
-      padding: var(--space-3) var(--space-4);
-      text-align: left;
-      font-weight: 500;
+      background: rgba(59,130,246,.12);
+      color: #93c5fd;
+      padding: 10px 16px;
+      text-align: left; font-weight: 600;
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+      border-bottom: 1px solid #1e293b;
     }
-
     .info-table td {
-      padding: var(--space-3) var(--space-4);
-      border-bottom: 1px solid var(--border);
-      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid #1a2236;
+      color: #94a3b8;
+      vertical-align: top;
     }
+    .info-table tr:last-child td { border-bottom: none; }
+    .info-table tr:hover td { background: rgba(255,255,255,.02); }
+    .info-table td strong { color: #e2e8f0; }
 
-    .info-table tr:hover td {
-      background: var(--surface);
-    }
-
+    /* ── Badges statut ── */
     .risk-critical { color: #ef4444; font-weight: 600; }
     .risk-major { color: #f59e0b; font-weight: 600; }
     .risk-high { color: #f97316; font-weight: 600; }
 
     .obj-ref {
-      color: var(--accent);
-      font-weight: 600;
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
+      display: inline-block;
+      padding: 2px 8px; border-radius: 6px;
+      background: rgba(59,130,246,.12);
+      color: #3b82f6; font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
     }
 
+    /* ── Image schéma ── */
+    .schema-wrap { margin: 24px 0; }
     .schema-img {
-      width: 100%;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: var(--transition-fast);
+      width: 100%; border-radius: 12px;
+      border: 1px solid #1e293b;
+      cursor: zoom-in; transition: border-color .2s, box-shadow .2s;
+    }
+    .schema-img:hover { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,.1); }
+    .schema-caption {
+      font-size: .75rem; color: #64748b;
+      text-align: center; margin-top: 8px;
     }
 
-    .schema-img:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .lightbox {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 9999;
-      cursor: zoom-out;
-      justify-content: center;
-      align-items: center;
-      padding: var(--space-4);
-    }
-
-    .lightbox.active {
-      display: flex;
-    }
-
-    .lightbox img {
-      max-width: 95%;
-      max-height: 95vh;
-      object-fit: contain;
-      border-radius: var(--radius-md);
-    }
-
-    .lightbox__close {
-      position: absolute;
-      top: var(--space-4);
-      right: var(--space-4);
-      background: none;
-      border: none;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      line-height: 1;
-      padding: var(--space-2);
-    }
-
+    /* ── Zone title (sous-sections équipements) ── */
     .zone-title {
-      color: var(--accent);
-      font-size: var(--text-base);
-      font-weight: 600;
-      margin: var(--space-6) 0 var(--space-3);
-      padding-bottom: var(--space-2);
-      border-bottom: 1px solid var(--border);
+      color: #3b82f6; font-size: .95rem; font-weight: 600;
+      margin: 28px 0 12px;
+      padding-left: 12px;
+      border-left: 3px solid #3b82f6;
     }
+
+    /* ── Tags ── */
+    .tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+    .tag-pill {
+      padding: 5px 12px; border-radius: 20px;
+      background: rgba(30,41,59,.8); border: 1px solid #334155;
+      color: #94a3b8; font-size: .78rem; font-weight: 500;
+      transition: all .2s;
+    }
+    .tag-pill:hover { border-color: #3b82f6; color: #3b82f6; }
+
+    /* ── Compétences card ── */
+    .comp-card {
+      background: #111827; border: 1px solid #1e293b;
+      border-radius: 12px; padding: 24px; margin-top: 32px;
+    }
+    .comp-card__title {
+      font-size: .85rem; font-weight: 700; color: #f1f5f9;
+      margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .comp-group { margin-bottom: 16px; }
+    .comp-group:last-child { margin-bottom: 0; }
+    .comp-group__label {
+      font-size: .8rem; font-weight: 600; color: #3b82f6;
+      margin-bottom: 6px;
+    }
+    .comp-group__items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .comp-item {
+      padding: 4px 10px; border-radius: 6px;
+      background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2);
+      font-size: .78rem; color: #93c5fd;
+    }
+
+    /* ── Boutons d'action ── */
+    .action-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+    /* ── Hero section ── */
+    .gsb-hero {
+      background: linear-gradient(135deg, #0a0f1a 0%, #0f1f3d 50%, #0a0f1a 100%);
+      border-bottom: 1px solid #1e293b;
+      padding: 80px 0 60px;
+    }
+    .gsb-hero__inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .gsb-hero__label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.2);
+      color: #3b82f6; font-size: .75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .gsb-hero__title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem; font-weight: 800; color: #f1f5f9;
+      line-height: 1.15; margin-bottom: 12px;
+    }
+    .gsb-hero__sub { color: #64748b; font-size: 1rem; margin-bottom: 40px; }
+    .gsb-hero__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .gsb-project-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid #1e293b;
+      border-radius: 16px; padding: 24px;
+      cursor: pointer; transition: all .2s;
+      position: relative; overflow: hidden;
+    }
+    .gsb-project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .gsb-project-card--blue::before { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+    .gsb-project-card--green::before { background: linear-gradient(90deg, #22c55e, #06b6d4); }
+    .gsb-project-card:hover { border-color: #334155; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+    .gsb-project-card__icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; margin-bottom: 14px;
+    }
+    .gsb-project-card--blue .gsb-project-card__icon { background: rgba(59,130,246,.12); }
+    .gsb-project-card--green .gsb-project-card__icon { background: rgba(34,197,94,.1); }
+    .gsb-project-card__title { font-size: 1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .gsb-project-card__desc { font-size: .85rem; color: #64748b; line-height: 1.6; }
+    .gsb-project-card__arrow {
+      position: absolute; bottom: 20px; right: 20px;
+      color: #334155; font-size: 1rem; transition: all .2s;
+    }
+    .gsb-project-card:hover .gsb-project-card__arrow { color: #3b82f6; transform: translateX(3px); }
+
+    /* ── Contexte GSB ── */
+    .gsb-context { background: #0d1525; border-bottom: 1px solid #1e293b; padding: 40px 0; }
+    .gsb-context__inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .gsb-context__card {
+      background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 28px;
+    }
+    .gsb-context__header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .gsb-context__icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(59,130,246,.12);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .gsb-context__title { font-size: 1.05rem; font-weight: 700; color: #f1f5f9; }
+    .gsb-context__desc { color: #64748b; font-size: .9rem; line-height: 1.7; margin-bottom: 20px; }
+    .gsb-context__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .gsb-stat { background: #0a0f1a; border: 1px solid #1e293b; border-radius: 10px; padding: 14px; }
+    .gsb-stat__label { font-size: .7rem; color: #64748b; text-transform: uppercase; letter-spacing: .06em; }
+    .gsb-stat__val { font-size: .9rem; font-weight: 600; color: #f1f5f9; margin-top: 4px; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.92); z-index: 9999;
+      cursor: zoom-out;
+      justify-content: center; align-items: center; padding: 24px;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95%; max-height: 95vh; object-fit: contain; border-radius: 8px; }
+    .lightbox__close {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(255,255,255,.1); border: none; color: white;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox__close:hover { background: rgba(255,255,255,.2); }
+
+    /* ── Listes ── */
+    .gsb-content ul { list-style: none; margin: 12px 0 20px; }
+    .gsb-content ul li {
+      padding: 8px 0 8px 20px; position: relative;
+      font-size: .9rem; color: #94a3b8;
+      border-bottom: 1px solid #0f1929;
+    }
+    .gsb-content ul li:last-child { border-bottom: none; }
+    .gsb-content ul li::before {
+      content: '▸'; position: absolute; left: 0;
+      color: #3b82f6; font-size: .75rem; top: 10px;
+    }
+
+    /* ── Paragraphes ── */
+    .gsb-content p { color: #94a3b8; font-size: .9rem; line-height: 1.75; margin-bottom: 12px; }
   </style>
 </head>
 <body>
@@ -197,105 +330,83 @@
   </header>
 
   <main style="padding-top: 72px;">
+
     <!-- Hero -->
-    <section class="bg-secondary">
-      <div class="container">
-        <div class="section-header fade-in">
-          <span class="section-header__label">Épreuve E5 - BTS SIO SISR</span>
-          <h1 class="section-header__title">Projets GSB</h1>
-          <p class="section-header__description">
-            Galaxy Swiss Bourdin — Deux projets d'infrastructure réseau et cybersécurité
-          </p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-6">
-          <div class="card fade-in" style="border-left: 4px solid var(--accent);">
-            <h3 class="card__title">
-              <svg width="24" height="24" fill="none" stroke="var(--accent)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"/>
-              </svg>
-              Résilience Réseau L2/L3
-            </h3>
-            <p class="card__description">
-              Mise en place d'une infrastructure réseau résiliente avec Spanning Tree, HSRP, EtherChannel et routage inter-sites pour garantir la haute disponibilité.
-            </p>
+    <div class="gsb-hero">
+      <div class="gsb-hero__inner">
+        <div class="gsb-hero__label">Épreuve E5 : BTS SIO SISR</div>
+        <h1 class="gsb-hero__title">Projets GSB</h1>
+        <p class="gsb-hero__sub">Galaxy Swiss Bourdin : Deux projets d'infrastructure réseau et cybersécurité</p>
+        <div class="gsb-hero__cards">
+          <div class="gsb-project-card gsb-project-card--blue" onclick="switchTab('resilience')">
+            <div class="gsb-project-card__icon">🌐</div>
+            <div class="gsb-project-card__title">Résilience Réseau L2/L3</div>
+            <div class="gsb-project-card__desc">Infrastructure haute disponibilité : Spanning Tree, HSRP, EtherChannel, routage inter-sites, dual-WAN, IPv4/IPv6.</div>
+            <span class="gsb-project-card__arrow">→</span>
           </div>
-
-          <div class="card fade-in" style="border-left: 4px solid var(--success);">
-            <h3 class="card__title">
-              <svg width="24" height="24" fill="none" stroke="var(--success)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
-              </svg>
-              Détection d'intrusions
-            </h3>
-            <p class="card__description">
-              Mise en place d'une solution de détection des tentatives d'accès non autorisées avec NFTables et le SIEM Wazuh pour l'analyse des logs.
-            </p>
+          <div class="gsb-project-card gsb-project-card--green" onclick="switchTab('intrusion')">
+            <div class="gsb-project-card__icon">🛡️</div>
+            <div class="gsb-project-card__title">Détection d'intrusions</div>
+            <div class="gsb-project-card__desc">Sécurisation périmétrique : NFTables pare-feu, Wazuh SIEM, détection brute-force SSH, analyse des logs.</div>
+            <span class="gsb-project-card__arrow">→</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Contexte entreprise -->
-    <section>
-      <div class="container container--narrow">
-        <div class="card fade-in" style="margin-bottom: var(--space-8);">
-          <h3 style="font-size: var(--text-lg); color: var(--text-primary); margin-bottom: var(--space-4);">
-            <svg width="20" height="20" fill="none" stroke="var(--accent)" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-            </svg>
-            Galaxy Swiss Bourdin (GSB)
-          </h3>
-          <p style="color: var(--text-secondary); margin-bottom: var(--space-4); font-size: var(--text-sm); line-height: 1.7;">
-            Galaxy Swiss Bourdin (GSB) est un groupe industriel spécialisé dans la métallurgie et la transformation des métaux, issu de la fusion entre Galaxy (entreprise française) et le groupe Swiss Bourdin (groupe suisse). Cette entité opère dans un secteur où la disponibilité des systèmes d'information est critique pour la continuité des chaînes de production et le pilotage des processus industriels.
-          </p>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3);">
-            <div style="background: var(--surface); padding: var(--space-3); border-radius: var(--radius-md);">
-              <span style="font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Secteur</span>
-              <p style="color: var(--text-primary); font-weight: 500; font-size: var(--text-sm); margin-top: var(--space-1);">Industrie métallurgique</p>
+    <!-- Contexte GSB -->
+    <div class="gsb-context">
+      <div class="gsb-context__inner">
+        <div class="gsb-context__card">
+          <div class="gsb-context__header">
+            <div class="gsb-context__icon">🏭</div>
+            <div class="gsb-context__title">Galaxy Swiss Bourdin (GSB)</div>
+          </div>
+          <p class="gsb-context__desc">Groupe industriel spécialisé dans la métallurgie et la transformation des métaux, issu de la fusion entre Galaxy (France) et Swiss Bourdin (Suisse). La disponibilité des systèmes d'information est critique pour la continuité des chaînes de production et la supervision industrielle.</p>
+          <div class="gsb-context__stats">
+            <div class="gsb-stat">
+              <div class="gsb-stat__label">Secteur</div>
+              <div class="gsb-stat__val">Industrie métallurgique</div>
             </div>
-            <div style="background: var(--surface); padding: var(--space-3); border-radius: var(--radius-md);">
-              <span style="font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Sites</span>
-              <p style="color: var(--text-primary); font-weight: 500; font-size: var(--text-sm); margin-top: var(--space-1);">1 DC (dual-WAN) + 2 bâtiments</p>
+            <div class="gsb-stat">
+              <div class="gsb-stat__label">Infrastructure</div>
+              <div class="gsb-stat__val">1 DC + 2 bâtiments</div>
             </div>
-            <div style="background: var(--surface); padding: var(--space-3); border-radius: var(--radius-md);">
-              <span style="font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Criticité SI</span>
-              <p style="color: var(--text-primary); font-weight: 500; font-size: var(--text-sm); margin-top: var(--space-1);">Haute — SLA 99,9% requis</p>
+            <div class="gsb-stat">
+              <div class="gsb-stat__label">Criticité SI</div>
+              <div class="gsb-stat__val">SLA 99,9% requis</div>
             </div>
-            <div style="background: var(--surface); padding: var(--space-3); border-radius: var(--radius-md);">
-              <span style="font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Enjeu principal</span>
-              <p style="color: var(--text-primary); font-weight: 500; font-size: var(--text-sm); margin-top: var(--space-1);">Continuité d'activité</p>
+            <div class="gsb-stat">
+              <div class="gsb-stat__label">Enjeu</div>
+              <div class="gsb-stat__val">Continuité d'activité</div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Tabs -->
-    <section class="bg-secondary">
-      <div class="container">
-        <div class="tab-container fade-in">
-          <button class="tab-btn tab-btn--active" data-tab="resilience">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"/>
-            </svg>
-            Résilience Réseau L2/L3
-          </button>
-          <button class="tab-btn" data-tab="intrusion">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
-            </svg>
-            Détection d'intrusions
-          </button>
-        </div>
+    <!-- Tabs sticky -->
+    <div class="tab-wrap">
+      <div class="tab-container">
+        <button class="tab-btn tab-btn--active" data-tab="resilience">
+          <span class="tab-icon">🌐</span>
+          Résilience Réseau L2/L3
+        </button>
+        <button class="tab-btn" data-tab="intrusion">
+          <span class="tab-icon">🛡️</span>
+          Détection d'intrusions
+        </button>
+      </div>
+    </div>
+
+    <!-- Contenu tabs -->
+    <div style="background:#0a0f1a;">
+      <div style="max-width:900px;margin:0 auto;">
 
         <!-- Tab Résilience Réseau -->
         <div id="resilience" class="tab-panel tab-panel--active">
-          <div class="veille-section fade-in">
-            <h2 class="veille-section__title">Résilience Réseau L2/L3 — Infrastructure réseau haute disponibilité</h2>
-
-            <div class="veille-section__content">
-              <h3>1. Contexte et problématique</h3>
+          <div class="gsb-content">
+              <h3>Contexte et problématique</h3>
               <p>
                 L'infrastructure réseau actuelle de GSB présente des vulnérabilités critiques en termes de résilience. L'absence de mécanismes de redondance au niveau des couches 2 (commutation) et 3 (routage) du modèle OSI expose l'entreprise à des risques majeurs d'interruption de service en cas de défaillance d'un équipement réseau ou d'une liaison.
               </p>
@@ -327,7 +438,7 @@
                 </tbody>
               </table>
 
-              <h3>2. Risques identifiés</h3>
+              <h3>Risques identifiés</h3>
               <p>Sans mise en place d'une infrastructure résiliente, GSB s'expose à plusieurs risques opérationnels et financiers :</p>
 
               <table class="info-table">
@@ -362,7 +473,7 @@
                 </tbody>
               </table>
 
-              <h3>3. Objectifs du projet</h3>
+              <h3>Objectifs du projet</h3>
               <p>La direction des systèmes d'information de GSB souhaite mettre en place une infrastructure réseau résiliente garantissant la haute disponibilité des services informatiques.</p>
 
               <table class="info-table">
@@ -412,12 +523,12 @@
                 </tbody>
               </table>
 
-              <h3>4. Architecture cible</h3>
+              <h3>Architecture cible</h3>
               <p>Le périmètre du projet couvre trois zones distinctes, chacune ayant des rôles et des niveaux de criticité spécifiques :</p>
 
               <div style="margin: var(--space-6) 0;">
                 <img src="assets/images/GSB_Synoptique_Infra_L2_L3.png" alt="Synoptique Infrastructure Réseau GSB - Architecture Résiliente L2/L3 avec Data Center, Bâtiment A et Bâtiment B" class="schema-img" onclick="openLightbox(this.src)">
-                <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-2); text-align: center;">Synoptique Infrastructure Réseau — Cliquer pour agrandir</p>
+                <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-2); text-align: center;">Synoptique Infrastructure Réseau : Cliquer pour agrandir</p>
               </div>
 
               <h4 class="zone-title">Zone Data Center (DC)</h4>
@@ -524,7 +635,7 @@
                 </tbody>
               </table>
 
-              <h3>5. Exigences techniques</h3>
+              <h3>Exigences techniques</h3>
               <table class="info-table">
                 <thead>
                   <tr>
@@ -560,7 +671,7 @@
                 </tbody>
               </table>
 
-              <h3>6. Contraintes et limites</h3>
+              <h3>Contraintes et limites</h3>
               <table class="info-table">
                 <thead>
                   <tr><th>Contrainte</th><th>Impact</th></tr>
@@ -576,7 +687,7 @@
                   </tr>
                   <tr>
                     <td><strong>Sécurité périmétrique</strong></td>
-                    <td>Non couverte dans cette maquette — ACL de base uniquement. Complétée par le projet Détection d'intrusions.</td>
+                    <td>Non couverte dans cette maquette : ACL de base uniquement. Complétée par le projet Détection d'intrusions.</td>
                   </tr>
                   <tr>
                     <td><strong>Supervision</strong></td>
@@ -585,7 +696,7 @@
                 </tbody>
               </table>
 
-              <h3>7. Plan d'adressage VLAN</h3>
+              <h3>Plan d'adressage VLAN</h3>
               <table class="info-table">
                 <thead>
                   <tr><th>VLAN</th><th>Nom</th><th>Réseau IPv4</th><th>IP Virtuelle HSRP</th><th>Usage</th></tr>
@@ -614,7 +725,7 @@
                 </tbody>
               </table>
 
-              <h3>8. Tests de validation</h3>
+              <h3>Tests de validation</h3>
               <p>Après déploiement, des tests de basculement ont été réalisés pour valider chaque mécanisme de résilience :</p>
               <table class="info-table">
                 <thead>
@@ -661,46 +772,47 @@
               </table>
             </div>
 
-            <div style="margin-top: var(--space-6); display: flex; flex-wrap: wrap; gap: var(--space-3);">
-              <span class="tag tag--accent">Cisco 2911</span>
-              <span class="tag tag--accent">Cisco 3560</span>
-              <span class="tag tag--accent">Cisco 2960</span>
-              <span class="tag tag--accent">RSTP / Rapid-PVST+</span>
-              <span class="tag tag--accent">HSRP</span>
-              <span class="tag tag--accent">EtherChannel</span>
-              <span class="tag tag--accent">OSPF</span>
-              <span class="tag tag--accent">IPv4 / IPv6</span>
-              <span class="tag tag--accent">Packet Tracer</span>
-              <span class="tag tag--accent">VLAN</span>
-              <span class="tag tag--accent">IP SLA</span>
+            <div class="tags-wrap">
+              <span class="tag-pill">Cisco 2911</span>
+              <span class="tag-pill">Cisco 3560</span>
+              <span class="tag-pill">Cisco 2960</span>
+              <span class="tag-pill">RSTP / Rapid-PVST+</span>
+              <span class="tag-pill">HSRP</span>
+              <span class="tag-pill">EtherChannel</span>
+              <span class="tag-pill">OSPF</span>
+              <span class="tag-pill">IPv4 / IPv6</span>
+              <span class="tag-pill">Packet Tracer</span>
+              <span class="tag-pill">VLAN</span>
+              <span class="tag-pill">IP SLA</span>
             </div>
 
-            <div class="card" style="margin-top: var(--space-6); background: var(--surface);">
-              <h4 style="font-size: var(--text-base); color: var(--text-primary); margin-bottom: var(--space-3);">Compétences BTS SIO mobilisées</h4>
-              <dl style="font-size: var(--text-sm); color: var(--text-secondary);">
-                <dt style="color: var(--accent); font-weight: 500;">Bloc 2 — Administration des systèmes et des réseaux</dt>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Concevoir une solution d'infrastructure réseau</dd>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Installer, tester et déployer une solution d'infrastructure réseau</dd>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Exploiter, dépanner et superviser une solution d'infrastructure réseau</dd>
-
-                <dt style="color: var(--accent); font-weight: 500; margin-top: var(--space-4);">Bloc 1 — Support et mise à disposition de services informatiques</dt>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Gérer le patrimoine informatique</dd>
-                <dd style="padding-left: var(--space-4);">Travailler en mode projet</dd>
-              </dl>
+            <div class="comp-card">
+              <div class="comp-card__title">Compétences BTS SIO mobilisées</div>
+              <div class="comp-group">
+                <div class="comp-group__label">Bloc 2 : Administration des systèmes et des réseaux</div>
+                <div class="comp-group__items">
+                  <span class="comp-item">Concevoir une solution d'infrastructure réseau</span>
+                  <span class="comp-item">Installer, tester et déployer</span>
+                  <span class="comp-item">Exploiter, dépanner et superviser</span>
+                </div>
+              </div>
+              <div class="comp-group">
+                <div class="comp-group__label">Bloc 1 : Support et mise à disposition</div>
+                <div class="comp-group__items">
+                  <span class="comp-item">Gérer le patrimoine informatique</span>
+                  <span class="comp-item">Travailler en mode projet</span>
+                </div>
+              </div>
             </div>
 
-            <div style="margin-top: var(--space-6); text-align: center; display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center;">
+            <div class="action-btns">
               <a href="assets/documents/GSB_Contexte_Besoin_Reaseaux_L2-L3.pdf" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span>Télécharger le document complet (PDF)</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-right:8px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Document complet (PDF)
               </a>
-              <a href="assets/documents/1_fiche_descriptive_de_realisation_professionnelle_-_epreuve_e6_-_bts_sio.odt" download class="btn btn--primary btn--lg" style="background: var(--success); border-color: var(--success);">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline; vertical-align: middle; margin-right: var(--space-2);">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span>Fiche descriptive E6 (ODT)</span>
+              <a href="assets/documents/1_fiche_descriptive_de_realisation_professionnelle_-_epreuve_e6_-_bts_sio.odt" download class="btn btn--primary btn--lg" style="background:#22c55e;border-color:#22c55e;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:inline;vertical-align:middle;margin-right:8px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Fiche descriptive E6 (ODT)
               </a>
             </div>
           </div>
@@ -708,11 +820,8 @@
 
         <!-- Tab Détection d'intrusions -->
         <div id="intrusion" class="tab-panel">
-          <div class="veille-section fade-in">
-            <h2 class="veille-section__title">Détection d'intrusions — NFTables & Wazuh SIEM</h2>
-
-            <div class="veille-section__content">
-              <h3>1. Contexte et problématique</h3>
+          <div class="gsb-content">
+              <h3>Contexte et problématique</h3>
               <p>
                 Dans le cadre de la sécurisation de l'infrastructure réseau de GSB, il est essentiel de mettre en place des mécanismes de détection et de filtrage des tentatives d'accès non autorisées depuis internet. L'entreprise, exposée via sa connexion dual-WAN, doit pouvoir identifier et bloquer les menaces en temps réel.
               </p>
@@ -720,7 +829,7 @@
                 <strong>Comment détecter et bloquer efficacement les tentatives d'intrusion sur l'infrastructure réseau de GSB, tout en maintenant une visibilité complète sur les événements de sécurité ?</strong>
               </p>
 
-              <h3>2. Objectifs</h3>
+              <h3>Objectifs</h3>
               <ul>
                 <li><strong>Filtrage réseau</strong> : Mettre en place un pare-feu NFTables pour contrôler les flux entrants et sortants</li>
                 <li><strong>Détection d'intrusions</strong> : Déployer une solution de détection des tentatives d'accès non autorisées</li>
@@ -728,9 +837,9 @@
                 <li><strong>Alertes en temps réel</strong> : Être notifié des événements de sécurité critiques</li>
               </ul>
 
-              <h3>3. Solution mise en place</h3>
+              <h3>Solution mise en place</h3>
 
-              <h4 style="color: var(--accent); margin-top: var(--space-4);">NFTables — Pare-feu Linux</h4>
+              <div class="step-title"><span class="step-badge step-badge--blue">NFTables</span> Pare-feu Linux</div>
               <p>NFTables est le successeur d'iptables dans le noyau Linux. Il offre une syntaxe unifiée et des performances améliorées pour le filtrage de paquets.</p>
               <ul>
                 <li>Configuration de règles de filtrage IP (entrée/sortie)</li>
@@ -739,7 +848,7 @@
                 <li>Journalisation des paquets bloqués pour analyse</li>
               </ul>
 
-              <h4 style="color: var(--success); margin-top: var(--space-4);">Wazuh SIEM — Détection et analyse</h4>
+              <div class="step-title"><span class="step-badge step-badge--green">Wazuh SIEM</span> Détection et analyse</div>
               <p>Wazuh est une plateforme open-source de détection des menaces, de monitoring d'intégrité et de réponse aux incidents.</p>
               <ul>
                 <li>Collecte et analyse des logs du pare-feu NFTables</li>
@@ -748,13 +857,13 @@
                 <li>Corrélation d'événements de sécurité</li>
               </ul>
 
-              <h3>4. Architecture</h3>
+              <h3>Architecture</h3>
               <div style="margin: var(--space-6) 0;">
                 <img src="assets/documents/Plans_Wazuh_nftable.png" alt="Schéma d'architecture - Détection d'intrusions avec NFTables et Wazuh SIEM : Routeur ISP + NFTables, SIEM Wazuh, serveur web NGINX, PC Client, DMZ et LAN" class="schema-img" onclick="openLightbox(this.src)">
-                <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-2); text-align: center;">Schéma d'architecture — Cliquer pour agrandir</p>
+                <p style="font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-2); text-align: center;">Schéma d'architecture : Cliquer pour agrandir</p>
               </div>
 
-              <h3>5. Technologies utilisées</h3>
+              <h3>Technologies utilisées</h3>
               <table class="info-table">
                 <thead>
                   <tr><th>Technologie</th><th>Rôle dans le projet</th></tr>
@@ -762,11 +871,11 @@
                 <tbody>
                   <tr>
                     <td><strong>NFTables</strong></td>
-                    <td>Pare-feu Linux — filtrage stateful des paquets entrants/sortants, successeur d'iptables</td>
+                    <td>Pare-feu Linux : filtrage stateful des paquets entrants/sortants, successeur d'iptables</td>
                   </tr>
                   <tr>
                     <td><strong>Wazuh SIEM</strong></td>
-                    <td>Plateforme open-source de détection des menaces — collecte, corrélation et analyse des logs</td>
+                    <td>Plateforme open-source de détection des menaces : collecte, corrélation et analyse des logs</td>
                   </tr>
                   <tr>
                     <td><strong>Linux (Debian)</strong></td>
@@ -774,7 +883,7 @@
                   </tr>
                   <tr>
                     <td><strong>Nginx</strong></td>
-                    <td>Serveur web exposé en DMZ — cible des tests d'intrusion simulés</td>
+                    <td>Serveur web exposé en DMZ : cible des tests d'intrusion simulés</td>
                   </tr>
                   <tr>
                     <td><strong>rsyslog</strong></td>
@@ -782,14 +891,14 @@
                   </tr>
                   <tr>
                     <td><strong>SSH</strong></td>
-                    <td>Protocole d'administration à distance — vecteur d'attaque surveillé (brute-force)</td>
+                    <td>Protocole d'administration à distance : vecteur d'attaque surveillé (brute-force)</td>
                   </tr>
                 </tbody>
               </table>
 
-              <h3>6. Mise en œuvre</h3>
+              <h3>Mise en œuvre</h3>
 
-              <h4 style="color: var(--accent); margin-top: var(--space-4);">Étape 1 — Configuration de NFTables</h4>
+              <div class="step-title"><span class="step-badge step-badge--blue">Étape 1</span> Configuration de NFTables</div>
               <p>NFTables est configuré sur le routeur Linux entre internet et le réseau interne. Les règles définissent les flux autorisés et bloquent tout le reste par défaut.</p>
               <table class="info-table">
                 <thead>
@@ -799,7 +908,7 @@
                   <tr>
                     <td>Connexions établies</td>
                     <td><span style="color:var(--success);font-weight:600;">Accepter</span></td>
-                    <td>Trafic stateful — connexions déjà établies et relatives</td>
+                    <td>Trafic stateful : connexions déjà établies et relatives</td>
                   </tr>
                   <tr>
                     <td>SSH (port 22)</td>
@@ -824,7 +933,7 @@
                 </tbody>
               </table>
 
-              <h4 style="color: var(--success); margin-top: var(--space-4);">Étape 2 — Déploiement de Wazuh SIEM</h4>
+              <div class="step-title"><span class="step-badge step-badge--green">Étape 2</span> Déploiement de Wazuh SIEM</div>
               <p>Le manager Wazuh est déployé sur une VM dédiée. Un agent est installé sur chaque machine surveillée (pare-feu, serveur web). Les logs NFTables sont transmis via rsyslog.</p>
               <table class="info-table">
                 <thead>
@@ -833,11 +942,11 @@
                 <tbody>
                   <tr>
                     <td><strong>Wazuh Manager</strong></td>
-                    <td>Serveur central — reçoit, corrèle et analyse les logs de tous les agents</td>
+                    <td>Serveur central : reçoit, corrèle et analyse les logs de tous les agents</td>
                   </tr>
                   <tr>
                     <td><strong>Wazuh Agent</strong></td>
-                    <td>Installé sur chaque machine — collecte les logs locaux et les envoie au manager</td>
+                    <td>Installé sur chaque machine : collecte les logs locaux et les envoie au manager</td>
                   </tr>
                   <tr>
                     <td><strong>Dashboard web</strong></td>
@@ -846,15 +955,15 @@
                 </tbody>
               </table>
 
-              <h4 style="color: var(--warning); margin-top: var(--space-4);">Étape 3 — Tests d'intrusion simulés</h4>
+              <div class="step-title"><span class="step-badge step-badge--amber">Étape 3</span> Tests d'intrusion simulés</div>
               <p>Des attaques simulées ont été lancées depuis un poste attaquant pour valider la détection :</p>
               <ul>
-                <li><strong>Scan de ports</strong> (nmap) — reconnaissance réseau détectée par Wazuh</li>
-                <li><strong>Brute-force SSH</strong> — NFTables bloque après 3 tentatives, Wazuh alerte après corrélation des échecs</li>
-                <li><strong>Accès HTTP non autorisé</strong> — tentative d'accès à des répertoires restreints sur Nginx, journalisée et alertée</li>
+                <li><strong>Scan de ports</strong> (nmap) : reconnaissance réseau détectée par Wazuh</li>
+                <li><strong>Brute-force SSH</strong> : NFTables bloque après 3 tentatives, Wazuh alerte après corrélation des échecs</li>
+                <li><strong>Accès HTTP non autorisé</strong> : tentative d'accès à des répertoires restreints sur Nginx, journalisée et alertée</li>
               </ul>
 
-              <h3>7. Résultats obtenus</h3>
+              <h3>Résultats obtenus</h3>
               <table class="info-table">
                 <thead>
                   <tr><th>Test</th><th>Résultat</th><th>Observation</th></tr>
@@ -884,35 +993,40 @@
               </table>
             </div>
 
-            <div style="margin-top: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-3);">
-              <span class="tag tag--accent">NFTables</span>
-              <span class="tag tag--accent">Wazuh SIEM</span>
-              <span class="tag tag--accent">Linux Debian</span>
-              <span class="tag tag--accent">Nginx</span>
-              <span class="tag tag--accent">Filtrage stateful</span>
-              <span class="tag tag--accent">rsyslog</span>
-              <span class="tag tag--accent">IDS</span>
-              <span class="tag tag--accent">DMZ</span>
-              <span class="tag tag--accent">SSH brute-force</span>
-              <span class="tag tag--accent">Logs sécurité</span>
+            <div class="tags-wrap">
+              <span class="tag-pill">NFTables</span>
+              <span class="tag-pill">Wazuh SIEM</span>
+              <span class="tag-pill">Linux Debian</span>
+              <span class="tag-pill">Nginx</span>
+              <span class="tag-pill">Filtrage stateful</span>
+              <span class="tag-pill">rsyslog</span>
+              <span class="tag-pill">IDS</span>
+              <span class="tag-pill">DMZ</span>
+              <span class="tag-pill">SSH brute-force</span>
+              <span class="tag-pill">Logs sécurité</span>
             </div>
 
-            <div class="card" style="margin-top: var(--space-6); background: var(--surface);">
-              <h4 style="font-size: var(--text-base); color: var(--text-primary); margin-bottom: var(--space-3);">Compétences BTS SIO mobilisées</h4>
-              <dl style="font-size: var(--text-sm); color: var(--text-secondary);">
-                <dt style="color: var(--accent); font-weight: 500;">Bloc 3 — Cybersécurité des services informatiques</dt>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Sécuriser les équipements et les usages des utilisateurs</dd>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Garantir la disponibilité, l'intégrité et la confidentialité des services</dd>
-                <dd style="margin-bottom: var(--space-2); padding-left: var(--space-4);">Assurer la cybersécurité d'une infrastructure réseau</dd>
-
-                <dt style="color: var(--accent); font-weight: 500; margin-top: var(--space-4);">Bloc 2 — Administration des systèmes et des réseaux</dt>
-                <dd style="padding-left: var(--space-4);">Exploiter, dépanner et superviser une solution d'infrastructure réseau</dd>
-              </dl>
+            <div class="comp-card">
+              <div class="comp-card__title">Compétences BTS SIO mobilisées</div>
+              <div class="comp-group">
+                <div class="comp-group__label">Bloc 3 : Cybersécurité des services informatiques</div>
+                <div class="comp-group__items">
+                  <span class="comp-item">Sécuriser les équipements et usages</span>
+                  <span class="comp-item">Garantir disponibilité, intégrité, confidentialité</span>
+                  <span class="comp-item">Assurer la cybersécurité d'une infrastructure réseau</span>
+                </div>
+              </div>
+              <div class="comp-group">
+                <div class="comp-group__label">Bloc 2 : Administration des systèmes et des réseaux</div>
+                <div class="comp-group__items">
+                  <span class="comp-item">Exploiter, dépanner et superviser</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
   </main>
 
@@ -989,22 +1103,35 @@
 
   <script src="js/main.js"></script>
   <script>
+    // Tabs
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('tab-panel--active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('tab-btn--active'); });
+      var panel = document.getElementById(tabId);
+      if (panel) panel.classList.add('tab-panel--active');
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        if (b.getAttribute('data-tab') === tabId) b.classList.add('tab-btn--active');
+      });
+      document.querySelector('.tab-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { switchTab(this.getAttribute('data-tab')); });
+    });
+
+    // Lightbox
     function openLightbox(src) {
       var lb = document.getElementById('lightbox');
       document.getElementById('lightbox-img').src = src;
       lb.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
-
     function closeLightbox() {
       var lb = document.getElementById('lightbox');
       lb.classList.remove('active');
       document.body.style.overflow = '';
     }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeLightbox();
-    });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
   </script>
 </body>
 </html>
